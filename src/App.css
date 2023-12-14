@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+San:wght@100;200;300;400;500;550&display=swap');
+
+body {
+  font-family: Plus Jakarta Sans, sans-serif;
+}
+
+input[type=checkbox] {
+  accent-color: var(--primary);
+  border: none;
+}
+
+html {
+  --primary: #405189;
+  --background: #f2f2f2;
+  --formBackground: rgba(255, 255, 255, 0.5);
+  --formBorder: #e6e6e6;
+  --error: red;
+  --text: #2c2c2c;
+  --primaryLight: #fff;
+
+  --small: 12px;
+  --medium: 15px;
+  --large: 19px;
+  --extraLarge: 27px;
+}
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #d9d9d9;
+  border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+.square .p-checkbox-box{
+  width: 15px;
+  height: 15px;
+  border-radius: 0px;
+  border: 1px solid #CCC;
+};

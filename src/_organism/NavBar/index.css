@@ -1,0 +1,138 @@
+@media screen and (max-width: 800px) {
+    .navbar-box{
+        width: 40%;
+        transition: 0.8s;
+    }
+}
+
+.navbar-logo {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 36px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+.navcontent-name {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-left: 19px;
+    color: #9698AB;
+    white-space: nowrap;
+}
+
+.subnav-box {
+    background: var(--primary);
+    box-shadow: 0px 0px 0px 0px #2948981A;
+    padding: 10px;
+}
+
+.subnav-content-box {
+    padding: 10px;
+    color: #d3d3d3;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nav-selected {
+    background-color: #405189;
+    color: #E96829;
+    border-radius: 6px;
+}
+
+/* .subnav-line {
+    background-color: #D2D2D2;
+    width: 19px;
+    height: 1px;
+    margin-top: auto;
+    margin-bottom: auto;
+} */
+
+.navbar-closed {
+    width: 5%;
+    height: 100%;
+    background-color: #FFFFFF;
+    border-right: 1px solid #FFE7DC;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: ease 0.5s;
+}
+
+.color-orange {
+    color: white;
+}
+
+.navbar-logout {
+    height: 50px;
+    box-shadow: -10px 0px 20px 0px #3E97FF26;
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.navbar-text {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #606060;
+    margin-left: 5px;
+}
+
+.subnav-content-box:hover{
+    color: white;
+}
+
+.navwrapper-logo-box{
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.navbar-logo-img{
+    margin-right: 18px;
+    width: 20px;
+}
+
+.navwrapper-mid-section{
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.navwrapper-mid-section-nav{
+    display: flex;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    cursor: pointer;
+}
+
+.navwrapper-images{
+    margin-left: auto;
+    width: 12px;
+    cursor: pointer;
+}
+
+.navbar-icon{
+    flex-shrink: 0;
+    width: 20px;
+    opacity: 0.2;
+}
+.navbar-icon-active{
+    flex-shrink: 0;
+    width: 20px;
+}

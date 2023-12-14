@@ -1,0 +1,29 @@
+.p-multiselect-panel {
+    z-index: 1000008 !important;
+}
+
+.p-dropdown-panel {
+    z-index: 1000008 !important;
+}
+
+.p-multiselect {
+    width: 100%;
+}
+
+.p-checkbox-box {}
+
+.p-highlight {
+    color: var(--color-primary)
+}
+
+.p-checkbox .p-checkbox-box .p-checkbox-icon {
+    color: var(--color-primary) !important;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+    border-color: var(--color-primary);
+}
+
+.p-inputtext:enabled:focus {
+    box-shadow: none;
+}

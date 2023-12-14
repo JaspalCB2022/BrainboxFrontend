@@ -1,0 +1,12 @@
+.nodata-td{
+    text-align: center;
+    padding-top: 20px;
+}
+
+.nodata-wrapper{
+    display: flex;
+    width: 100%;
+    min-height: 30vh;
+    justify-content: center;
+    align-items: center;
+}

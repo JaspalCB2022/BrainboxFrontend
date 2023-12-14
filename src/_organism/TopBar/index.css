@@ -1,0 +1,92 @@
+.topbar-box,
+.topbar-box-with-nav {
+    padding: 20px;
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    border-bottom: 1px solid #e9e9e9;
+    transition: margin-left 0.3s ease; 
+}
+
+.topbar-box-with-nav {
+    margin-left: 0; 
+}
+
+
+.topbar-box-with-nav {
+    margin-left: 190px; 
+}
+
+@media screen and (max-width: 800px) {
+    .topbar-box{
+        background-color: #FFFFFF ;
+        border-bottom: 1px solid #F2F2F2
+    }
+}
+
+.topbar-icon-box {
+    background: #FEFEFF;
+    box-shadow: 4px 4px 13px 0px #2948981A;
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.topbar-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0em;
+    text-align: left;
+    color: var(--primary);
+}
+
+.topbar-content{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+}
+.menu{
+    margin:0px 10px  0px 0px;
+}
+
+.topbar-title-small {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #9A9A9A;
+}
+
+.topbar-input-box {
+    width: 333px;
+    border-radius: 7px;
+    border: none;
+    height: 48px;
+    background: #F5F9FD;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.topbar-input {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #9A9A9A;
+    border: none;
+    background: #F5F9FD;
+    outline: none;
+}
+
+.topbar-input::placeholder {
+    color: #9A9A9A;
+}
+
+.space-between {
+    margin-left: 10px;
+}

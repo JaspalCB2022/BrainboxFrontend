@@ -1,0 +1,45 @@
+.mass-upload-box {
+    width: 95%;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+.edit-general-box-heading {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 30px;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+.mass-upload-file {
+    text-decoration: none;
+    color: var(--primary);
+    margin-left: auto;
+    cursor: pointer;
+}
+
+
+.document_box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.selected_document{
+    background: var(--primary);
+    border-radius: 6px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 3px 10px;
+    padding-right: 7px;
+    color: var(--primaryLight);
+    font-size: 12px;
+    }

@@ -1,0 +1,56 @@
+.p-highlight a {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.p-tabview-ink-bar {
+    background-color: var(--primary)
+}
+
+.p-tabview-nav {
+    justify-content: space-around;
+}
+
+.p-paginator-element {
+    color: #ABB9E8
+}
+
+.p-highlight {
+    background-color: #EEF2FF
+}
+
+.p-radiobutton .p-radiobutton-box.p-highlight {
+    border-color: #ABB9E8
+}
+
+.container-title {
+    color: var(--text);
+    text-align: center;
+    font-size: var(--medium);
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal
+}
+
+.p-paginator-page {
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.p-tabview .p-tabview-panels{
+    background-color: transparent;
+
+}
+.flexbox {
+    display: flex;
+    align-items: center;
+    -webkit-display: flex;
+    -webkit-align-items: center;
+}
+
+.feature .p-accordion-header-link{
+    padding: 15px;
+}
