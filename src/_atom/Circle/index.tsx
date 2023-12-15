@@ -2,10 +2,10 @@ import React from "react";
 import { CircleDiv } from "./styled";
 
 interface CircleProps {
-  text: string;
-  color: string;
-  active: boolean;
-  content: React.ReactNode;
+  text?: number;
+  color?: string;
+  active?: boolean;
+  content?: React.ReactNode;
 }
 
 function Circle({ text, color, active, content }: CircleProps) {

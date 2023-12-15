@@ -7,14 +7,16 @@ interface AcessData {
 }
 
 const loginApi = createApi({
+  reducerPath:'loginapi',
   baseQuery: fetchBaseQuery({ baseUrl: BACKEND_URL }),
   tagTypes: ['login'],
   endpoints: (builder) => ({
-    getlogin: builder.mutation<AcessData, AcessData>({
-      query: (values) => ({
+    getlogin: builder.mutation({
+      query: (values:AcessData) => ({
         url: LOGIN_GET,
         method: 'POST',
         body: values,
+        credentials: "include",
       }),
       invalidatesTags: ['login'],
     }),

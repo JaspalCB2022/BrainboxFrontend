@@ -1,12 +1,13 @@
 import React, { useState, ChangeEvent } from 'react';
 import Select from "react-select";
-import { Dropdown, DropdownChangeParams } from "primereact/dropdown";
+import { Dropdown } from "primereact/dropdown";
 import './index.css';
 
 interface Option {
   value: string;
   label: string;
 }
+
 
 interface NormalSelectProps {
   options: Option[];
@@ -80,7 +81,7 @@ const NoramlSelect: React.FC<NormalSelectProps> = ({
   return (
     <Select
       options={options}
-      styles={customStyles}
+      // styles={customStyles}
       value={value}
       defaultValue={options[0]}
       placeholder={placeholder}
@@ -93,7 +94,7 @@ interface FormSelectProps {
   options: Option[];
   value: Option;
   placeholder?: string;
-  onChange: (value: string, options: Option[]) => void;
+  onChange: (selectedValues: string[], allOptions: { label: string; value: string }[]) => void;
 }
 
 const FormSelect: React.FC<FormSelectProps> = ({
@@ -136,7 +137,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
     indicatorSeparator: () => ({ display: "none" }),
   };
 
-  const handleChange = (e: DropdownChangeParams) => {
+  const handleChange = (e: any) => {
     setselectedOptions(e.value as Option);
     onChange(e.value, options);
   };
@@ -146,7 +147,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
       className="edit-general-box-select"
       options={options}
       filter
-      styles={customStyles}
+      // styles={customStyles}
       placeholder={placeholder}
       onChange={handleChange}
       value={selectedOptions}

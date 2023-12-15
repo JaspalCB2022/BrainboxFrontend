@@ -57,7 +57,7 @@ function MassUpload({
 
     const handleFilesUploaded = (file: File[]) => {
         setFiles([file[0]]);
-        setDocuments([{ name: file[0].name, link: file[0].preview }]);
+        // setDocuments([{ name: file[0].name, link: file[0].preview }]);
     };
 
     const removeDoc = (document: { name?: string }) => {
@@ -77,8 +77,8 @@ function MassUpload({
     const handleBulkUpload = () => {
         const formData = new FormData();
         formData.append('excel', files[0]);
-        formData.append('tenantId', tenantId);
-        let promise = axios_api.post<FileUploadResponse>(`${url}/upload`, formData, {
+        formData.append('tenantId', tenantId as string);
+        let promise = axios_api.post(`${url}/upload`, formData, {
             headers: { 'Content-type': 'multipart/form-data' },
         });
         toast.promise(promise, {
@@ -120,19 +120,19 @@ function MassUpload({
             filePath: filePath,
             tenantId: tenantId,
         };
-        let promise = axios_api.post(`${url}/skipAndSave`, data);
-        toast.promise(promise, {
-            loading: 'Loading',
-            success: (data) => {
-                setShow(false);
-                setShowInvalid(false);
-                setDocuments([]);
-                return data?.data?.data?.message;
-            },
-            error: (err) => {
-                return Error(err);
-            },
-        });
+        // let promise = axios_api.post(`${url}/skipAndSave`, data);
+        // toast.promise(promise, {
+        //     loading: 'Loading',
+        //     success: (data) => {
+        //         setShow(false);
+        //         setShowInvalid(false);
+        //         setDocuments([]);
+        //         return data?.data?.data?.message;
+        //     },
+        //     error: (err) => {
+        //         return Error(err);
+        //     },
+        // });
     };
 
     const createSampleFile = () => {

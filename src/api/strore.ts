@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, } from '@reduxjs/toolkit';
 // import commodityApi from './commodityApi';
 // import currencyApi from './currencyApi';
 // import companyApi from './companyApi';
@@ -8,6 +8,9 @@ import { configureStore } from '@reduxjs/toolkit';
 // import supplierApi from './supplierApi';
 // import acessApi from './acessApi';
 // import reducers from '../_store/reducers/reducers';
+import loginApi from "./loginApi"
+
+
 
 export const store = configureStore({
   reducer: {
@@ -20,17 +23,12 @@ export const store = configureStore({
     // supplier: supplierApi.reducer,
     // acess: acessApi.reducer,
     // reducers
+    [loginApi.reducerPath]: loginApi.reducer,
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-    //   commodityApi.middleware,
-    //   currencyApi.middleware ,
-    //   companyApi.middleware ,
-    //   plantApi.middleware,
-    //   uomApi.middleware,
-    //   poApi.middleware,
-    //   supplierApi.middleware,
-    //   acessApi.middleware,
+    loginApi.middleware
     ),
 });
 

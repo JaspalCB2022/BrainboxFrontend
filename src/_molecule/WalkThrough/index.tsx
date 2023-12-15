@@ -17,7 +17,7 @@ const WalkThrough: React.FC<WalkThroughProps> = ({
 }) => {
     return (
         <WalkContainer>
-            {[...Array(numbers).keys()]?.map((n, id) => {
+            {/* {[...Array(numbers).keys()]?.map((n, id) => {
                 if (id + 1 < currentIndex) {
                     return (
                         <React.Fragment key={id}>
@@ -39,7 +39,7 @@ const WalkThrough: React.FC<WalkThroughProps> = ({
                         </React.Fragment>
                     );
                 }
-            })}
+            })} */}
         </WalkContainer>
     );
 };

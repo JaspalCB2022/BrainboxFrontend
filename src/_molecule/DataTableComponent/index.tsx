@@ -5,10 +5,11 @@ import edit from '../../Icons/edit.svg';
 import trash from '../../Icons/trash.svg';
 import './index.css';
 import { ITEMS_PER_PAGE } from '../../Constants';
-import NoData from '../NoData.js';
+// import NoData from '../NoData.js';
 import { Dialog } from 'primereact/dialog';
 import axios_api from '../../api/axios_api.js';
 import SortIcon from '../../Icons/sort.svg';
+import { string } from 'yup';
 
 interface DataTableComponentProps {
   packedData: {
@@ -126,7 +127,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
       return 'NO';
     }
     let a = data[field].split(',');
-    let mapping = {
+    let mapping: { [key: string]: string }  = {
       CommodityCode: 'Commodity Code',
       CompanyCode: 'Company Code',
       Plant: 'Plant',
@@ -145,7 +146,8 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   };
 
   let renderNoMessage = () => {
-    return <NoData colSpan={10} text="No data found!" />;
+    // return <NoData colSpan={10} text="No data found!" />;
+    return <div>NO DATA</div>
   };
 
   const emptyMessage = renderNoMessage();
@@ -153,19 +155,19 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   return (
     <>
       <DataTable
-        value={Data}
-        paginator
-        dataKey="id"
-        rows={ITEMS_PER_PAGE}
-        emptyMessage={emptyMessage}
-        first={first}
-        totalRecords={totalRecords}
-        onPage={PageChange}
-        onSort={onSort}
-        sortField={sortField}
-        sortOrder={sortOrder}
-        loading={loading}
-        lazy
+        // value={Data}
+        // paginator
+        // dataKey="id"
+        // rows={ITEMS_PER_PAGE}
+        // emptyMessage={emptyMessage}
+        // first={first}
+        // totalRecords={totalRecords}
+        // onPage={PageChange}
+        // onSort={onSort}
+        // sortField={sortField}
+        // sortOrder={sortOrder}
+        // loading={loading}
+        // lazy
       >
         {tableDefinition?.map((def, id) => {
           return (
@@ -174,7 +176,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
               field={def.field}
               header={def.header}
               sortable={!def?.notSortable}
-              rowId={Data}
+              // rowId={Data}
               body={
                 def?.showModal
                   ? (rowData) => ClickableComponent(rowData, def.field, def.header)
@@ -194,7 +196,9 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
       >
         <DataTable value={modalData} paginator rows={ITEMS_PER_PAGE} dataKey="id" loading={modalLoading} emptyMessage={emptyMessage} showGridlines>
           {modalDef?.map((def, id) => {
-            return <Column key={id} field={def.field} header={def.header} sortable rowId={Data} />;
+            return <Column key={id} field={def.field} header={def.header} sortable 
+            // rowId={Data}
+             />;
           })}
         </DataTable>
       </Dialog>

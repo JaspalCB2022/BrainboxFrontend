@@ -32,7 +32,7 @@ function App() {
   })
 
   return (
-    <Profiler  id="chatbot" onRender={(id, phase, actualDuration)=>{ console.log("id",id,"","phase",phase,"actualDuration",actualDuration)}}>
+    <Profiler  id="chatbot" onRender={(id, phase, actualDuration)=>{ }}>
       <div style={{ display: "flex", height: '100%' }}>
         <Toaster toastOptions={{
           className: '',

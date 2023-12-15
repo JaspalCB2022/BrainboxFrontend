@@ -5,9 +5,9 @@ import './index.css';
 interface MultiSelectDropdownProps {
     options: { label: string; value: string }[];
     onChange: (selectedValues: string[], allOptions: { label: string; value: string }[]) => void;
-    value: string | null;
+    value: boolean |  string | null;
     name: string;
-    placeholder: string;
+    placeholder?: string;
 }
 
 export default function MultiSelectDropdown({
@@ -20,7 +20,10 @@ export default function MultiSelectDropdown({
     const [selectedOptions, setselectedOptions] = useState<string[] | null>(null);
 
     useEffect(() => {
-        if (value === "All") {
+        if (typeof value === 'boolean') {
+            // Convert boolean to string or handle as needed
+            setselectedOptions(value ? ['true'] : ['false']);
+        } else if (value === "All") {
             let temp = options.map((op) => op.value);
             setselectedOptions(temp);
         } else {

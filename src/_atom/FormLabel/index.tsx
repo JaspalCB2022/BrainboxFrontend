@@ -3,7 +3,7 @@ import { FormText } from "./styled";
 
 interface FormLabelProps {
   title: string;
-  errorMessage?: boolean;
+  errorMessage?: boolean | string | undefined;
   required?: boolean;
 }
 

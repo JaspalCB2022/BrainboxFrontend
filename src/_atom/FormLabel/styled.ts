@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 interface FormTextProps {
-  error?: boolean;
+  error?: boolean | string | undefined;
   theme: {
     colors: {
       error: string;
