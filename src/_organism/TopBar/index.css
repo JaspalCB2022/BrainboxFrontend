@@ -47,6 +47,23 @@
     display: flex;
     flex-direction: row;
     align-items:center;
+    justify-content: space-between;
+    width: 100%;
+}
+.topbar-inside{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: center;
+}
+.topbar-profile{
+    display: flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: center;
+}
+.topbar-img{
+    margin-right: 20px;
 }
 .menu{
     margin:0px 10px  0px 0px;

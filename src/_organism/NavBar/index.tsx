@@ -66,38 +66,44 @@ function NavBar(props: NavBarProps) {
 
   let navContent : NavContent[] = [
     {
-      name: "Dashboard",
+      name: "Customer",
       icon: dashboard,
       activeIcon: dashboard,
-      url: '/dashboard',
+      url: '/customer',
     },
-    {
-      name: "Configurations",
-      icon: configurationWhite,
-      activeIcon: configurationWhite,
-      open: true,
-      subNav: [
-        { name: "Commodity code", url: "/pr-status-check/commodity-code" },
-        { name: "Company codes", url: "/pr-status-check/company-code" },
-        { name: "Currencies", url: "/pr-status-check/currency-code" },
-        { name: "Plants", url: "/pr-status-check/plants" },
-        { name: "Purchase Organization", url: '/pr-status-check/po' },
-        { name: "Suppliers", url: "/pr-status-check/suppliers" },
-        { name: "UOM", url: '/pr-status-check/uom' },
-      ],
-    },
-    {
-      name: "PR Access control",
-      icon: controlWhite,
-      activeIcon: controlWhite,
-      url: '/pr-status-check/access-control',
-    },
-    {
-      name: "Management",
-      icon: management,
-      activeIcon: management,
-      open: false,
-    },
+    // {
+    //   name: "Dashboard",
+    //   icon: dashboard,
+    //   activeIcon: dashboard,
+    //   url: '/dashboard',
+    // },
+    // {
+    //   name: "Configurations",
+    //   icon: configurationWhite,
+    //   activeIcon: configurationWhite,
+    //   open: true,
+    //   subNav: [
+    //     { name: "Commodity code", url: "/pr-status-check/commodity-code" },
+    //     { name: "Company codes", url: "/pr-status-check/company-code" },
+    //     { name: "Currencies", url: "/pr-status-check/currency-code" },
+    //     { name: "Plants", url: "/pr-status-check/plants" },
+    //     { name: "Purchase Organization", url: '/pr-status-check/po' },
+    //     { name: "Suppliers", url: "/pr-status-check/suppliers" },
+    //     { name: "UOM", url: '/pr-status-check/uom' },
+    //   ],
+    // },
+    // {
+    //   name: "PR Access control",
+    //   icon: controlWhite,
+    //   activeIcon: controlWhite,
+    //   url: '/pr-status-check/access-control',
+    // },
+    // {
+    //   name: "Management",
+    //   icon: management,
+    //   activeIcon: management,
+    //   open: false,
+    // },
   ];
 
   let onNameClick = (id: number | undefined, name: string) => {

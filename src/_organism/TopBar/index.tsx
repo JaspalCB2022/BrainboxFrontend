@@ -2,6 +2,8 @@ import "./index.css"
 import React, { useEffect, useState } from 'react';
 import menu from '../../Icons/menu.svg';
 import menuarrow from '../../Icons/menuarrow.svg';
+import notification from "../../Icons/notifications.svg"
+import profile from "../../Icons/profle.svg"
 
 interface TopBarProps {
   visible: boolean;
@@ -26,8 +28,9 @@ const TopBar: React.FC<TopBarProps> = (props) => {
     <>
       <div className={`${props.visible ? 'topbar-box-with-nav' : 'topbar-box'}`}>
         {width > 800 ? (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center',width:"100%" }}>
             <div className="topbar-content">
+              <div className="topbar-inside">
               {props.visible === true ? (
                 <img
                   className="menu"
@@ -44,6 +47,11 @@ const TopBar: React.FC<TopBarProps> = (props) => {
                 />
               )}
               <div className="topbar-title">{props.name}</div>
+              </div>
+              <div className="topbar-profile">
+                <img className="topbar-img" src={notification} alt="notification" />
+                <img className="topbar-img" src={profile} alt="profile" />
+              </div>
             </div>
           </div>
         ) : null}

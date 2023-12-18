@@ -71,6 +71,13 @@ export const BACKEND_URL = 'http://localhost:8000/'
 export const LOGIN = '/api/admin'
 export const LOGIN_GET = `${LOGIN}/login`
 
+//customer
+export const CUSTOMER = '/api/customer'
+export const CUSTOMER_GET = `${CUSTOMER}/list`
+export const CUSTOMER_POST = `${CUSTOMER}/create`
+export const CUSTOMER_UPDATE = `${CUSTOMER}/update`
+export const CUSTOMER_DELETE = `${CUSTOMER}/delete`
+
 
 export const userName = localStorage.getItem('userName')
 export const tenantId = localStorage.getItem('tenantId')

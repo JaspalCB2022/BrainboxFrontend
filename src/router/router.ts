@@ -91,8 +91,8 @@ const routes:LayoutItem[]= [
           {
             name: "dashboard",
             title: "Dashboard",
-            path: "/dashboard",
-            component: lazy(() => import("../_organism/Pages/InvoiceStatusCheck/InvoiceAcessControl")),
+            path: "/customers",
+            component: lazy(() => import("../_organism/Pages/Customers")),
           },
           // {
           //   name: "country",

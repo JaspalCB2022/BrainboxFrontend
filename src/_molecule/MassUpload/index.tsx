@@ -13,9 +13,9 @@ import excel from '../../Icons/excel.svg';
 import './index.css';
 
 interface MassUploadProps {
-    url: string;
+    url: string | undefined;
     getData: (arg: number) => void;
-    type: string;
+    type: string | undefined;
     sampleFields: string[];
     onHide: () => void;
     errorFields: string[];

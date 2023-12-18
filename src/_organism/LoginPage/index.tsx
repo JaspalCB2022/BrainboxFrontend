@@ -121,7 +121,7 @@ function LoginPage() {
           throw data.error;
         }
         //  getData(currentPage)
-        navigate("/dashboard");
+        navigate("/customers");
         return "login successfully";
       },
       error: (err) => {
@@ -161,7 +161,7 @@ function LoginPage() {
                           required
                         />
                         <FormField
-                          tooltip="Should consist of alphanumeric characters and be between 3-50 characters long"
+                          // tooltip="Should consist of alphanumeric characters and be between 3-50 characters long"
                           placeholder="Enter your Password here"
                           type="password"
                           name="password"
