@@ -89,8 +89,8 @@ const routes:LayoutItem[]= [
           //   // component: lazy(() => import("../_organism/Components/PrStatusCheck/AcessControl")),
           // },
           {
-            name: "dashboard",
-            title: "Dashboard",
+            name: "customers",
+            title: "Customers",
             path: "/customers",
             component: lazy(() => import("../_organism/Pages/Customers")),
           },

@@ -92,9 +92,10 @@ const NoramlSelect: React.FC<NormalSelectProps> = ({
 
 interface FormSelectProps {
   options: Option[];
-  value: Option;
+  value: Option |string |boolean |null;
   placeholder?: string;
   onChange: (selectedValues: string[], allOptions: { label: string; value: string }[]) => void;
+  errorMessage ?: string | undefined
 }
 
 const FormSelect: React.FC<FormSelectProps> = ({

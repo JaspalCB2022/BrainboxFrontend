@@ -2,12 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BACKEND_URL, CUSTOMER_DELETE, CUSTOMER_GET, CUSTOMER_POST, CUSTOMER_UPDATE } from '../Constants';
 import { APIResponse } from '../_organism/Pages/Customers';
 
-interface AcessData {
-  email:string,
-  password:string;
+interface PCustomer {
+  // id:string,
+  orginationName: string,
+  tenantId:string 
 }
 
-interface ICustomer{
+interface GCustomer{
     limit:number,
     skip: number,
     sortBy: string | undefined, 
@@ -20,8 +21,9 @@ const customerApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: BACKEND_URL }),
   tagTypes: ['customer'],
   endpoints: (builder) => ({
+    
     getCustomer: builder.mutation({
-      query: (values:ICustomer) => ({
+      query: (values:GCustomer) => ({
         url: CUSTOMER_GET,
         method: 'GET',
         // body: values,
@@ -32,8 +34,9 @@ const customerApi = createApi({
     //     return rawResult
     //   },
     }),
+
     createCustomer: builder.mutation({
-        query: (values:AcessData) => ({
+        query: (values:PCustomer) => ({
           url: CUSTOMER_POST,
           method: 'POST',
           body: values,
@@ -41,20 +44,21 @@ const customerApi = createApi({
         }),
         invalidatesTags: ['customer'],
       }),
+
       updateCustomer: builder.mutation({
-        query: (values:AcessData) => ({
-          url: CUSTOMER_UPDATE,
+        query: (values) => ({
+          url: `${CUSTOMER_UPDATE}/${values.id}`,
           method: 'PUT',
           body: values,
           credentials: "include",
         }),
         invalidatesTags: ['customer'],
       }),
+
       deleteCustomer: builder.mutation({
-        query: (values:AcessData) => ({
-          url: CUSTOMER_DELETE,
+        query: (id) => ({
+          url: `${CUSTOMER_DELETE}/${id}`,
           method: 'DELETE',
-          body: values,
           credentials: "include",
         }),
         invalidatesTags: ['customer'],

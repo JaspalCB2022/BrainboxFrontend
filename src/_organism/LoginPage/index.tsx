@@ -80,7 +80,7 @@ function LoginPage() {
   useEffect(() => {
     const token = Cookies.get("authToken");
     if (token) {
-      navigate("/dashboard");
+      navigate("/customers");
     }
   }, []);
 
@@ -124,10 +124,10 @@ function LoginPage() {
         navigate("/customers");
         return "login successfully";
       },
-      error: (err) => {
+      error: (err:any):any => {
         setSubmitting(false);
-        // return Error(err);
-        return "Login Fail ";
+        return Error(err);
+        // return "Login Fail ";
         // return err;
       },
     });

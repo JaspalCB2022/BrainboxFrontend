@@ -50,7 +50,7 @@
 //     const errorMessage = meta.error;
 //     const isTouched = meta.touched;
 
-//     const handleChange = (e: React.ChangeEvent<any>) => {
+//     const handleChange = (e:any) => {
 //         setRadio(e.target.value);  
 //         onChange(isRadio ? e.target.value : [e.target.value], options);
 //     };

@@ -107,6 +107,8 @@ function NavBar(props: NavBarProps) {
   ];
 
   let onNameClick = (id: number | undefined, name: string) => {
+    console.log("id>>>>",id)
+    console.log("name>>>>>",name)
     props.setName(name);
     setId(id);
     index.includes(id as number) ? closeNav(id) : openNav(id);

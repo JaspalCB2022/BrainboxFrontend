@@ -2,32 +2,14 @@ import React, { useEffect, useState } from "react";
 import CommonStatusCheck from "../../Shared/CommonStatusCheck/index";
 import * as Yup from 'yup';
 import { toast } from 'react-hot-toast'
-// import { Error } from "../../../api/Error.js";
+import { Error } from "../../../api/Error";
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { ITEMS_PER_PAGE } from "../../../Constants";
 import { useCreateCustomerMutation, useDeleteCustomerMutation, useGetCustomerMutation, useUpdateCustomerMutation } from "../../../api/CustomersApi";
 
 
-// interface InitialValues {
-//   SupplierInvoiceNumber: string;
-//   InternalInvoiceNumber: string;
-//   InvoiceDate: string;
-//   PostingDate: string;
-//   SupplierID: string;
-//   Country: string;
-//   CompanyCode: string;
-//   InvoiceValue: string;
-//   InvoiceCurrency: string;
-//   UnplannedCost: string;
-//   PaymentTerms: string;
-//   PaymentBlock: string;
-//   PaymentScheduledDate: string;
-//   ActualPaymentdDate: string;
-//   PaymentStatus: string;
-//   UserContact: string;
-//   Requester: string;
-// }
+
 
 interface ICustomer{
   limit:number,
@@ -37,16 +19,7 @@ interface ICustomer{
   search: string
 }
 
-
-// interface APIResponse {
-//   id: string;
-//   first_name: string;
-//   last_name: string;
-//   email: string;
-//   tenantId: string;
-//   slug: string;
-// }
-export interface DataResponse {
+ interface DataResponse {
   id?: string
   first_name?: string
   last_name?: string
@@ -59,43 +32,79 @@ export interface DataResponse {
   updatedBy?: any 
 }
 
+interface RES {
+customers:DataResponse[];
+count:number | undefined;
+}
+
 export interface APIResponse {
-  data?: DataResponse[] ;
+  data?: RES ;
   success?: boolean;
   error?: { message: string }; 
-  count?: number | undefined;
   
 }
 
 export interface API {
   data?: APIResponse;
   error?: { message: string }; 
-  count?: number | undefined;
 }
 
-function InvoiceAcessControl() {
+interface PRES {
+  tenantId?: string
+  orginationName?: string
+}
+
+interface PResponse{
+  data?: PRES ;
+  success?: boolean;
+  error?: { message: string }; 
+}
+
+interface PAPI {
+  data?: PResponse ;
+  error?: { message: string }; 
+}
+
+interface DRES {
+  message?: string
+}
+
+interface DResponse{
+  data?: DRES ;
+  success?: boolean;
+  error?: { message: string }; 
+}
+
+interface DAPI {
+  data?: DResponse ;
+  error?: { message: string }; 
+}
+
+
+
+function Customers() {
   const [edit, setEdit] = useState(false)
   const [refresh, setRefresh] = useState(false)
   const [initialValues, setInitialValues] = useState({
-  id:"1",tenent_id:"cc123-131dasd",organization_name:"abc"
+    id:"",tenantId:"",orginationName:""
   })
   
   const [data, setData] = useState<DataResponse[]>([])
   const [totalRecords, setTotalRecords] = useState<number | undefined >(0);
-  // const [currData, setCurrData] = useState<any>({});
+  const [currData, setCurrData] = useState<any>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [del, setDelete] = useState(false)
   const [close, setClose] = useState(false)
   // const [countryOptions, setCountryOptions] = useState<any[]>([])
   // const [companyOptions, setCompanyOptions] = useState<any[]>([])
   // const [supplierOptions, setSupplierOptions] = useState<any[]>([])
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
 
 const [getCustomerData] = useGetCustomerMutation();
-// const [saveCustomerData] = useCreateCustomerMutation();
-// const [editCustomerData] = useUpdateCustomerMutation();
-// const [deleteCustomerData] = useDeleteCustomerMutation();
+const [saveCustomerData] = useCreateCustomerMutation();
+const [editCustomerData] = useUpdateCustomerMutation();
+const [deleteCustomerData] = useDeleteCustomerMutation();
 
 
 //   const [getCompanyData] = useGetCompanyDataMutation()
@@ -166,18 +175,20 @@ const [getCustomerData] = useGetCustomerMutation();
     }
     setLoading && setLoading(true)
     getCustomerData(body)
-      .then((data: any) => {
+     // @ts-ignore 
+      .then((data: API) => {
 
-        console.log("data>>>>>",data.data.data)
+        console.log("data>>>>>>>>>>>>>>>",data?.data?.data)
         setLoading && setLoading(false)
         if (data.error) {
           // throw data.error.message
-          throw new Error(data?.error?.message || "Unknown error occurred");
+          throw Error(data?.error?.message || "Unknown error occurred");
         }
-        if (data?.data){
-          setData(data?.data);
+        if (data?.data?.data){
+          const tempObj = data?.data?.data?.customers?.map((item, index) => {return {...item, srno: index +1 }})
+          setData(tempObj);
         }
-        setTotalRecords(data?.count);
+        setTotalRecords(data?.data?.data?.count);
       })
       .catch((err) => {
         console.log("error>>>>>",err)
@@ -185,69 +196,87 @@ const [getCustomerData] = useGetCustomerMutation();
       });
   };
 
-  let saveData = (values: any, { setSubmitting }: any) => {
+  let saveData = (values: any, { setSubmitting,resetForm }: any) => {
     console.log("Data Save>>> values>>>",values)
-    // let promise = saveInvoiceData(values)
-    // toast.promise(promise, {
-    //   loading: "Loading",
-    //   success: (data) => {
-    //     setSubmitting(false)
-    //     if (data.error) {
-    //       throw data.error
-    //     }
-    //     getData(currentPage)
-    //     return "Invoice Code saved successfully";
-    //   },
-    //   error: err => {
-    //     setSubmitting(false)
-    //     return Error(err)
-    //   },
-    // });
+    const {tenantId, orginationName} =  values
+    let promise = saveCustomerData({tenantId,orginationName})
+    toast.promise<PAPI>(promise as Promise<PAPI>, {
+      loading: "Loading",
+      success: (data:PAPI) => {
+        console.log("Data>>>>>>",data)
+        setSubmitting(false)
+        if (data?.error) {
+          throw data?.error
+        }
+        getData(currentPage)
+        return "Customer created successfully";
+      },
+      error: (err:any):any => {
+        // console.log("err>>>>>>>>>>>>>>",err)
+        // const {status ,data} = err
+        // console.log("status>>>>>>>>>>>>>>",status)
+        // console.log("data>>>>>>>>>>>>>>",data)
+        // const {error,success} = data
+        // console.log("error>>>>>>>>>>>>>>",error)
+        // console.log("success>>>>>>>>>>>>>>",success)
+        // const {message} = error
+        // console.log("message>>>>>>>>>>>>>>",message)
+
+        setSubmitting(false)
+        // return Error(message)
+        return Error(err)
+        // return "Customer creation fail"
+      },
+    });
+    resetForm();
+
   }
 
-  let editData = (values: any, { setSubmitting }: any) => {
+  let editData = (values: any, { setSubmitting ,resetForm}: any) => {
     console.log("Edit Save>>> values>>>",values)
 
-    // let promise = editInvoiceData(values)
-    // toast.promise(promise, {
-    //   loading: "Loading",
-    //   success: (data) => {
-    //     setSubmitting(false)
-    //     if (data.error) {
-    //       throw data.error
-    //     }
-    //     setInitialValues({})
-    //     setClose(!close)
-    //     getData(currentPage)
-    //     return "Invoice Code edited successfully";
-    //   },
-    //   error: err => {
-    //     setSubmitting(false)
-    //     setClose(!close)
-    //     setInitialValues({})
-    //     return Error(err)
-    //   },
-    // });
+    let promise = editCustomerData(values)
+    toast.promise<PAPI>(promise as Promise<PAPI>, {
+      loading: "Loading",
+      success: (data:PAPI) => {
+        setSubmitting(false)
+        if (data.error) {
+          throw data.error
+        }
+        // setInitialValues({})
+        setClose(!close)
+        getData(currentPage)
+        return "Customer edited successfully";
+      },
+      error: (err:any):any => {
+        setSubmitting(false)
+        setClose(!close)
+        // setInitialValues({})
+        return Error(err)
+        // return "Edit Update Fail"
+      },
+    });
+    resetForm();
+
   }
 
   let deleteData = () => {
-    console.log("Delete Data>>>")
-
-    // let promise = deleteInvoiceData(currData?.InvoiceId)
-    // toast.promise(promise, {
-    //   loading: "Loading",
-    //   success: (data) => {
-    //     if (data.error) {
-    //       throw data.error
-    //     }
-    //     getData(currentPage)
-    //     setDelete(false)
-    //     return "Invoice Code deleted successfully";
-    //   },
-    //   error: err => {
-    //     return Error(err)
-    //   },
-    // });
+    let promise = deleteCustomerData(currData?.id)
+    setDelete(false)
+    toast.promise<DAPI>(promise as Promise<DAPI>, {
+      loading: "Loading",
+      success: (data) => {
+        if (data?.error) {
+          throw data?.error
+        }
+        getData(currentPage)
+        return "Customer deleted successfully";
+      },
+      error: (err:any):any => {
+        // return "SomeThing Went Wrong"
+        return Error(err)
+      },
+    });
   }
 
   const handlePageChange = (newPage: number) => {
@@ -255,30 +284,30 @@ const [getCustomerData] = useGetCustomerMutation();
   };
 
   const validationSchema = Yup.object().shape({
-    id: Yup.string().required('Please enter ID'),
-    TenentID: Yup.string().required('Please enter Tenent Id'),
-    OrganizationName: Yup.date().required('Please enter organization Name'),
+    // id: Yup.string().required('Please enter ID'),
+    tenantId: Yup.string().required('Please enter Tenent Id'),
+    orginationName: Yup.string().required('Please enter organization Name'),
 
   });
 
   const fieldTypes = [
     {
       fieldName: 'Sr No',
-      name: 'id',
+      name: 'srno',
       // type: 'input',
       required: true,
       notEditable: true,
     },
     {
       fieldName: 'Tenent ID',
-      name: 'tenent_id',
+      name: 'tenantId',
       type: 'input',
       required: true,
-      notEditable: true,
+      notEditable: false,
     },
     {
       fieldName: 'Organization Name',
-      name: 'organization_name',
+      name: 'orginationName',
       type: 'input',
       required: true,
       notEditable: false,
@@ -295,34 +324,20 @@ const [getCustomerData] = useGetCustomerMutation();
 
   let onEdit = (data: any) => {
     console.log("called edit");
-    
-    // setInitialValues({
-    //   "SupplierInvoiceNumber": data?.SupplierInvoiceNumber ,
-    //   "InternalInvoiceNumber": data?.InternalInvoiceNumber ,
-    //   "InvoiceDate": data?.InvoiceDate ,
-    //   "PostingDate": data?.PostingDate ,
-    //   "SupplierID": data?.SupplierID ,
-    //   "Country": data?.Country ,
-    //   "CompanyCode": data?.CompanyCode ,
-    //   "InvoiceValue": data?.InvoiceValue ,
-    //   "InvoiceCurrency": data?.InvoiceCurrency ,
-    //   "UnplannedCost": data?.UnplannedCost ,
-    //   "PaymentTerms": data?.PaymentTerms ,
-    //   "PaymentBlock": data?.PaymentBlock ,
-    //   "PaymentScheduledDate": data?.PaymentScheduledDate ,
-    //   "ActualPaymentdDate": data?.ActualPaymentdDate ,
-    //   "PaymentStatus": data?.PaymentStatus ,
-    //   "UserContact": data?.UserContact ,
-    //   "Requester": data?.Requester ,
-    // })
+    console.log("editData>>>>>>",data)
+    setInitialValues({
+    id:data?.id,
+    tenantId:data?.tenantId,
+    orginationName:data?.orginationName,
+    })
     setRefresh(!refresh)
     setEdit(true)
-    // setCurrData(data)
+    setCurrData(data)
   }
 
   let onDelete = (data: any) => {
-    // setCurrData(data)
     setDelete(true)
+    setCurrData(data)
   }
 
   let packedData = {
@@ -367,4 +382,4 @@ const [getCustomerData] = useGetCustomerMutation();
   )
 }
 
-export default InvoiceAcessControl;
+export default Customers;

@@ -151,155 +151,155 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
   //   );
   // };
 
-  // const FormComponent: React.FC = () => {
-  //   return (
-  //     <Formik
-  //       enableReinitialize={true}
-  //       initialValues={props.initialValues}
-  //       validationSchema={props.validationSchema}
-  //       onSubmit={props.handleSubmit}
-  //     >
-  //       {({ isSubmitting, setFieldValue, isValid, values, onChange }) => (
-  //         <Form style={{ height: '100vh', overflow: 'auto' }}>
-  //           {props.fieledTypes.map((field, id) => {
-  //             return (
-  //               <div key={id}>
-  //                 {field.type === 'input' ? (
-  //                   field.notEditable && props.edit ? (
-  //                     <FormField
-  //                       name={field.name}
-  //                       fieldName={field.fieldName}
-  //                       type={field.fieldType}
-  //                       required={field.required}
-  //                       removeBorder={true}
-  //                     />
-  //                   ) : (
-  //                     <FormField
-  //                       name={field.name}
-  //                       fieldName={field.fieldName}
-  //                       type={field.fieldType}
-  //                       required={field.required}
-  //                     />
-  //                   )
-  //                 ) : field.type === 'select' ? (
-  //                   <FormFieldSelect
-  //                     name={field.name}
-  //                     fieldName={field.fieldName}
-  //                     options={field.options}
-  //                     onChange={(selected, options) => {
-  //                       if (field.isMulti) {
-  //                         if (selected?.length === options?.length) {
-  //                           setFieldValue(field?.name, 'All');
-  //                         } else {
-  //                           setFieldValue(
-  //                             field?.name,
-  //                             selected.join(',')
-  //                           );
-  //                         }
-  //                       } else {
-  //                         if (field.isRadio) {
-  //                           setFieldValue(
-  //                             field?.name,
-  //                             selected.value
-  //                           );
-  //                         } else {
-  //                           setFieldValue(field?.name, selected);
-  //                         }
-  //                       }
-  //                     }}
-  //                     required={field.required}
-  //                     value={values[field.name]}
-  //                     isMulti={field.isMulti}
-  //                     isRadio={field.isRadio}
-  //                     placeholder={field.placeholder}
-  //                   />
-  //                 ) 
-  //                 // : field.type === 'checkbox' ? (
-  //                 //   <Accordion
-  //                 //     multiple
-  //                 //     className={
-  //                 //       props.activeRole === 'Roles'
-  //                 //         ? 'feature-tab-roles'
-  //                 //         : 'feature-tab'
-  //                 //     }
-  //                 //   >
-  //                 //     {props.packedData.Feature?.map((con, id) => (
-  //                 //       <AccordionTab
-  //                 //         key={id}
-  //                 //         header={
-  //                 //           <CommonHaderHandler
-  //                 //             header={con?.name}
-  //                 //             name={field.name}
-  //                 //             children={con?.children}
-  //                 //             id={con?.id}
-  //                 //             setFieldValue={setFieldValue}
-  //                 //             values={values}
-  //                 //             con={con}
-  //                 //           />
-  //                 //         }
-  //                 //         className={
-  //                 //           con?.children?.length
-  //                 //             ? 'feature'
-  //                 //             : 'feature disabled-tab'
-  //                 //         }
-  //                 //       >
-  //                 //         {con?.children?.map((child, id) => (
-  //                 //           <ChildBox key={id}>
-  //                 //             <div className="flexbox">
-  //                 //               <Checkbox
-  //                 //                 name={`${field.name}.${child?.name}`}
-  //                 //                 className="feature-checkbox"
-  //                 //                 checked={values[field.name].includes(
-  //                 //                   child?.id
-  //                 //                 )}
-  //                 //                 onChange={(e) =>
-  //                 //                   handleCheckboxChange(
-  //                 //                     e,
-  //                 //                     child?.id,
-  //                 //                     field.name,
-  //                 //                     values,
-  //                 //                     setFieldValue,
-  //                 //                     id
-  //                 //                   )
-  //                 //                 }
-  //                 //               />
-  //                 //               <BoxText>{child?.name}</BoxText>
-  //                 //             </div>
-  //                 //           </ChildBox>
-  //                 //         ))}
-  //                 //       </AccordionTab>
-  //                 //     ))}
-  //                 //   </Accordion>
-  //                 // ) 
-  //                 : null}
-  //               </div>
-  //             );
-  //           })}
-  //           <FilledButton
-  //             filled={true}
-  //             type="submit"
-  //             style={{
-  //               height: '50px',
-  //               width: '112px',
-  //               borderRadius: '5px',
-  //               marginTop: '22px',
-  //             }}
-  //             content={props.edit ? 'Update' : 'Save'}
-  //             disabled={!isValid || isSubmitting}
-  //           />
-  //         </Form>
-  //       )}
-  //     </Formik>
-  //   );
-  // };
+  const FormComponent: React.FC = () => {
+
+      return (
+      <Formik
+        enableReinitialize={true}
+        initialValues={props.initialValues}
+        validationSchema={props.validationSchema}
+        onSubmit={props.handleSubmit}
+      >
+        {({ isSubmitting, setFieldValue, isValid, values, 
+        // onChange
+       }) => (
+          <Form style={{ height: '100vh', overflow: 'auto' }}>
+            {props.fieledTypes!.map((field, id) => {
+              return (
+                <div key={id}>
+                  {field.type === 'input' ? (
+                    field.notEditable && props.edit ? (
+                      <FormField
+                        name={field.name}
+                        fieldName={field.fieldName}
+                        type={field.fieldType}
+                        required={field.required}
+                        removeBorder={true}
+                      />
+                    ) : (
+                      <FormField
+                        name={field.name}
+                        fieldName={field.fieldName}
+                        type={field.fieldType}
+                        required={field.required}
+                      />
+                    )
+                  ) : field.type === 'select' ? (
+                    <FormFieldSelect
+                      name={field.name}
+                      fieldName={field.fieldName}
+                      options={field.options}
+                      onChange={(selected:any, options:any):any => {
+                        if (field.isMulti) {
+                          if (selected?.length === options?.length) {
+                            setFieldValue(field?.name, 'All');
+                          } else {
+                            setFieldValue(
+                              field?.name,
+                              selected.join(',')
+                            );
+                          }
+                        } else {
+                          if (field.isRadio) {
+                            setFieldValue(
+                              field?.name,
+                              selected.value
+                            );
+                          } else {
+                            setFieldValue(field?.name, selected);
+                          }
+                        }
+                      }}
+                      required={field.required}
+                      value={values[field.name]}
+                      isMulti={field.isMulti}
+                      isRadio={field.isRadio}
+                      placeholder={field.placeholder}
+                    />
+                  ) 
+                  // : field.type === 'checkbox' ? (
+                  //   <Accordion
+                  //     multiple
+                  //     className={
+                  //       props.activeRole === 'Roles'
+                  //         ? 'feature-tab-roles'
+                  //         : 'feature-tab'
+                  //     }
+                  //   >
+                  //     {props.packedData.Feature?.map((con, id) => (
+                  //       <AccordionTab
+                  //         key={id}
+                  //         header={
+                  //           <CommonHaderHandler
+                  //             header={con?.name}
+                  //             name={field.name}
+                  //             children={con?.children}
+                  //             id={con?.id}
+                  //             setFieldValue={setFieldValue}
+                  //             values={values}
+                  //             con={con}
+                  //           />
+                  //         }
+                  //         className={
+                  //           con?.children?.length
+                  //             ? 'feature'
+                  //             : 'feature disabled-tab'
+                  //         }
+                  //       >
+                  //         {con?.children?.map((child, id) => (
+                  //           <ChildBox key={id}>
+                  //             <div className="flexbox">
+                  //               <Checkbox
+                  //                 name={`${field.name}.${child?.name}`}
+                  //                 className="feature-checkbox"
+                  //                 checked={values[field.name].includes(
+                  //                   child?.id
+                  //                 )}
+                  //                 onChange={(e) =>
+                  //                   handleCheckboxChange(
+                  //                     e,
+                  //                     child?.id,
+                  //                     field.name,
+                  //                     values,
+                  //                     setFieldValue,
+                  //                     id
+                  //                   )
+                  //                 }
+                  //               />
+                  //               <BoxText>{child?.name}</BoxText>
+                  //             </div>
+                  //           </ChildBox>
+                  //         ))}
+                  //       </AccordionTab>
+                  //     ))}
+                  //   </Accordion>
+                  // ) 
+                  : null}
+                </div>
+              );
+            })}
+            <FilledButton
+              filled={true}
+              type="submit"
+              style={{
+                height: '50px',
+                width: '112px',
+                borderRadius: '5px',
+                marginTop: '22px',
+              }}
+              content={props.edit ? 'Update' : 'Save'}
+              disabled={!isValid || isSubmitting}
+            />
+          </Form>
+        )}
+      </Formik>
+    );
+  };
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setStartSearch(!startSearch);
   };
-  // console.log("props.packedData>>>>>>>>>>",props.packedData)
-  // console.log("props.del>>>>>>>>>>",props.del)
-  console.log("props.edit >>>>>>>>>>",props.edit)
 
 
   const buttonStyle = {
@@ -334,7 +334,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                 paddingRight: '10px',
               }}
             >
-              {/* <FormComponent /> */}
+              <FormComponent />
             </div>
           </div>
         ): (
@@ -347,7 +347,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                   paddingRight: '20px',
                 }}
               >
-                {/* <FormComponent /> */}
+                <FormComponent />
               </div>
             ) : (
               <MassUpload

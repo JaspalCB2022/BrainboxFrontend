@@ -9,6 +9,7 @@ import NoData from '../NoData';
 import { Dialog } from 'primereact/dialog';
 import axios_api from '../../api/axios_api';
 import SortIcon from '../../Icons/sort.svg';
+import { FilledButton } from '../../_atom/Buttons';
 
 interface DataTableComponentProps {
   // packedData: {
@@ -49,6 +50,10 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
 }) => {
   const { Data, getData, onEdit, onDelete, count } = packedData;
 
+
+  console.log("Data Table >>>>", Data)
+
+
   const [totalRecords, setTotalRecords] = useState(count);
   const [first, setFirst] = useState<number | undefined>(0);
   const [sortField, setSortField] = useState<string | undefined>(undefined);
@@ -82,7 +87,17 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
       setSortField(event.sortField);
       setSortOrder(event.sortOrder );
   };
-  console.log("onEdit>>>",onEdit);
+  const buttonStyle = {
+    marginLeft: '10px',
+    borderRadius: '4px',
+    background: '#405189',
+    width: '100px',
+    height: '28px',
+    padding: '0px',
+    border: 'none',
+    fontWeight: '500',
+    marginRight: '5px',
+  };
   
 
   let ActionComponent = (data: any) => {
@@ -91,18 +106,25 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
         <img
           title="Edit"
           src={edit}
-          style={{ cursor: 'pointer', width: '25px' }}
+          style={{ cursor: 'pointer', width: '25px'  }}
           onClick={() => onEdit(data)}
           alt="edit"
 
         />
         <img
           title="Delete"
-          style={{ cursor: 'pointer', width: '25px' }}
+          style={{ cursor: 'pointer', width: '25px' , marginLeft:"5px" }}
           src={trash}
           onClick={() => onDelete(data)}
           alt="delete"
         />
+             <FilledButton
+                style={buttonStyle}
+                onClick={() => {
+                  window.open('nike-shoes.localhost:3002','_blank') 
+                }}
+                content="Portal Login"
+              />
       </div>
     );
   };
