@@ -2,7 +2,7 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "./App.css";
 import { Profiler, useEffect } from "react";
-import route from "./router/router";
+import {routes ,customerRoutes} from "./router/router";
 import { renderRoutes } from "./router";
 import { Toaster } from 'react-hot-toast';
 import { useLocation } from "react-router-dom";
@@ -16,7 +16,7 @@ function useQuery() {
 }
 
 function App() {
-
+let updatedRoute
   let toastStyle = {
     minWidth: 'max-content',
   }
@@ -29,7 +29,19 @@ function App() {
     // localStorage.setItem('tenantId', tenantId)
     localStorage.setItem('tenantId', 'cae0fcf3-0c30-4b82-9b0c-a77856203f46')
     // localStorage.setItem('userName', userName)
+
   })
+  
+console.log("window.location.host.split",window.location.host.split(".")[0]);
+
+  if (window.location.host.split(".")[0] === "addidas-shoes") {
+    updatedRoute = customerRoutes 
+  }else{
+    updatedRoute = routes
+    console.log("updatedRoutes>>>>>",updatedRoute);
+    
+  }
+
 
   return (
     <Profiler  id="chatbot" onRender={(id, phase, actualDuration)=>{ }}>
@@ -39,7 +51,7 @@ function App() {
           style: toastStyle,
         }}
         />
-        {renderRoutes(route)}
+        {renderRoutes(updatedRoute!)}
       </div>
     </Profiler>
   );

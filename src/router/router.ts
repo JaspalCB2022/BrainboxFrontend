@@ -3,7 +3,7 @@ import BlankLayout from "../_organism/layouts/BlankLayout";
 import PublicLayout from "../_organism/layouts/PublicLayout";
 import WithSidebarLayout from "../_organism/layouts/WithSidebarLayout";
 import { LayoutItem } from './types';
-const routes:LayoutItem[]= [
+export const routes:LayoutItem[]= [
   {
     layout: PublicLayout,
     routes: [
@@ -91,7 +91,7 @@ const routes:LayoutItem[]= [
           {
             name: "customers",
             title: "Customers",
-            path: "/customers",
+            path: "/customers/",
             component: lazy(() => import("../_organism/Pages/Customers")),
           },
           // {
@@ -107,4 +107,37 @@ const routes:LayoutItem[]= [
 
 ];
 
-export default routes;
+export const customerRoutes:LayoutItem[]= [
+  {
+    layout: PublicLayout,
+    routes: [
+      {
+        name: "login",
+        title: "Login",
+        path: "/",
+        component: lazy(() => import("../_organism/LoginPage")),
+      },
+ 
+    ]
+  },
+  {
+    layout: WithSidebarLayout,
+    routes: [
+      {
+        layout: BlankLayout,
+        name: "customer",
+        routes: [
+          {
+            name: "customerDashboard",
+            title: "CustomerDashboard",
+            path: "/cdashboard",
+            component: lazy(() => import("../_organism/Pages/PortalView")),
+          },
+        
+        ]
+      },
+    ],
+  },
+
+];
+

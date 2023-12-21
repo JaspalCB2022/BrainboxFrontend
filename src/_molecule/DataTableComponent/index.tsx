@@ -10,6 +10,7 @@ import { Dialog } from 'primereact/dialog';
 import axios_api from '../../api/axios_api';
 import SortIcon from '../../Icons/sort.svg';
 import { FilledButton } from '../../_atom/Buttons';
+import Cookies from 'js-cookie';
 
 interface DataTableComponentProps {
   // packedData: {
@@ -121,8 +122,11 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
              <FilledButton
                 style={buttonStyle}
                 onClick={() => {
-                  window.open('nike-shoes.localhost:3002','_blank') 
+                  const authenticationToken = Cookies.get('authToken');
+                  const url = `http://addidas-shoes.localhost:3002/cdashboard?token=${authenticationToken}`;
+                  window.open(url);
                 }}
+                
                 content="Portal Login"
               />
       </div>

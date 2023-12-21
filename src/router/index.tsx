@@ -10,8 +10,8 @@ const generateFlattenRoutes = (routes : RouteItem[] | undefined) : RouteItem[] |
 
 export const renderRoutes = (mainRoutes:LayoutItem[]) => {
     const layouts = mainRoutes.map(({ layout: Layout, routes }, index) => {
-    const subRoutes = generateFlattenRoutes(routes);
-
+      
+      const subRoutes = generateFlattenRoutes(routes);
       return (
         <Route key={index} element={<Layout />}>
             {subRoutes.map(({ component: Component, path, name }:SubRouteItem) => {

@@ -78,6 +78,10 @@ export const CUSTOMER_POST = `${CUSTOMER}/create`
 export const CUSTOMER_UPDATE = `${CUSTOMER}/update`
 export const CUSTOMER_DELETE = `${CUSTOMER}/delete`
 
+//organization
+export const ORGANIZATION ='api/customer'
+export const ORGANIZATION_GET =`${ORGANIZATION}/org`
+
 
 export const userName = localStorage.getItem('userName')
 export const tenantId = localStorage.getItem('tenantId')

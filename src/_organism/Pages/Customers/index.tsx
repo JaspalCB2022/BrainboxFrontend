@@ -80,8 +80,6 @@ interface DAPI {
   error?: { message: string }; 
 }
 
-
-
 function Customers() {
   const [edit, setEdit] = useState(false)
   const [refresh, setRefresh] = useState(false)
@@ -101,10 +99,10 @@ function Customers() {
   const navigate = useNavigate();
 
 
-const [getCustomerData] = useGetCustomerMutation();
-const [saveCustomerData] = useCreateCustomerMutation();
-const [editCustomerData] = useUpdateCustomerMutation();
-const [deleteCustomerData] = useDeleteCustomerMutation();
+  const [getCustomerData] = useGetCustomerMutation();
+  const [saveCustomerData] = useCreateCustomerMutation();
+  const [editCustomerData] = useUpdateCustomerMutation();
+  const [deleteCustomerData] = useDeleteCustomerMutation();
 
 
 //   const [getCompanyData] = useGetCompanyDataMutation()
@@ -131,12 +129,12 @@ const [deleteCustomerData] = useDeleteCustomerMutation();
   //     limit: 0,
   //     skip: 0,
   //   }
-    // getCountryData(body)
-    //   .then((data) => {
-    //     let temp = data?.data?.data?.list?.map((d, id) => ({ value: d.CountryName, label: d.CountryName }))
-    //     setCountryOptions(temp)
-    //   })
-    //   .catch(err => console.log(err))
+  //   getCountryData(body)
+  //     .then((data) => {
+  //       let temp = data?.data?.data?.list?.map((d, id) => ({ value: d.CountryName, label: d.CountryName }))
+  //       setCountryOptions(temp)
+  //     })
+  //     .catch(err => console.log(err))
   // }
 
   // let getCompanyCode = () => {
@@ -144,12 +142,12 @@ const [deleteCustomerData] = useDeleteCustomerMutation();
   //     limit: 0,
   //     skip: 0,
   //   }
-    // getCompanyData(body)
-    //   .then((data) => {
-    //     let temp = data?.data?.data?.list?.map((d, id) => ({ value: `${d.CompanyCodeId}-${d.Description}`, label: `${d.CompanyCodeId}-${d.Description}` }))
-    //     setCompanyOptions(temp)
-    //   })
-    //   .catch(err => console.log(err))
+  //   getCompanyData(body)
+  //     .then((data) => {
+  //       let temp = data?.data?.data?.list?.map((d, id) => ({ value: `${d.CompanyCodeId}-${d.Description}`, label: `${d.CompanyCodeId}-${d.Description}` }))
+  //       setCompanyOptions(temp)
+  //     })
+  //     .catch(err => console.log(err))
   // };
 
   // let getSupplier = () => {
@@ -157,12 +155,12 @@ const [deleteCustomerData] = useDeleteCustomerMutation();
   //     limit: 0,
   //     skip: 0,
   //   }
-    // getSupplierData(body)
-    //   .then((data) => {
-    //     let temp = data?.data?.data?.list?.map((d, id) => ({ value: `${d?.CompanyCodeId}-${d?.SupplierName}`, label: `${d?.CompanyCodeId}-${d?.SupplierName}` }))
-    //     setSupplierOptions(temp)
-    //   })
-    //   .catch(err => console.log(err))
+  //   getSupplierData(body)
+  //     .then((data) => {
+  //       let temp = data?.data?.data?.list?.map((d, id) => ({ value: `${d?.CompanyCodeId}-${d?.SupplierName}`, label: `${d?.CompanyCodeId}-${d?.SupplierName}` }))
+  //       setSupplierOptions(temp)
+  //     })
+  //     .catch(err => console.log(err))
   // };
 
   let getData = (currPage: number, setLoading?: (loading: boolean) => void, order?: string, field?: string, search?: string) => {
@@ -177,7 +175,6 @@ const [deleteCustomerData] = useDeleteCustomerMutation();
     getCustomerData(body)
      // @ts-ignore 
       .then((data: API) => {
-
         console.log("data>>>>>>>>>>>>>>>",data?.data?.data)
         setLoading && setLoading(false)
         if (data.error) {
@@ -187,6 +184,7 @@ const [deleteCustomerData] = useDeleteCustomerMutation();
         if (data?.data?.data){
           const tempObj = data?.data?.data?.customers?.map((item, index) => {return {...item, srno: index +1 }})
           setData(tempObj);
+          // setData(data?.data?.data.customers)
         }
         setTotalRecords(data?.data?.data?.count);
       })
@@ -243,7 +241,7 @@ const [deleteCustomerData] = useDeleteCustomerMutation();
         if (data.error) {
           throw data.error
         }
-        // setInitialValues({})
+        setInitialValues({ id:"", tenantId: "", orginationName:""})
         setClose(!close)
         getData(currentPage)
         return "Customer edited successfully";
@@ -338,6 +336,10 @@ const [deleteCustomerData] = useDeleteCustomerMutation();
   let onDelete = (data: any) => {
     setDelete(true)
     setCurrData(data)
+  }
+
+  const portalLogin =(slug:string)=>{
+    window.open('nike-shoes.localhost:3002','_blank') 
   }
 
   let packedData = {
