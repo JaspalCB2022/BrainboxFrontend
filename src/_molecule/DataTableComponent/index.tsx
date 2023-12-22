@@ -49,7 +49,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   modalFields,
   startSearch,
 }) => {
-  const { Data, getData, onEdit, onDelete, count } = packedData;
+  const { Data, getData, onEdit, onDelete, count,onPortalView } = packedData;
 
 
   console.log("Data Table >>>>", Data)
@@ -121,11 +121,27 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
         />
              <FilledButton
                 style={buttonStyle}
-                onClick={() => {
-                  const authenticationToken = Cookies.get('authToken');
-                  const url = `http://addidas-shoes.localhost:3002/cdashboard?token=${authenticationToken}`;
-                  window.open(url);
-                }}
+                onClick={onPortalView}
+
+                // onClick={() => {
+                //   const authenticationToken = Cookies.get('authToken');
+                //   const url = `http://addidas-shoes.localhost:3002/cdashboard?token=${authenticationToken}`;
+                //   window.open(url);
+                // }}
+
+                // onClick={() => {
+                //   const authenticationToken = Cookies.get('authToken');
+                //   window.postMessage(
+                //     {
+                //       type: 'authToken',
+                //       token: authenticationToken
+                //     },
+                //     'http://addidas-shoes.localhost:3002/cdashboard'
+                //   );
+                //   const url = `http://addidas-shoes.localhost:3002/cdashboard`;
+                //   window.open(url);
+                // }}
+              
                 
                 content="Portal Login"
               />

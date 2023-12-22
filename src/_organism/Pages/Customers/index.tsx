@@ -338,16 +338,23 @@ function Customers() {
     setCurrData(data)
   }
 
-  const portalLogin =(slug:string)=>{
-    window.open('nike-shoes.localhost:3002','_blank') 
+  const onPortalView =()=> {
+    console.log("hitting");
+    const authenticationToken = Cookies.get('authToken');
+      const url = `http://addidas-shoes.localhost:3002/cdashboard?token=${authenticationToken}`;
+      window.open(url);
+    
   }
+
+
 
   let packedData = {
     Data: data,
     getData: getData,
     onEdit: onEdit,
     onDelete: onDelete,
-    count: totalRecords
+    count: totalRecords,
+    onPortalView: onPortalView
   }
 
   let tableDefinition = fieldTypes.map((field) => ({

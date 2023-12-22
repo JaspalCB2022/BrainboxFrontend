@@ -11,18 +11,20 @@ interface GCustomer{
 const organizationApi = createApi({
   reducerPath:'organizationapi',
   baseQuery: fetchBaseQuery({ baseUrl: BACKEND_URL }),
-  tagTypes: ['portal'],
+  tagTypes: ['organizaton'],
   endpoints: (builder) => ({
     
     getOrgabization: builder.mutation({
       query: (values:string) => ({
         url: `${ORGANIZATION_GET}/${values}`,
         method: 'GET',
-        // body: values,
-        credentials: "include",
+        headers:{
+          Cookies:`${Cookies.get("jwt")}`
+        }
     
       }),
-      invalidatesTags: ['portal'],
+      invalidatesTags: ['organizaton'],
+      
     }),
   }),
 });
