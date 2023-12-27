@@ -39,6 +39,7 @@ interface DataTableComponentProps {
   modalFields: { [key: string]: { data: any[]; url: string } };
   startSearch: boolean;
   globalFilters?:any
+  title?:string
 }
 
 const DataTableComponent: React.FC<DataTableComponentProps> = ({
@@ -48,11 +49,11 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   search,
   modalFields,
   startSearch,
+  title
 }) => {
   const { Data, getData, onEdit, onDelete, count,onPortalView } = packedData;
 
 
-  console.log("Data Table >>>>", Data)
 
 
   const [totalRecords, setTotalRecords] = useState(count);
@@ -76,6 +77,9 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   }, [startSearch]);
 
   const PageChange = (event: { first?: number; page?: number }) => {
+    console.log("page>>", event.page)
+    console.log("first>>",event.first)
+
     setFirst(event.first);
     const newPage = event.page! + 1;
     onPageChange(newPage);
@@ -119,9 +123,11 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
           onClick={() => onDelete(data)}
           alt="delete"
         />
+
+        {title=== "Customers" &&  
              <FilledButton
                 style={buttonStyle}
-                onClick={onPortalView}
+                onClick={()=>onPortalView(data)}
 
                 // onClick={() => {
                 //   const authenticationToken = Cookies.get('authToken');
@@ -145,6 +151,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
                 
                 content="Portal Login"
               />
+    }
       </div>
     );
   };

@@ -32,15 +32,36 @@ let updatedRoute
 
   })
   
-console.log("window.location.host.split",window.location.host.split(".")[0]);
+// console.log("window.location.host.split",window.location.host.split(".")[0]);
 
-  if (window.location.host.split(".")[0] === "addidas-shoes") {
+// const isCustomer = JSON.parse(localStorage.getItem("slug")!)       
+// console.log(isCustomer);
+
+// const isSlug = isCustomer.find((cus:any)=> cus.slug === window.location.host.split(".")[0])
+
+// window.location.host.split(".")[0]
+
+// const isTrue = JSON.parse(localStorage.getItem("slug")!)?.find((cus:any)=> cus.slug === window.location.host.split(".")[0])
+// console.log("isTrue",isTrue);
+
+
+  // if (JSON.parse(localStorage.getItem("slug")!)?.find((cus:any)=> cus.slug === window.location.host.split(".")[0]) ||  localStorage.getItem("slug") === window.location.host.split(".")[0] ) {
+  //   updatedRoute = customerRoutes 
+  // }else{
+  //   updatedRoute = routes
+  //   console.log("updatedRoutes>>>>>",updatedRoute);
+  // }
+
+
+  if ( window.location.host.split(".")[0] === "addidas-shoes" ) {
     updatedRoute = customerRoutes 
   }else{
     updatedRoute = routes
     console.log("updatedRoutes>>>>>",updatedRoute);
-    
   }
+
+
+  
 
 
   return (

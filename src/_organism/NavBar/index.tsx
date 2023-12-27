@@ -11,6 +11,7 @@ import chatlogo from "../../Icons/chatlogo.svg"
 import rectangle from "../../Icons/rectangle 4.svg";
 import logout from "../../Icons/logout.svg";
 import navArrow from "../../Icons/open_nav.svg";
+import Cookies from "js-cookie";
   
   interface SubNav {
     name: string;
@@ -64,12 +65,27 @@ function NavBar(props: NavBarProps) {
     setIndex(i !== undefined ? [i] : []);
   };
 
+  const handleLogout = () => {
+    Cookies.remove('authToken');
+    navigate("/")
+
+  };
+
+
+
+
   let navContent : NavContent[] = [
     {
       name: "Customer",
       icon: dashboard,
       activeIcon: dashboard,
-      url: '/customer',
+      url: '/customers',
+    },
+    {
+      name: "Features",
+      icon: dashboard,
+      activeIcon: dashboard,
+      url: '/features',
     },
     // {
     //   name: "Dashboard",
@@ -107,8 +123,6 @@ function NavBar(props: NavBarProps) {
   ];
 
   let onNameClick = (id: number | undefined, name: string) => {
-    console.log("id>>>>",id)
-    console.log("name>>>>>",name)
     props.setName(name);
     setId(id);
     index.includes(id as number) ? closeNav(id) : openNav(id);
@@ -133,7 +147,7 @@ function NavBar(props: NavBarProps) {
                   className="navwrapper-mid-section-nav"
                   onClick={() => {
                     onNameClick(i, nav.name);
-                    // navigate(nav.url);
+                    navigate(nav.url!);
                   }}
                 >
                   {i === id ? (
@@ -216,7 +230,7 @@ function NavBar(props: NavBarProps) {
         </div>
       </div>
       <div style={{ marginTop: "auto" }}>
-        <div className="navbar-logout" onClick={() => navigate("/")}>
+        <div className="navbar-logout" onClick={handleLogout}>
           <img src={logout} style={{ width: "13px" }} alt="logout-icon"></img>
         </div>
       </div>

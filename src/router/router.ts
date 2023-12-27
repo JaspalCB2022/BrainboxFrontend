@@ -32,7 +32,7 @@ export const routes:LayoutItem[]= [
     routes: [
       {
         layout: BlankLayout,
-        name: "pr-status-check",
+        name: "super-admin",
         routes: [
           // {
           //   name: "commodity-code",
@@ -91,8 +91,14 @@ export const routes:LayoutItem[]= [
           {
             name: "customers",
             title: "Customers",
-            path: "/customers/",
+            path: "/customers",
             component: lazy(() => import("../_organism/Pages/Customers")),
+          },
+          {
+            name: "features",
+            title: "Features",
+            path: "/features",
+            component: lazy(() => import("../_organism/Pages/Features")),
           },
           // {
           //   name: "country",

@@ -10,6 +10,8 @@ import ConfirmPopUp from "../../../_molecule/ConfirmPopUp/index";
 import FormField from "../../../_molecule/FormField/index";
 import { FilledButton } from "../../../_atom/Buttons/index";
 import { Container } from "../../WalkThroughPage/styled";
+import minus from "../../../Icons/plus1.svg"
+import plus from "../../../Icons/minus1.svg"
 // import { RoleToggle } from "../../../_molecule/RoleToggle/index.js";
 // import { Accordion, AccordionTab } from 'primereact/accordion';
 // import { Box, BoxText, CheckBox, ChildBox, Title } from "../../FeatureSelectPage/styled.js";
@@ -57,12 +59,43 @@ interface CommonStatusCheckProps {
   setEdit?:any;
 }
 
+interface Input{
+  fieldName: string,
+  name:string,
+  type: string,
+  required: boolean,
+  notEditable: boolean,
+}
+
 const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
   const [display, setDisplay] = useState("-450px");
   const [search, setSearch] = useState('');
   const [startSearch, setStartSearch] = useState(false);
   const [showonly, setShowonly] = useState('');
   const [type, setType] = useState('input');
+
+
+  const [additionalInputs, setAdditionalInputs] = useState<Input[]>([]);
+
+  const handleAddInput = () => {
+    const newInput = {
+      fieldName: `Child Field ${additionalInputs.length + 1}`,
+      name: `childField${additionalInputs.length + 1}`,
+      type: 'input',
+      required: true,
+      notEditable: false,
+    };
+
+    setAdditionalInputs((prevInputs) => [...prevInputs, newInput]);
+  };
+
+  const handleRemoveInput =(id:number)=>{
+    setAdditionalInputs((prevInputs) =>
+    prevInputs.filter((_, i) => i !== id)
+  );
+  }
+
+  
 
   useEffect(() => {
     if (props.edit) {
@@ -164,7 +197,46 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
         // onChange
        }) => (
           <Form style={{ height: '100vh', overflow: 'auto' }}>
-            {props.fieledTypes!.map((field, id) => {
+
+      {props.title === "Feature" && (
+        <div>
+          <FormField
+            name="featureTitle"
+            fieldName="Feature Title"
+            type="input"
+            required={true}
+          />
+          <div className="child-feat">
+
+          <FormField
+            name="linkedFeature"
+            fieldName="Linked Feature"
+            type="input"
+            required={true}
+            style={{ width: '100%' }}
+            />
+            <button type="button" className="btn-feat"  onClick={handleAddInput}>
+              <img src={plus}  alt="icon" />
+            </button>
+            </div>
+        </div>
+      )}
+
+           {additionalInputs.map((field, id) => (
+            <div key={id} className="child-feat">
+              <FormField
+                name={field.name}
+                fieldName={field.fieldName}
+                type={field.type}
+                required={field.required}
+              />
+                 <button type="button" className="btn-feat" onClick={()=>handleRemoveInput(id)}>
+                 <img src={minus}  alt="icon" />
+
+            </button>
+            </div>
+          ))}
+            {props.title !=="Feature" && props.fieledTypes!.map((field, id) => {
               return (
                 <div key={id}>
                   {field.type === 'input' ? (
@@ -175,8 +247,10 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                         type={field.fieldType}
                         required={field.required}
                         removeBorder={true}
+                   
                       />
-                    ) : (
+                    ) : 
+                   (
                       <FormField
                         name={field.name}
                         fieldName={field.fieldName}
@@ -186,6 +260,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                     )
                   ) : field.type === 'select' ? (
                     <FormFieldSelect
+                    //@ts-ignore
                       name={field.name}
                       fieldName={field.fieldName}
                       options={field.options}
@@ -420,6 +495,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
             search={search}
             modalFields={props.modalFields}
             startSearch={startSearch}
+            title={props.title}
           />
         </div>
       </Container>

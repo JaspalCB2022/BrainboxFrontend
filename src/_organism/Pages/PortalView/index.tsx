@@ -24,6 +24,7 @@ const [getOrganization]= useGetOrgabizationMutation();
         const host  = window.location.host
         const domain  = host.split(".")[0]
         console.log("Domain",domain);
+        localStorage.setItem("slug",domain)
         console.log("cokkies>>>",Cookies.get("jwt"))
         
 

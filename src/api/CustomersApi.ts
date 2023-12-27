@@ -25,8 +25,8 @@ const customerApi = createApi({
     getCustomer: builder.mutation({
       query: (values:GCustomer) => ({
         url: CUSTOMER_GET,
-        method: 'GET',
-        // body: values,
+        method: 'POST',
+        body: values,
         credentials: "include",
       }),
       invalidatesTags: ['customer'],

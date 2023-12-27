@@ -104,6 +104,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
   placeholder = "Search",
   onChange,
 }) => {
+  //@ts-ignore
   const [selectedOptions, setselectedOptions] = useState<Option>(value);
 
   const customStyles = {

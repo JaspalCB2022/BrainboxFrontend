@@ -167,10 +167,12 @@ function Customers() {
     let body = {
       limit: ITEMS_PER_PAGE,
       skip: (currPage - 1) * ITEMS_PER_PAGE,
-      sortBy: field,
-      sortType: order,
-      search: search
+      sortBy: "",
+      sortType: "",
+      search: ""
     }
+
+    console.log("body>>>>>",body)
     setLoading && setLoading(true)
     getCustomerData(body)
      // @ts-ignore 
@@ -210,18 +212,7 @@ function Customers() {
         return "Customer created successfully";
       },
       error: (err:any):any => {
-        // console.log("err>>>>>>>>>>>>>>",err)
-        // const {status ,data} = err
-        // console.log("status>>>>>>>>>>>>>>",status)
-        // console.log("data>>>>>>>>>>>>>>",data)
-        // const {error,success} = data
-        // console.log("error>>>>>>>>>>>>>>",error)
-        // console.log("success>>>>>>>>>>>>>>",success)
-        // const {message} = error
-        // console.log("message>>>>>>>>>>>>>>",message)
-
         setSubmitting(false)
-        // return Error(message)
         return Error(err)
         // return "Customer creation fail"
       },
@@ -338,15 +329,15 @@ function Customers() {
     setCurrData(data)
   }
 
-  const onPortalView =()=> {
+  const onPortalView =(data:any)=> {
+    console.log("PORTAL DATA>>>",data);
     console.log("hitting");
     const authenticationToken = Cookies.get('authToken');
-      const url = `http://addidas-shoes.localhost:3002/cdashboard?token=${authenticationToken}`;
+      // const url = `http://${data?.slug}.localhost:3002/cdashboard?token=${authenticationToken}`;
+      const url = `http://${data?.slug}.localhost:3001/login`
       window.open(url);
     
   }
-
-
 
   let packedData = {
     Data: data,
@@ -369,7 +360,7 @@ function Customers() {
         edit={edit}
         setEdit={setEdit}
         refresh={refresh}
-        title="Customers "
+        title="Customers"
         flyoutTitle={edit ? "Edit Customer" : "Add Customer"}
         initialValues={initialValues}
         validationSchema={validationSchema}

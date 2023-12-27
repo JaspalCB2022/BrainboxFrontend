@@ -1,9 +1,252 @@
-import React from 'react'
+import React,{useState,useEffect} from "react";
+import CommonStatusCheck from "../../Shared/CommonStatusCheck";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { ITEMS_PER_PAGE } from "../../../Constants";
+import * as Yup from 'yup';
 
-const index = () => {
+const Features = () => {
+  const [edit, setEdit] = useState(false)
+  const [refresh, setRefresh] = useState(false)
+  const [initialValues, setInitialValues] = useState({
+    id:"",featureTitle:"",linkedFeature:""
+  })
+  
+  const [data, setData] = useState([{srno:"1",featureTitle:"new",linkedFeature:"yes"}])
+  const [totalRecords, setTotalRecords] = useState<number | undefined >(0);
+  const [currData, setCurrData] = useState<any>({});
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [del, setDelete] = useState(false)
+  const [close, setClose] = useState(false)
+  // const [countryOptions, setCountryOptions] = useState<any[]>([])
+  // const [companyOptions, setCompanyOptions] = useState<any[]>([])
+  // const [supplierOptions, setSupplierOptions] = useState<any[]>([])
+  const navigate = useNavigate();
+
+
+
+  useEffect(() => {
+    // Get the token from the cookie
+    const token = Cookies.get('authToken');
+    if(!token){
+      navigate('/')
+    }
+    // Use the token in your API requests or for authentication
+    // console.log('Token:', token);
+
+  getData(1)
+  // getCompanyCode()
+  // getCountry()
+  // getSupplier()
+}, [])
+
+
+
+  let getData = (currPage: number, setLoading?: (loading: boolean) => void, order?: string, field?: string, search?: string) => {
+    let body = {
+      limit: ITEMS_PER_PAGE,
+      skip: (currPage - 1) * ITEMS_PER_PAGE,
+      sortBy: field,
+      sortType: order,
+      search: search
+    }
+    console.log("body>>>>>",body)
+    // setLoading && setLoading(true)
+    // getCustomerData(body)
+    //  // @ts-ignore 
+    //   .then((data: API) => {
+    //     console.log("data>>>>>>>>>>>>>>>",data?.data?.data)
+    //     setLoading && setLoading(false)
+    //     if (data.error) {
+    //       // throw data.error.message
+    //       throw Error(data?.error?.message || "Unknown error occurred");
+    //     }
+    //     if (data?.data?.data){
+    //       const tempObj = data?.data?.data?.customers?.map((item, index) => {return {...item, srno: index +1 }})
+    //       setData(tempObj);
+    //       // setData(data?.data?.data.customers)
+    //     }
+    //     setTotalRecords(data?.data?.data?.count);
+    //   })
+    //   .catch((err) => {
+    //     console.log("error>>>>>",err)
+    //     return Error(err)
+    //   });
+  };
+
+  let saveData = (values: any, { setSubmitting,resetForm }: any) => {
+    console.log("Data Save>>> values>>>",values)
+    // let promise = saveCustomerData({tenantId,orginationName})
+    // toast.promise<PAPI>(promise as Promise<PAPI>, {
+    //   loading: "Loading",
+    //   success: (data:PAPI) => {
+    //     console.log("Data>>>>>>",data)
+    //     setSubmitting(false)
+    //     if (data?.error) {
+    //       throw data?.error
+    //     }
+    //     getData(currentPage)
+    //     return "Customer created successfully";
+    //   },
+    //   error: (err:any):any => {
+    //     setSubmitting(false)
+    //     return Error(err)
+    //     // return "Customer creation fail"
+    //   },
+    // });
+    resetForm();
+
+  }
+
+  let editData = (values: any, { setSubmitting ,resetForm}: any) => {
+    console.log("Edit Save>>> values>>>",values)
+
+    // let promise = editCustomerData(values)
+    // toast.promise<PAPI>(promise as Promise<PAPI>, {
+    //   loading: "Loading",
+    //   success: (data:PAPI) => {
+    //     setSubmitting(false)
+    //     if (data.error) {
+    //       throw data.error
+    //     }
+    //     setInitialValues({ id:"", tenantId: "", orginationName:""})
+    //     setClose(!close)
+    //     getData(currentPage)
+    //     return "Customer edited successfully";
+    //   },
+    //   error: (err:any):any => {
+    //     setSubmitting(false)
+    //     setClose(!close)
+    //     // setInitialValues({})
+    //     return Error(err)
+    //     // return "Edit Update Fail"
+    //   },
+    // });
+    resetForm();
+
+  }
+
+  let deleteData = () => {
+    // let promise = deleteCustomerData(currData?.id)
+    // setDelete(false)
+    // toast.promise<DAPI>(promise as Promise<DAPI>, {
+    //   loading: "Loading",
+    //   success: (data) => {
+    //     if (data?.error) {
+    //       throw data?.error
+    //     }
+    //     getData(currentPage)
+    //     return "Customer deleted successfully";
+    //   },
+    //   error: (err:any):any => {
+    //     // return "SomeThing Went Wrong"
+    //     return Error(err)
+    //   },
+    // });
+  }
+
+  const validationSchema = Yup.object().shape({
+    // id: Yup.string().required('Please enter ID'),
+    featureTitle: Yup.string().required('Please enter feature Title'),
+    // linkedFeature: Yup.string().required('Please enter Feature'),
+
+  });
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const fieldTypes = [
+    {
+      fieldName: 'Sr No',
+      name: 'srno',
+      // type: 'input',
+      required: true,
+      notEditable: true,
+    },
+    {
+      fieldName: 'Feature Title',
+      name: 'featureTitle',
+      type: 'input',
+      required: true,
+      notEditable: false,
+    },
+    {
+      fieldName: 'Linked Feature',
+      name: 'linkedFeature',
+      type: 'input',
+      required: true,
+      notEditable: false,
+    }
+       // {
+    //   fieldName: 'Country',
+    //   name: 'Country',
+    //   type: 'select',
+    //   required: true,
+    //   isMulti: true,
+    //   // options: countryOptions,
+    // },
+  ];
+
+  let onEdit = (data: any) => {
+    console.log("called edit");
+    console.log("editData>>>>>>",data)
+    setInitialValues({
+    id:data?.id,
+    featureTitle:data?.featureTitle,
+    linkedFeature:data?.linkedFeature,
+    })
+    setRefresh(!refresh)
+    setEdit(true)
+    setCurrData(data)
+  }
+
+  let onDelete = (data: any) => {
+    setDelete(true)
+    setCurrData(data)
+  }
+
+
+  let packedData = {
+    Data: data,
+    getData: getData,
+    onEdit: onEdit,
+    onDelete: onDelete,
+    count: totalRecords,
+    // onPortalView: onPortalView
+  }
+
+  let tableDefinition = fieldTypes.map((field) => ({
+    header: field.fieldName,
+    field: field.name,
+    placeholder: `Search by ${field.name.toLowerCase()}`,
+  }));
+
   return (
-    <div>index</div>
-  )
-}
+    <div>
+      <CommonStatusCheck
+        edit={edit}
+        setEdit={setEdit}
+        refresh={refresh}
+        title="Feature"
+        flyoutTitle={edit ? "Edit Feature" : "Add Feature"}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        handleSubmit={edit ? editData : saveData}
+        fieledTypes={fieldTypes}
+        tableDefinition={tableDefinition}
+        onPageChange={handlePageChange}
+        setDelete={setDelete}
+        del={del}
+        packedData={packedData}
+        handleDelete={deleteData}
+        setInitialValues={setInitialValues}
+        bulkUrl={"url"}
+        close={close}
+        sampleFields={["Sr No", "Tenent ID", "Organization Name"]}
+      />
+    </div>
+  );
+};
 
-export default index
+export default Features;
