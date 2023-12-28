@@ -4,26 +4,84 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ITEMS_PER_PAGE } from "../../../Constants";
 import * as Yup from 'yup';
+import { convertFormDataToApiFormat } from "../../../Utiles/Utiles";
+import { useCreateFeatureMutation, useDeleteFeatureMutation, useGetFeatureMutation } from "../../../api/FeaturesApi";
+import toast from "react-hot-toast";
+
+interface Input{
+  fieldName: string,
+  name:string,
+  type: string,
+  required: boolean,
+  notEditable: boolean,
+}
+
+interface DataResponse {
+  id?: string 
+  isEnabled?: boolean 
+  name?: string 
+  parentId?: null 
+  tenantId?: string |null 
+  createdAt?: string 
+  updatedAt?: string 
+  updatedBy?: any  
+  children?: DataResponse[]   
+}
+
+interface RES {
+features:DataResponse[];
+count:number | undefined;
+}
+
+export interface APIResponse {
+  data?: RES ;
+  success?: boolean;
+  error?: { message: string }; 
+  
+}
+
+export interface API {
+  data?: APIResponse;
+  error?: { message: string }; 
+}
+
+
+
+interface DRES {
+  message?: string
+}
+
+interface DResponse{
+  data?: DRES ;
+  success?: boolean;
+  error?: { message: string }; 
+}
+
+interface DAPI {
+  data?: DResponse ;
+  error?: { message: string }; 
+}
+
 
 const Features = () => {
   const [edit, setEdit] = useState(false)
   const [refresh, setRefresh] = useState(false)
   const [initialValues, setInitialValues] = useState({
-    id:"",featureTitle:"",linkedFeature:""
+    id:"",name:"",linkedFeature:"" 
   })
   
-  const [data, setData] = useState([{srno:"1",featureTitle:"new",linkedFeature:"yes"}])
+  const [data, setData] = useState<DataResponse[]>([])
   const [totalRecords, setTotalRecords] = useState<number | undefined >(0);
   const [currData, setCurrData] = useState<any>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [del, setDelete] = useState(false)
   const [close, setClose] = useState(false)
-  // const [countryOptions, setCountryOptions] = useState<any[]>([])
-  // const [companyOptions, setCompanyOptions] = useState<any[]>([])
-  // const [supplierOptions, setSupplierOptions] = useState<any[]>([])
+
+  const [getFeatureData]  = useGetFeatureMutation();
+  const [saveFeatureData] = useCreateFeatureMutation();
+  const [deleteFeatureData] = useDeleteFeatureMutation();
+
   const navigate = useNavigate();
-
-
 
   useEffect(() => {
     // Get the token from the cookie
@@ -31,14 +89,28 @@ const Features = () => {
     if(!token){
       navigate('/')
     }
-    // Use the token in your API requests or for authentication
-    // console.log('Token:', token);
-
   getData(1)
-  // getCompanyCode()
-  // getCountry()
-  // getSupplier()
 }, [])
+
+const [additionalInputs, setAdditionalInputs] = useState<Input[]>([]);
+
+const handleAddInput = () => {
+  const newInput = {
+    fieldName: `Child Field ${additionalInputs.length + 1}`,
+    name: `ChildField${additionalInputs.length + 1}`,
+    type: 'input',
+    required: true,
+    notEditable: false,
+  };
+
+  setAdditionalInputs((prevInputs) => [...prevInputs, newInput]);
+};
+
+const handleRemoveInput =(id:number)=>{
+  setAdditionalInputs((prevInputs) =>
+  prevInputs.filter((_, i) => i !== id)
+);
+}
 
 
 
@@ -51,49 +123,53 @@ const Features = () => {
       search: search
     }
     console.log("body>>>>>",body)
-    // setLoading && setLoading(true)
-    // getCustomerData(body)
-    //  // @ts-ignore 
-    //   .then((data: API) => {
-    //     console.log("data>>>>>>>>>>>>>>>",data?.data?.data)
-    //     setLoading && setLoading(false)
-    //     if (data.error) {
-    //       // throw data.error.message
-    //       throw Error(data?.error?.message || "Unknown error occurred");
-    //     }
-    //     if (data?.data?.data){
-    //       const tempObj = data?.data?.data?.customers?.map((item, index) => {return {...item, srno: index +1 }})
-    //       setData(tempObj);
-    //       // setData(data?.data?.data.customers)
-    //     }
-    //     setTotalRecords(data?.data?.data?.count);
-    //   })
-    //   .catch((err) => {
-    //     console.log("error>>>>>",err)
-    //     return Error(err)
-    //   });
+    setLoading && setLoading(true)
+    getFeatureData(body)
+     // @ts-ignore 
+      .then((data: API) => {
+        console.log("data>>>>>>>>>>>>>>>",data?.data?.data)
+        setLoading && setLoading(false)
+        if (data.error) {
+          // throw data.error.message
+          throw Error(data?.error?.message || "Unknown error occurred");
+        }
+        if (data?.data?.data){
+          const tempObj = data?.data?.data?.features.map((item, index) => {return {...item, srno: index +1 , linkedFeature :  item?.children!.length > 0? "Yes": "No" }})
+
+            setData(tempObj);
+          // setData(data?.data?.data.customers)
+        }
+        setTotalRecords(data?.data?.data?.count);
+      })
+      .catch((err) => {
+        console.log("error>>>>>",err)
+        return Error(err)
+      });
   };
 
   let saveData = (values: any, { setSubmitting,resetForm }: any) => {
     console.log("Data Save>>> values>>>",values)
-    // let promise = saveCustomerData({tenantId,orginationName})
-    // toast.promise<PAPI>(promise as Promise<PAPI>, {
-    //   loading: "Loading",
-    //   success: (data:PAPI) => {
-    //     console.log("Data>>>>>>",data)
-    //     setSubmitting(false)
-    //     if (data?.error) {
-    //       throw data?.error
-    //     }
-    //     getData(currentPage)
-    //     return "Customer created successfully";
-    //   },
-    //   error: (err:any):any => {
-    //     setSubmitting(false)
-    //     return Error(err)
-    //     // return "Customer creation fail"
-    //   },
-    // });
+    const apiFormat  = convertFormDataToApiFormat(values)
+    console.log("APIFORMAT>>>>",apiFormat);
+    
+    let promise = saveFeatureData(apiFormat)
+    toast.promise<DAPI>(promise as Promise<DAPI>, {
+      loading: "Loading",
+      success: (data:DAPI) => {
+        console.log("Data>>>>>>",data)
+        setSubmitting(false)
+        if (data?.error) {
+          throw data?.error
+        }
+        getData(currentPage)
+        return "Customer created successfully";
+      },
+      error: (err:any):any => {
+        setSubmitting(false)
+        return Error(err)
+        // return "Customer creation fail"
+      },
+    });
     resetForm();
 
   }
@@ -127,27 +203,27 @@ const Features = () => {
   }
 
   let deleteData = () => {
-    // let promise = deleteCustomerData(currData?.id)
-    // setDelete(false)
-    // toast.promise<DAPI>(promise as Promise<DAPI>, {
-    //   loading: "Loading",
-    //   success: (data) => {
-    //     if (data?.error) {
-    //       throw data?.error
-    //     }
-    //     getData(currentPage)
-    //     return "Customer deleted successfully";
-    //   },
-    //   error: (err:any):any => {
-    //     // return "SomeThing Went Wrong"
-    //     return Error(err)
-    //   },
-    // });
+    let promise = deleteFeatureData(currData?.id)
+    setDelete(false)
+    toast.promise<DAPI>(promise as Promise<DAPI>, {
+      loading: "Loading",
+      success: (data) => {
+        if (data?.error) {
+          throw data?.error
+        }
+        getData(currentPage)
+        return "Feature deleted successfully";
+      },
+      error: (err:any):any => {
+        // return "SomeThing Went Wrong"
+        return Error(err)
+      },
+    });
   }
 
   const validationSchema = Yup.object().shape({
     // id: Yup.string().required('Please enter ID'),
-    featureTitle: Yup.string().required('Please enter feature Title'),
+    name: Yup.string().required('Please enter feature Title'),
     // linkedFeature: Yup.string().required('Please enter Feature'),
 
   });
@@ -166,7 +242,7 @@ const Features = () => {
     },
     {
       fieldName: 'Feature Title',
-      name: 'featureTitle',
+      name: 'name',
       type: 'input',
       required: true,
       notEditable: false,
@@ -174,9 +250,9 @@ const Features = () => {
     {
       fieldName: 'Linked Feature',
       name: 'linkedFeature',
-      type: 'input',
+      // type: 'input',
       required: true,
-      notEditable: false,
+      notEditable: true,
     }
        // {
     //   fieldName: 'Country',
@@ -191,11 +267,61 @@ const Features = () => {
   let onEdit = (data: any) => {
     console.log("called edit");
     console.log("editData>>>>>>",data)
-    setInitialValues({
-    id:data?.id,
-    featureTitle:data?.featureTitle,
-    linkedFeature:data?.linkedFeature,
-    })
+
+
+    const convertToChildField = (child, index,data) => ({
+      fieldName: `Child Field ${index +1}`,
+      name: `ChildField${index +1}`,
+      type: 'input',
+      required: true,
+      notEditable: false,
+    });
+
+  const transformedChildren = data?.children.map((child, index,data) => convertToChildField(child, index,data));
+
+  console.log("transformed ",transformedChildren)
+  setAdditionalInputs(transformedChildren)
+
+
+  // setInitialValues({
+  //   id:data?.id,
+  //   name:data?.name,
+  //   linkedFeature:data?.linkedFeature,
+  //   children: data?.children.map((item: { name: string; }, index: number) => { 
+  //           return { [`ChildField${index +1}`] : item.name}
+  //         }),
+  //   // children: data?.children.map((item: { name: string; }, index: number) => { 
+  //   //   return {name: `ChildField${index +1}`, value : item.name}
+  //   // })
+
+    
+  //   // children: transformedChildren
+  //   })
+  const dataChildren = data?.children || [];
+
+  // Map through data.children to create dynamic keys
+  const childrenValues = {};
+  
+  dataChildren.forEach((child, index) => {
+    childrenValues[`childField${index + 1}`] = child.name;
+  });
+
+  const initialValues = {
+    id: data?.id,
+    name: data?.name,
+    linkedFeature: data?.linkedFeature,
+    ...childrenValues,
+};
+
+setInitialValues({...initialValues})
+
+// // Use setInitialValues to update the state
+// setInitialValues((prevValues) => ({
+//   ...prevValues,
+//   ...childrenValues,
+// }));
+
+console.log("initialvaluessssssssssssssssssssssss",initialValues);
     setRefresh(!refresh)
     setEdit(true)
     setCurrData(data)
@@ -214,6 +340,12 @@ const Features = () => {
     onDelete: onDelete,
     count: totalRecords,
     // onPortalView: onPortalView
+  }
+
+  let featureData ={
+    featureChild : additionalInputs,
+    onAdd: handleAddInput,
+    onRemove :handleRemoveInput
   }
 
   let tableDefinition = fieldTypes.map((field) => ({
@@ -244,6 +376,7 @@ const Features = () => {
         bulkUrl={"url"}
         close={close}
         sampleFields={["Sr No", "Tenent ID", "Organization Name"]}
+        featureData={featureData}
       />
     </div>
   );

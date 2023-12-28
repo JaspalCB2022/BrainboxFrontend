@@ -57,6 +57,7 @@ interface CommonStatusCheckProps {
   setViewMode?: any;
   viewMode?: string;
   setEdit?:any;
+  featureData?:any
 }
 
 interface Input{
@@ -74,28 +75,6 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
   const [showonly, setShowonly] = useState('');
   const [type, setType] = useState('input');
 
-
-  const [additionalInputs, setAdditionalInputs] = useState<Input[]>([]);
-
-  const handleAddInput = () => {
-    const newInput = {
-      fieldName: `Child Field ${additionalInputs.length + 1}`,
-      name: `childField${additionalInputs.length + 1}`,
-      type: 'input',
-      required: true,
-      notEditable: false,
-    };
-
-    setAdditionalInputs((prevInputs) => [...prevInputs, newInput]);
-  };
-
-  const handleRemoveInput =(id:number)=>{
-    setAdditionalInputs((prevInputs) =>
-    prevInputs.filter((_, i) => i !== id)
-  );
-  }
-
-  
 
   useEffect(() => {
     if (props.edit) {
@@ -184,6 +163,11 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
   //   );
   // };
 
+
+  console.log("initialValues >>>.", props.initialValues);
+
+  console.log("props.featureData?.featureChild >>>", props.featureData?.featureChild)
+
   const FormComponent: React.FC = () => {
 
       return (
@@ -201,41 +185,45 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
       {props.title === "Feature" && (
         <div>
           <FormField
-            name="featureTitle"
-            fieldName="Feature Title"
+            name="name"
+            fieldName="Name"
             type="input"
             required={true}
+            
           />
           <div className="child-feat">
 
           <FormField
             name="linkedFeature"
             fieldName="Linked Feature"
-            type="input"
+            // type="input"
             required={true}
             style={{ width: '100%' }}
             />
-            <button type="button" className="btn-feat"  onClick={handleAddInput}>
+            <button type="button" className="btn-feat"  onClick={props.featureData.onAdd}>
               <img src={plus}  alt="icon" />
             </button>
             </div>
         </div>
       )}
 
-           {additionalInputs.map((field, id) => (
+           {props.featureData?.featureChild.map((field:Input, id:number) => {
+            console.log("input>>>",field)
+            return (
             <div key={id} className="child-feat">
               <FormField
                 name={field.name}
                 fieldName={field.fieldName}
                 type={field.type}
                 required={field.required}
+                //value={values?.children[id][field.name]}
               />
-                 <button type="button" className="btn-feat" onClick={()=>handleRemoveInput(id)}>
+                 <button type="button" className="btn-feat" onClick={()=>props.featureData.onRemove(id)}>
                  <img src={minus}  alt="icon" />
 
             </button>
             </div>
-          ))}
+          )})}
             {props.title !=="Feature" && props.fieledTypes!.map((field, id) => {
               return (
                 <div key={id}>

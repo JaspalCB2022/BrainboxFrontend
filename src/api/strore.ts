@@ -11,6 +11,7 @@ import { configureStore, } from '@reduxjs/toolkit';
 import loginApi from "./loginApi"
 import customerApi from './CustomersApi';
 import organizationApi from './OrganizationApi';
+import featureApi from './FeaturesApi';
 
 
 
@@ -28,6 +29,7 @@ export const store = configureStore({
     [loginApi.reducerPath]: loginApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
     [organizationApi.reducerPath]: organizationApi.reducer,
+    [featureApi.reducerPath]: featureApi.reducer
     
 
   },
@@ -35,7 +37,8 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
     loginApi.middleware,
     customerApi.middleware,
-    organizationApi.middleware
+    organizationApi.middleware,
+    featureApi.middleware
     ),
 });
 
