@@ -7,7 +7,7 @@ function IconText() {
     return (
         <LoginTitle>
             <AppIcon />
-            <Title>Chat App</Title>
+            <Title>Brain Box</Title>
         </LoginTitle>
     )
 }

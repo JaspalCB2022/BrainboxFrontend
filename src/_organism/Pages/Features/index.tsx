@@ -45,8 +45,6 @@ export interface API {
   error?: { message: string }; 
 }
 
-
-
 interface DRES {
   message?: string
 }
@@ -254,7 +252,7 @@ const handleRemoveInput =(id:number)=>{
       required: true,
       notEditable: true,
     }
-       // {
+    // {
     //   fieldName: 'Country',
     //   name: 'Country',
     //   type: 'select',
@@ -269,51 +267,47 @@ const handleRemoveInput =(id:number)=>{
     console.log("editData>>>>>>",data)
 
 
-    const convertToChildField = (child, index,data) => ({
-      fieldName: `Child Field ${index +1}`,
-      name: `ChildField${index +1}`,
-      type: 'input',
-      required: true,
-      notEditable: false,
-    });
+  //   const convertToChildField = (child, index,data) => ({
+  //     fieldName: `Child Field ${index +1}`,
+  //     name: `ChildField${index +1}`,
+  //     type: 'input',
+  //     required: true,
+  //     notEditable: false,
+  //   });
 
-  const transformedChildren = data?.children.map((child, index,data) => convertToChildField(child, index,data));
+  // const transformedChildren = data?.children.map((child, index,data) => convertToChildField(child, index,data));
 
-  console.log("transformed ",transformedChildren)
-  setAdditionalInputs(transformedChildren)
+  // console.log("transformed ",transformedChildren)
+  // setAdditionalInputs(transformedChildren)
 
 
-  // setInitialValues({
-  //   id:data?.id,
-  //   name:data?.name,
-  //   linkedFeature:data?.linkedFeature,
-  //   children: data?.children.map((item: { name: string; }, index: number) => { 
-  //           return { [`ChildField${index +1}`] : item.name}
-  //         }),
-  //   // children: data?.children.map((item: { name: string; }, index: number) => { 
-  //   //   return {name: `ChildField${index +1}`, value : item.name}
-  //   // })
+  setInitialValues({
+    id:data?.id,
+    name:data?.name,
+    linkedFeature:data?.linkedFeature
+ 
+    })
 
     
   //   // children: transformedChildren
   //   })
-  const dataChildren = data?.children || [];
+//   const dataChildren = data?.children || [];
 
-  // Map through data.children to create dynamic keys
-  const childrenValues = {};
+//   // Map through data.children to create dynamic keys
+//   const childrenValues = {};
   
-  dataChildren.forEach((child, index) => {
-    childrenValues[`childField${index + 1}`] = child.name;
-  });
+//   dataChildren.forEach((child, index) => {
+//     childrenValues[`childField${index + 1}`] = child.name;
+//   });
 
-  const initialValues = {
-    id: data?.id,
-    name: data?.name,
-    linkedFeature: data?.linkedFeature,
-    ...childrenValues,
-};
+//   const initialValues = {
+//     id: data?.id,
+//     name: data?.name,
+//     linkedFeature: data?.linkedFeature,
+//     ...childrenValues,
+// };
 
-setInitialValues({...initialValues})
+// setInitialValues({...initialValues})
 
 // // Use setInitialValues to update the state
 // setInitialValues((prevValues) => ({
@@ -321,7 +315,7 @@ setInitialValues({...initialValues})
 //   ...childrenValues,
 // }));
 
-console.log("initialvaluessssssssssssssssssssssss",initialValues);
+console.log("initialvaluesss",initialValues);
     setRefresh(!refresh)
     setEdit(true)
     setCurrData(data)

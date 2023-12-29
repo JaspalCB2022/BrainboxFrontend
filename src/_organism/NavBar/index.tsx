@@ -133,7 +133,7 @@ function NavBar(props: NavBarProps) {
       <div style={{ padding: "20px" }}>
         <div className="navwrapper-logo-box">
           <div className="navbar-logo">
-            <img src={chatlogo} className="navbar-logo-img" alt="logo"></img> ChatBot
+            <img src={chatlogo} className="navbar-logo-img" alt="logo"></img> BrainBox
           </div>
         </div>
       </div>
