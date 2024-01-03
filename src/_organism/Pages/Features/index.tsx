@@ -1,11 +1,11 @@
-import React,{useState,useEffect} from "react";
+import React,{useState,useEffect, Children} from "react";
 import CommonStatusCheck from "../../Shared/CommonStatusCheck";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ITEMS_PER_PAGE } from "../../../Constants";
 import * as Yup from 'yup';
 import { convertFormDataToApiFormat } from "../../../Utiles/Utiles";
-import { useCreateFeatureMutation, useDeleteFeatureMutation, useGetFeatureMutation } from "../../../api/FeaturesApi";
+import { useCreateFeatureMutation, useDeleteFeatureMutation, useGetFeatureMutation, useUpdateFeatureMutation } from "../../../api/FeaturesApi";
 import toast from "react-hot-toast";
 
 interface Input{
@@ -65,7 +65,7 @@ const Features = () => {
   const [edit, setEdit] = useState(false)
   const [refresh, setRefresh] = useState(false)
   const [initialValues, setInitialValues] = useState({
-    id:"",name:"",linkedFeature:"" 
+    id:"",name:"",linkedFeature:"" , children:[{name:'name'}]
   })
   
   const [data, setData] = useState<DataResponse[]>([])
@@ -77,6 +77,7 @@ const Features = () => {
 
   const [getFeatureData]  = useGetFeatureMutation();
   const [saveFeatureData] = useCreateFeatureMutation();
+  const [editFeatureData] = useUpdateFeatureMutation();
   const [deleteFeatureData] = useDeleteFeatureMutation();
 
   const navigate = useNavigate();
@@ -90,24 +91,54 @@ const Features = () => {
   getData(1)
 }, [])
 
-const [additionalInputs, setAdditionalInputs] = useState<Input[]>([]);
+// const [additionalInputs, setAdditionalInputs] = useState<Input[]>([]);
 
-const handleAddInput = () => {
-  const newInput = {
-    fieldName: `Child Field ${additionalInputs.length + 1}`,
-    name: `ChildField${additionalInputs.length + 1}`,
-    type: 'input',
-    required: true,
-    notEditable: false,
-  };
+// const handleAddInput = () => {
+//   const newInput = {
+//     fieldName: `Child Field ${additionalInputs.length + 1}`,
+//     name: `ChildField${additionalInputs.length + 1}`,
+//     type: 'input',
+//     required: true,
+//     notEditable: false,
+//   };
 
-  setAdditionalInputs((prevInputs) => [...prevInputs, newInput]);
-};
+//   setAdditionalInputs((prevInputs) => [...prevInputs, newInput]);
+// };
 
-const handleRemoveInput =(id:number)=>{
-  setAdditionalInputs((prevInputs) =>
-  prevInputs.filter((_, i) => i !== id)
-);
+// const handleRemoveInput =(id:number)=>{
+//   setAdditionalInputs((prevInputs) =>
+//   prevInputs.filter((_, i) => i !== id)
+// );
+// }
+
+const updateForm = (values:any,setValues:any)=>{
+  console.log("valuesinside the updateForm >>>",values)
+  // console.log("setValuesinside the updateForm >>>",setValues)
+  const tmpObj = {...values};
+
+  console.log("'children' in tmpObj >>", 'children' in tmpObj)
+  if ( !('children' in tmpObj) ){
+    tmpObj.children  = [{
+      name:''
+    }]
+    setValues({...values})
+  }
+  else{
+    const children = [...tmpObj.children]
+    children.push({
+      name:''
+    });
+    setValues({...tmpObj, children})
+  }
+  
+  console.log("valuesssssssssss>>>",values);
+}
+
+
+const removeFromList = (i:number,values:any,setValues:any) =>{
+const children = [...values.children]
+children.splice(i,1);
+setValues({...values,children})
 }
 
 
@@ -147,10 +178,10 @@ const handleRemoveInput =(id:number)=>{
 
   let saveData = (values: any, { setSubmitting,resetForm }: any) => {
     console.log("Data Save>>> values>>>",values)
-    const apiFormat  = convertFormDataToApiFormat(values)
-    console.log("APIFORMAT>>>>",apiFormat);
+    // const apiFormat  = convertFormDataToApiFormat(values)
+    //console.log("APIFORMAT>>>>",apiFormat);
     
-    let promise = saveFeatureData(apiFormat)
+    let promise = saveFeatureData(values)
     toast.promise<DAPI>(promise as Promise<DAPI>, {
       loading: "Loading",
       success: (data:DAPI) => {
@@ -159,7 +190,10 @@ const handleRemoveInput =(id:number)=>{
         if (data?.error) {
           throw data?.error
         }
-        getData(currentPage)
+        getData(currentPage);
+        setInitialValues({
+          id:"",name:"",linkedFeature:"" , children:[{name:''}]
+        });
         return "Customer created successfully";
       },
       error: (err:any):any => {
@@ -169,34 +203,38 @@ const handleRemoveInput =(id:number)=>{
       },
     });
     resetForm();
+    
 
   }
 
   let editData = (values: any, { setSubmitting ,resetForm}: any) => {
     console.log("Edit Save>>> values>>>",values)
 
-    // let promise = editCustomerData(values)
-    // toast.promise<PAPI>(promise as Promise<PAPI>, {
-    //   loading: "Loading",
-    //   success: (data:PAPI) => {
-    //     setSubmitting(false)
-    //     if (data.error) {
-    //       throw data.error
-    //     }
-    //     setInitialValues({ id:"", tenantId: "", orginationName:""})
-    //     setClose(!close)
-    //     getData(currentPage)
-    //     return "Customer edited successfully";
-    //   },
-    //   error: (err:any):any => {
-    //     setSubmitting(false)
-    //     setClose(!close)
-    //     // setInitialValues({})
-    //     return Error(err)
-    //     // return "Edit Update Fail"
-    //   },
-    // });
+    let promise = editFeatureData(values)
+    toast.promise<DAPI>(promise as Promise<DAPI>, {
+      loading: "Loading",
+      success: (data:DAPI) => {
+        setSubmitting(false)
+        if (data.error) {
+          throw data.error
+        }
+        setInitialValues({
+          id:"",name:"",linkedFeature:"" , children:[{name:''}]
+        });
+        setClose(!close)
+        getData(currentPage)
+        return "Customer edited successfully";
+      },
+      error: (err:any):any => {
+        setSubmitting(false)
+        setClose(!close)
+        // setInitialValues({})
+        return Error(err)
+        // return "Edit Update Fail"
+      },
+    });
     resetForm();
+    
 
   }
 
@@ -267,25 +305,25 @@ const handleRemoveInput =(id:number)=>{
     console.log("editData>>>>>>",data)
 
 
-  //   const convertToChildField = (child, index,data) => ({
-  //     fieldName: `Child Field ${index +1}`,
-  //     name: `ChildField${index +1}`,
-  //     type: 'input',
-  //     required: true,
-  //     notEditable: false,
-  //   });
+    // const convertToChildField = (child, index,data) => ({
+    //   fieldName: `Child Field ${index +1}`,
+    //   name: `ChildField${index +1}`,
+    //   type: 'input',
+    //   required: true,
+    //   notEditable: false,
+    // });
 
-  // const transformedChildren = data?.children.map((child, index,data) => convertToChildField(child, index,data));
+  const transformedChildren = data?.children.map((child: any, index: number) => {return {name: child.name}});
 
-  // console.log("transformed ",transformedChildren)
-  // setAdditionalInputs(transformedChildren)
+  console.log("transformed ",transformedChildren)
+  ///setAdditionalInputs(transformedChildren)
 
 
   setInitialValues({
     id:data?.id,
     name:data?.name,
-    linkedFeature:data?.linkedFeature
- 
+    linkedFeature:data?.linkedFeature,
+    children: transformedChildren
     })
 
     
@@ -334,13 +372,15 @@ console.log("initialvaluesss",initialValues);
     onDelete: onDelete,
     count: totalRecords,
     // onPortalView: onPortalView
+    onUpdate:updateForm,
+    onRemoveFromList : removeFromList
   }
 
-  let featureData ={
-    featureChild : additionalInputs,
-    onAdd: handleAddInput,
-    onRemove :handleRemoveInput
-  }
+  // let featureData ={
+  //   featureChild : additionalInputs,
+  //   onAdd: handleAddInput,
+  //   onRemove :handleRemoveInput
+  // }
 
   let tableDefinition = fieldTypes.map((field) => ({
     header: field.fieldName,
@@ -370,7 +410,7 @@ console.log("initialvaluesss",initialValues);
         bulkUrl={"url"}
         close={close}
         sampleFields={["Sr No", "Tenent ID", "Organization Name"]}
-        featureData={featureData}
+        // featureData={featureData}
       />
     </div>
   );

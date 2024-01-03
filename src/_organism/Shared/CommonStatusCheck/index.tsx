@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Flyout from "../../../_molecule/Flyout";
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field, FieldArray } from 'formik';
 // import { TabView, TabPanel } from 'primereact/tabview';
 import FormFieldSelect from "../../../_molecule/FormFieldSelect";
 import './index.css'
@@ -57,7 +57,7 @@ interface CommonStatusCheckProps {
   setViewMode?: any;
   viewMode?: string;
   setEdit?:any;
-  featureData?:any
+  // featureData?:any
 }
 
 interface Input{
@@ -164,9 +164,13 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
   // };
 
 
-  console.log("initialValues >>>.", props.initialValues);
+  // console.log("initialValues >>>.", props.initialValues);
 
-  console.log("props.featureData?.featureChild >>>", props.featureData?.featureChild)
+  console.log("props.featureData?.featureChild >>>", props.initialValues);
+
+
+  console.log("props.featureData?.featureChild >>>", props.initialValues)
+
 
   const FormComponent: React.FC = () => {
 
@@ -177,9 +181,11 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
         validationSchema={props.validationSchema}
         onSubmit={props.handleSubmit}
       >
-        {({ isSubmitting, setFieldValue, isValid, values, 
+        {({ isSubmitting, setFieldValue, isValid, values, setValues 
         // onChange
-       }) => (
+       }) => 
+      //  console.log("values",values)
+       (
           <Form style={{ height: '100vh', overflow: 'auto' }}>
 
       {props.title === "Feature" && (
@@ -200,14 +206,38 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
             required={true}
             style={{ width: '100%' }}
             />
-            <button type="button" className="btn-feat"  onClick={props.featureData.onAdd}>
+            <button type="button" className="btn-feat"  onClick={()=> props.packedData.onUpdate(values,setValues)}>
               <img src={plus}  alt="icon" />
             </button>
             </div>
+            {values?.children?.length >= 0 &&
+              <FieldArray name="children">
+                {()=> values?.children?.map((item:any  ,i:number)=>{
+                  return (
+                        <div key={i} className="child-feat">
+                          <FormField
+                            name={`children.${i}.name`}
+                            // fieldName={field.fieldName}
+                            type="input"
+                            // required={field.required}
+                            //value={values?.children[id][field.name]}
+                          />
+                        {values?.children?.length >= 1 && (
+                        <button type="button" className="btn-feat" onClick={()=>props.packedData.onRemoveFromList(i,values,setValues)}>
+                            <img src={minus}  alt="icon" />
+                          </button>)}
+                      </div>
+                    )
+                })}
+              </FieldArray>
+            }
+
         </div>
       )}
+      
 
-           {props.featureData?.featureChild.map((field:Input, id:number) => {
+
+           {/* {props.featureData?.featureChild.map((field:Input, id:number) => {
             console.log("input>>>",field)
             return (
             <div key={id} className="child-feat">
@@ -223,7 +253,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
 
             </button>
             </div>
-          )})}
+          )})} */}
             {props.title !=="Feature" && props.fieledTypes!.map((field, id) => {
               return (
                 <div key={id}>
@@ -384,7 +414,12 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
         style={{ width: '450px', right: display }}
         onHide={() => {
           setDisplay('-450px');
-          props.setInitialValues({});
+          
+          if (props.title!=='Feature') {
+            props.setInitialValues({});
+            //props.setInitialValues(props.initialValues)
+          }
+          
         }}
         title={props.flyoutTitle}
       >
@@ -450,11 +485,12 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                   setDisplay('0');
                   props.setEdit(false);
                   setType('input');
-                  if (props.activeRole) {
-                    props.resetInitalForm();
-                    props.setActiveTabIndex(0);
-                    props.setViewMode('Single Input');
-                  }
+                  // if (props.activeRole || props.title ==='Feature') {
+                  //   props.resetInitalForm();
+                  //   props.setActiveTabIndex(0);
+                  //   props.setViewMode('Single Input');
+                  // }
+                  
                 }}
                 content="+ Add"
               />
@@ -465,10 +501,10 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                   setDisplay('0');
                   props.setEdit(false);
                   setType('upload');
-                  if (props.activeRole) {
-                    props.setActiveTabIndex(1);
-                    props.setViewMode('Mass Upload');
-                  }
+                  // if (props.activeRole) {
+                  //   props.setActiveTabIndex(1);
+                  //   props.setViewMode('Mass Upload');
+                  // }
                 }}
                 content="+ Import"
               />
