@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-hot-toast";
-import axios_api from "../../api/axios_api";
 import { Error } from "../../api/Error";
-import { BACKEND_URL } from "../../Constants";
 import {
   LoginPageDiv,
   LoginWrapper,
@@ -30,46 +28,11 @@ import { FormikHelpers } from "formik";
 import { useNavigate } from "react-router-dom";
 import { useGetloginMutation } from "../../api/loginApi";
 import Cookies from "js-cookie";
-
-interface FormValues {
-  email: string;
-  password: string;
-}
-
-interface APIResponse {
-  name: string;
-  role: string;
-  lastLoggedIn: string;
-  token: string;
-}
-
-interface Response {
-  data: APIResponse;
-  success: boolean;
-  error: (message: string) => void
-}
-interface API {
-  data: Response;
-}
-
-interface APIToastPromise {
-  loading: string;
-  success: (data: API) => string;
-  error: (err: Error) => string;
-}
+import { API, FormValues } from "./types";
 
 
-interface APIResponse {
-  data: {
-    name: string;
-    role: string;
-    lastLoggedIn: string;
-    token: string;
-  };
-  success: boolean;
-}
 
-function LoginPage() {
+const LoginPage = ()=> {
   const navigate = useNavigate();
   const [saveLoginData] = useGetloginMutation();
   const [initialValues, setInitialValues] = useState<FormValues>({

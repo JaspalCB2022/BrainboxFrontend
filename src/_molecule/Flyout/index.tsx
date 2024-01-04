@@ -2,14 +2,8 @@ import "./index.css";
 import close_circle from "../../Icons/close_circle.svg";
 import expand from "../../Icons/expand.svg";
 import collapse from "../../Icons/contract.png";
-import { useState, CSSProperties, ReactNode } from "react";
-
-interface FlyoutProps {
-  onHide: () => void;
-  title: ReactNode;
-  style?: CSSProperties;
-  children?: ReactNode;
-}
+import { useState  } from "react";
+import { FlyoutProps } from "./types";
 
 function Flyout({
   onHide,

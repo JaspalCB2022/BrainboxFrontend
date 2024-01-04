@@ -1,12 +1,8 @@
 import React from "react";
 import { CircleDiv } from "./styled";
+import { CircleProps } from "./types";
 
-interface CircleProps {
-  text?: number;
-  color?: string;
-  active?: boolean;
-  content?: React.ReactNode;
-}
+
 
 function Circle({ text, color, active, content }: CircleProps) {
   return (

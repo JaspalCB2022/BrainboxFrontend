@@ -1,9 +1,7 @@
 import React from 'react';
 import { LineDiv } from "./styled";
+import { LineProps } from './types';
 
-interface LineProps {
-  color?: string;
-}
 
 const Line: React.FC<LineProps> = ({ color }) => {
   return (

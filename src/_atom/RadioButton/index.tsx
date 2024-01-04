@@ -1,11 +1,8 @@
 import React from 'react';
 import { RadioBtn } from "./styled";
+import { RadioButtonProps } from './types';
 
-interface RadioButtonProps {
-  label: string;
-  checked: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+
 
 export const RadioButton: React.FC<RadioButtonProps> = ({ label, checked, onChange }) => (
   <RadioBtn>

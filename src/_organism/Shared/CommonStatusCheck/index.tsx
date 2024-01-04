@@ -1,80 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Flyout from "../../../_molecule/Flyout";
-import { Formik, Form, Field, FieldArray } from 'formik';
+import { Formik, Form, Field, FieldArray } from "formik";
 // import { TabView, TabPanel } from 'primereact/tabview';
 import FormFieldSelect from "../../../_molecule/FormFieldSelect";
-import './index.css'
+import "./index.css";
 import MassUpload from "../../../_molecule/MassUpload/index";
 import DataTableComponent from "../../../_molecule/DataTableComponent/index";
 import ConfirmPopUp from "../../../_molecule/ConfirmPopUp/index";
 import FormField from "../../../_molecule/FormField/index";
 import { FilledButton } from "../../../_atom/Buttons/index";
 import { Container } from "../../WalkThroughPage/styled";
-import minus from "../../../Icons/plus1.svg"
-import plus from "../../../Icons/minus1.svg"
-// import { RoleToggle } from "../../../_molecule/RoleToggle/index.js";
-// import { Accordion, AccordionTab } from 'primereact/accordion';
-// import { Box, BoxText, CheckBox, ChildBox, Title } from "../../FeatureSelectPage/styled.js";
-// import { Checkbox } from "primereact/checkbox";
-// import { theme } from "../../../Theme.js";
-
-interface pakageData { 
-    Data: any[];
-    getData: any;
-    onEdit: (data: any) => void;
-    onDelete: (data: any) => void;
-    count: number;
-}
-
-interface CommonStatusCheckProps {
-  initialValues?: any;
-  validationSchema?: any;
-  handleSubmit?: any;
-  fieledTypes?: any[];
-  edit?: boolean;
-  refresh?: any;
-  close?: any;
-  setInitialValues?: any;
-  flyoutTitle?: string;
-  usersAndroles?: boolean;
-  activeRole?: string;
-  setActiveRole?: any;
-  title?: string | undefined;
-  bulkUrl?: string | undefined;
-  sampleFields?: any;
-  errorFields?: any;
-  packedData?: any;
-  tableDefinition?: any;
-  onEdit?: any;
-  globalFilters?: any;
-  onPageChange?: any;
-  modalFields?: any;
-  handleDelete?: any;
-  setDelete?: any;
-  del?: boolean;
-  resetInitalForm?: any;
-  setActiveTabIndex?: any;
-  setViewMode?: any;
-  viewMode?: string;
-  setEdit?:any;
-  // featureData?:any
-}
-
-interface Input{
-  fieldName: string,
-  name:string,
-  type: string,
-  required: boolean,
-  notEditable: boolean,
-}
+import minus from "../../../Icons/plus1.svg";
+import plus from "../../../Icons/minus1.svg";
+import { CommonStatusCheckProps } from "./types";
 
 const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
+  console.log("props>>>>>>>>>>>>",props)
   const [display, setDisplay] = useState("-450px");
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [startSearch, setStartSearch] = useState(false);
-  const [showonly, setShowonly] = useState('');
-  const [type, setType] = useState('input');
-
+  const [showonly, setShowonly] = useState("");
+  const [type, setType] = useState("input");
 
   useEffect(() => {
     if (props.edit) {
@@ -163,81 +109,90 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
   //   );
   // };
 
-
   // console.log("initialValues >>>.", props.initialValues);
 
-  console.log("props.featureData?.featureChild >>>", props.initialValues);
-
-
-  console.log("props.featureData?.featureChild >>>", props.initialValues)
 
 
   const FormComponent: React.FC = () => {
-
-      return (
+    return (
       <Formik
         enableReinitialize={true}
         initialValues={props.initialValues}
         validationSchema={props.validationSchema}
         onSubmit={props.handleSubmit}
       >
-        {({ isSubmitting, setFieldValue, isValid, values, setValues 
-        // onChange
-       }) => 
-      //  console.log("values",values)
-       (
-          <Form style={{ height: '100vh', overflow: 'auto' }}>
+        {({
+          isSubmitting,
+          setFieldValue,
+          isValid,
+          values,
+          setValues,
+          // onChange
+        }) => (
+          //  console.log("values",values)
+          <Form style={{ height: "100vh", overflow: "auto" }}>
+            {props.title === "Feature" && (
+              <div>
+                <FormField
+                  name="name"
+                  fieldName="Feature Title"
+                  type="input"
+                  required={true}
+                />
+                <div className="child-feat">
+                  <FormField
+                    name="linkedFeature"
+                    fieldName="Linked Feature"
+                    value={values?.children?.length > 0 ? "Yes" : "No"}
+                    required={true}
+                    notEditable={true}
+                  />
+                  <button
+                    type="button"
+                    className="btn-feat"
+                    onClick={() => props.packedData.onUpdate!(values, setValues)}
+                  >
+                    <img src={plus} alt="icon" />
+                  </button>
+                </div>
+                {values?.children?.length >= 0 && (
+                  <FieldArray name="children">
+                    {() =>
+                      values?.children?.map((item: any, i: number) => {
+                        return (
+                          <div key={i} className="child-feat">
+                            <FormField
+                              name={`children.${i}.name`}
+                              // fieldName={field.fieldName}
+                              type="input"
+                              // required={field.required}
+                              //value={values?.children[id][field.name]}
+                            />
+                            {values?.children?.length >= 1 && (
+                              <button
+                                type="button"
+                                className="btn-feat"
+                                onClick={() =>
+                                  props.packedData.onRemoveFromList!(
+                                    i,
+                                    values,
+                                    setValues
+                                  )
+                                }
+                              >
+                                <img src={minus} alt="icon" />
+                              </button>
+                            )}
+                          </div>
+                        );
+                      })
+                    }
+                  </FieldArray>
+                )}
+              </div>
+            )}
 
-      {props.title === "Feature" && (
-        <div>
-          <FormField
-            name="name"
-            fieldName="Name"
-            type="input"
-            required={true}
-            
-          />
-          <div className="child-feat">
-
-          <FormField
-            name="linkedFeature"
-            fieldName="Linked Feature"
-            // type="input"
-            required={true}
-            style={{ width: '100%' }}
-            />
-            <button type="button" className="btn-feat"  onClick={()=> props.packedData.onUpdate(values,setValues)}>
-              <img src={plus}  alt="icon" />
-            </button>
-            </div>
-            {values?.children?.length >= 0 &&
-              <FieldArray name="children">
-                {()=> values?.children?.map((item:any  ,i:number)=>{
-                  return (
-                        <div key={i} className="child-feat">
-                          <FormField
-                            name={`children.${i}.name`}
-                            // fieldName={field.fieldName}
-                            type="input"
-                            // required={field.required}
-                            //value={values?.children[id][field.name]}
-                          />
-                        {values?.children?.length >= 1 && (
-                        <button type="button" className="btn-feat" onClick={()=>props.packedData.onRemoveFromList(i,values,setValues)}>
-                            <img src={minus}  alt="icon" />
-                          </button>)}
-                      </div>
-                    )
-                })}
-              </FieldArray>
-            }
-
-        </div>
-      )}
-      
-
-
-           {/* {props.featureData?.featureChild.map((field:Input, id:number) => {
+            {/* {props.featureData?.featureChild.map((field:Input, id:number) => {
             console.log("input>>>",field)
             return (
             <div key={id} className="child-feat">
@@ -254,133 +209,125 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
             </button>
             </div>
           )})} */}
-            {props.title !=="Feature" && props.fieledTypes!.map((field, id) => {
-              return (
-                <div key={id}>
-                  {field.type === 'input' ? (
-                    field.notEditable && props.edit ? (
-                      <FormField
+            {props.title !== "Feature" &&
+              props.fieledTypes!.map((field, id) => {
+                return (
+                  <div key={id}>
+                    {field.type === "input" ? (
+                      field.notEditable && props.edit ? (
+                        <FormField
+                          name={field.name}
+                          fieldName={field.fieldName}
+                          type={field.fieldType}
+                          required={field.required}
+                          removeBorder={true}
+                        />
+                      ) : (
+                        <FormField
+                          name={field.name}
+                          fieldName={field.fieldName}
+                          type={field.fieldType}
+                          required={field.required}
+                        />
+                      )
+                    ) : field.type === "select" ? (
+                      <FormFieldSelect
+                        //@ts-ignore
                         name={field.name}
                         fieldName={field.fieldName}
-                        type={field.fieldType}
-                        required={field.required}
-                        removeBorder={true}
-                   
-                      />
-                    ) : 
-                   (
-                      <FormField
-                        name={field.name}
-                        fieldName={field.fieldName}
-                        type={field.fieldType}
-                        required={field.required}
-                      />
-                    )
-                  ) : field.type === 'select' ? (
-                    <FormFieldSelect
-                    //@ts-ignore
-                      name={field.name}
-                      fieldName={field.fieldName}
-                      options={field.options}
-                      onChange={(selected:any, options:any):any => {
-                        if (field.isMulti) {
-                          if (selected?.length === options?.length) {
-                            setFieldValue(field?.name, 'All');
+                        options={field.options}
+                        onChange={(selected: any, options: any): any => {
+                          if (field.isMulti) {
+                            if (selected?.length === options?.length) {
+                              setFieldValue(field?.name, "All");
+                            } else {
+                              setFieldValue(field?.name, selected.join(","));
+                            }
                           } else {
-                            setFieldValue(
-                              field?.name,
-                              selected.join(',')
-                            );
+                            if (field.isRadio) {
+                              setFieldValue(field?.name, selected.value);
+                            } else {
+                              setFieldValue(field?.name, selected);
+                            }
                           }
-                        } else {
-                          if (field.isRadio) {
-                            setFieldValue(
-                              field?.name,
-                              selected.value
-                            );
-                          } else {
-                            setFieldValue(field?.name, selected);
-                          }
-                        }
-                      }}
-                      required={field.required}
-                      value={values[field.name]}
-                      isMulti={field.isMulti}
-                      isRadio={field.isRadio}
-                      placeholder={field.placeholder}
-                    />
-                  ) 
-                  // : field.type === 'checkbox' ? (
-                  //   <Accordion
-                  //     multiple
-                  //     className={
-                  //       props.activeRole === 'Roles'
-                  //         ? 'feature-tab-roles'
-                  //         : 'feature-tab'
-                  //     }
-                  //   >
-                  //     {props.packedData.Feature?.map((con, id) => (
-                  //       <AccordionTab
-                  //         key={id}
-                  //         header={
-                  //           <CommonHaderHandler
-                  //             header={con?.name}
-                  //             name={field.name}
-                  //             children={con?.children}
-                  //             id={con?.id}
-                  //             setFieldValue={setFieldValue}
-                  //             values={values}
-                  //             con={con}
-                  //           />
-                  //         }
-                  //         className={
-                  //           con?.children?.length
-                  //             ? 'feature'
-                  //             : 'feature disabled-tab'
-                  //         }
-                  //       >
-                  //         {con?.children?.map((child, id) => (
-                  //           <ChildBox key={id}>
-                  //             <div className="flexbox">
-                  //               <Checkbox
-                  //                 name={`${field.name}.${child?.name}`}
-                  //                 className="feature-checkbox"
-                  //                 checked={values[field.name].includes(
-                  //                   child?.id
-                  //                 )}
-                  //                 onChange={(e) =>
-                  //                   handleCheckboxChange(
-                  //                     e,
-                  //                     child?.id,
-                  //                     field.name,
-                  //                     values,
-                  //                     setFieldValue,
-                  //                     id
-                  //                   )
-                  //                 }
-                  //               />
-                  //               <BoxText>{child?.name}</BoxText>
-                  //             </div>
-                  //           </ChildBox>
-                  //         ))}
-                  //       </AccordionTab>
-                  //     ))}
-                  //   </Accordion>
-                  // ) 
-                  : null}
-                </div>
-              );
-            })}
+                        }}
+                        required={field.required}
+                        value={values[field.name]}
+                        isMulti={field.isMulti}
+                        isRadio={field.isRadio}
+                        placeholder={field.placeholder}
+                      />
+                    ) : // : field.type === 'checkbox' ? (
+                    //   <Accordion
+                    //     multiple
+                    //     className={
+                    //       props.activeRole === 'Roles'
+                    //         ? 'feature-tab-roles'
+                    //         : 'feature-tab'
+                    //     }
+                    //   >
+                    //     {props.packedData.Feature?.map((con, id) => (
+                    //       <AccordionTab
+                    //         key={id}
+                    //         header={
+                    //           <CommonHaderHandler
+                    //             header={con?.name}
+                    //             name={field.name}
+                    //             children={con?.children}
+                    //             id={con?.id}
+                    //             setFieldValue={setFieldValue}
+                    //             values={values}
+                    //             con={con}
+                    //           />
+                    //         }
+                    //         className={
+                    //           con?.children?.length
+                    //             ? 'feature'
+                    //             : 'feature disabled-tab'
+                    //         }
+                    //       >
+                    //         {con?.children?.map((child, id) => (
+                    //           <ChildBox key={id}>
+                    //             <div className="flexbox">
+                    //               <Checkbox
+                    //                 name={`${field.name}.${child?.name}`}
+                    //                 className="feature-checkbox"
+                    //                 checked={values[field.name].includes(
+                    //                   child?.id
+                    //                 )}
+                    //                 onChange={(e) =>
+                    //                   handleCheckboxChange(
+                    //                     e,
+                    //                     child?.id,
+                    //                     field.name,
+                    //                     values,
+                    //                     setFieldValue,
+                    //                     id
+                    //                   )
+                    //                 }
+                    //               />
+                    //               <BoxText>{child?.name}</BoxText>
+                    //             </div>
+                    //           </ChildBox>
+                    //         ))}
+                    //       </AccordionTab>
+                    //     ))}
+                    //   </Accordion>
+                    // )
+                    null}
+                  </div>
+                );
+              })}
             <FilledButton
               filled={true}
               type="submit"
               style={{
-                height: '50px',
-                width: '112px',
-                borderRadius: '5px',
-                marginTop: '22px',
+                height: "50px",
+                width: "112px",
+                borderRadius: "5px",
+                marginTop: "22px",
               }}
-              content={props.edit ? 'Update' : 'Save'}
+              content={props.edit ? "Update" : "Save"}
               disabled={!isValid || isSubmitting}
             />
           </Form>
@@ -394,55 +341,63 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
     setStartSearch(!startSearch);
   };
 
-
   const buttonStyle = {
-    marginLeft: 'auto',
-    borderRadius: '4px',
-    background: '#0AB39C',
-    width: '65px',
-    height: '28px',
-    padding: '0px',
-    border: 'none',
-    fontWeight: '500',
-    marginRight: '5px',
+    marginLeft: "auto",
+    borderRadius: "4px",
+    background: "#0AB39C",
+    width: "65px",
+    height: "28px",
+    padding: "0px",
+    border: "none",
+    fontWeight: "500",
+    marginRight: "5px",
   };
-
 
   return (
     <>
       <Flyout
-        style={{ width: '450px', right: display }}
+        style={{ width: "450px", right: display }}
         onHide={() => {
-          setDisplay('-450px');
-          
-          if (props.title!=='Feature') {
+          setDisplay("-450px");
+
+          if (props.title !== "Feature") {
             props.setInitialValues({});
             //props.setInitialValues(props.initialValues)
           }
+          
+          // else if (props.title === "Feature")
+          //   {
+          //     props.setInitialValues({
+          //       id: "",
+          //       name: "",
+          //       linkedFeature: "",
+          //       children: [{name:''}],
+          //     });
+          //   }
           
         }}
         title={props.flyoutTitle}
       >
         {props.edit ? (
-          <div style={{ padding: '1.25rem' }}>
+          <div style={{ padding: "1.25rem" }}>
             <div
               style={{
-                height: '90vh',
-                overflow: 'auto',
-                paddingRight: '10px',
+                height: "90vh",
+                overflow: "auto",
+                paddingRight: "10px",
               }}
             >
               <FormComponent />
             </div>
           </div>
-        ): (
-          <div style={{ padding: '20px' }}>
-            {type === 'input' ? (
+        ) : (
+          <div style={{ padding: "20px" }}>
+            {type === "input" ? (
               <div
                 style={{
-                  height: '90vh',
-                  overflow: 'auto',
-                  paddingRight: '20px',
+                  height: "90vh",
+                  overflow: "auto",
+                  paddingRight: "20px",
                 }}
               >
                 <FormComponent />
@@ -453,20 +408,20 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                 url={props.bulkUrl}
                 type={props.title}
                 sampleFields={props.sampleFields}
-                onHide={() => setDisplay('-450px')}
+                onHide={() => setDisplay("-450px")}
                 errorFields={props.errorFields}
               />
             )}
           </div>
         )}
       </Flyout>
-      <Container style={{ paddingBottom: '0px' }}>
+      <Container style={{ paddingBottom: "0px" }}>
         <div>
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: '20px',
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: "20px",
             }}
           >
             {/* {props.activeRole && props.setActiveRole ? (
@@ -475,22 +430,24 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                 onRoleChange={props.setActiveRole}
               />
             ) : ( */}
-              <div className="container-title">{props.title}</div>
+            <div className="container-title">{props.title}</div>
             {/* )} */}
 
             <div>
               <FilledButton
                 style={buttonStyle}
                 onClick={() => {
-                  setDisplay('0');
+                  setDisplay("0");
                   props.setEdit(false);
-                  setType('input');
-                  // if (props.activeRole || props.title ==='Feature') {
-                  //   props.resetInitalForm();
-                  //   props.setActiveTabIndex(0);
-                  //   props.setViewMode('Single Input');
-                  // }
-                  
+                  setType("input");
+                  if (props.title === "Feature") {
+                    props.setInitialValues({
+                      id: "",
+                      name: "",
+                      linkedFeature: "",
+                      children: [{ name: "" }],
+                    });
+                  }
                 }}
                 content="+ Add"
               />
@@ -498,9 +455,9 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
               <FilledButton
                 style={buttonStyle}
                 onClick={() => {
-                  setDisplay('0');
+                  setDisplay("0");
                   props.setEdit(false);
-                  setType('upload');
+                  setType("upload");
                   // if (props.activeRole) {
                   //   props.setActiveTabIndex(1);
                   //   props.setViewMode('Mass Upload');

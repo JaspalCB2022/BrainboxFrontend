@@ -1,14 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BACKEND_URL, CUSTOMER_DELETE, CUSTOMER_GET, CUSTOMER_POST, CUSTOMER_UPDATE } from '../Constants';
-import { APIResponse } from '../_organism/Pages/Customers';
 
-interface PCustomer {
+interface PostCustomer {
   // id:string,
   orginationName: string,
   tenantId:string 
 }
-
-interface GCustomer{
+interface GetCustomer{
     limit:number,
     skip: number,
     sortBy: string | undefined, 
@@ -23,20 +21,17 @@ const customerApi = createApi({
   endpoints: (builder) => ({
     
     getCustomer: builder.mutation({
-      query: (values:GCustomer) => ({
+      query: (values:GetCustomer) => ({
         url: CUSTOMER_GET,
         method: 'POST',
         body: values,
         credentials: "include",
       }),
       invalidatesTags: ['customer'],
-    //   transformResponse: (rawResult:APIResponse, meta) => {
-    //     return rawResult
-    //   },
     }),
 
     createCustomer: builder.mutation({
-        query: (values:PCustomer) => ({
+        query: (values:PostCustomer) => ({
           url: CUSTOMER_POST,
           method: 'POST',
           body: values,

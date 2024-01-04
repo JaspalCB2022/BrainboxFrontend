@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { MultiSelect } from 'primereact/multiselect';
 import './index.css';
+import { MultiSelectDropdownProps } from "./types";
 
-interface MultiSelectDropdownProps {
-    options: { label: string; value: string }[];
-    onChange: (selectedValues: string[], allOptions: { label: string; value: string }[]) => void;
-    value: boolean |  string | null ;
-    name: string;
-    placeholder?: string;
-}
+
 
 export default function MultiSelectDropdown({
     options,

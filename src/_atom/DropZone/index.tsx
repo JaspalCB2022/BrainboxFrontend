@@ -2,14 +2,9 @@ import './index.css';
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import cloud from "../../Icons/cloud.svg";
+import {DropzoneProps} from "./types"
 
-interface DropzoneProps {
-  onFilesUploaded: (files: File[]) => void;
-  preview?: boolean;
-  disabled?: boolean;
-  height?: string;
-  width?: string | number;
-}
+
 
 const Dropzone: React.FC<DropzoneProps> = ({ onFilesUploaded, preview = true, disabled = false, height, width = "100%" }) => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);

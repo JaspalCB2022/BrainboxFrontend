@@ -2,19 +2,9 @@ import React, { useState, ChangeEvent } from 'react';
 import Select from "react-select";
 import { Dropdown } from "primereact/dropdown";
 import './index.css';
-
-interface Option {
-  value: string;
-  label: string;
-}
+import { NormalSelectProps, Option ,FormSelectProps } from './types';
 
 
-interface NormalSelectProps {
-  options: Option[];
-  onChange: (selectedOption: Option | null) => void;
-  value: Option | null;
-  placeholder?: string;
-}
 
 const NoramlSelect: React.FC<NormalSelectProps> = ({
   options,
@@ -90,13 +80,7 @@ const NoramlSelect: React.FC<NormalSelectProps> = ({
   );
 };
 
-interface FormSelectProps {
-  options: Option[];
-  value: Option |string |boolean |null;
-  placeholder?: string;
-  onChange: (selectedValues: string[], allOptions: { label: string; value: string }[]) => void;
-  errorMessage ?: string | undefined
-}
+
 
 const FormSelect: React.FC<FormSelectProps> = ({
   options,

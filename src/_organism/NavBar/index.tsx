@@ -12,31 +12,9 @@ import rectangle from "../../Icons/rectangle 4.svg";
 import logout from "../../Icons/logout.svg";
 import navArrow from "../../Icons/open_nav.svg";
 import Cookies from "js-cookie";
+import { NavBarProps,NavContent } from "./types";
   
-  interface SubNav {
-    name: string;
-    url: string;
-  }
-  
-  interface NavContent {
-    name: string;
-    icon: string;
-    activeIcon: string;
-    open?: boolean;
-    subNav?: SubNav[];
-    url?: string;
-    
-  }
 
-  interface NavBarProps {
-    name:string,
-    setName: React.Dispatch<React.SetStateAction<string>>, 
-    visible: boolean ,
-    setVisible: React.Dispatch<React.SetStateAction<boolean>>,
-    openDrawer:boolean,
-    setOpenDrawer:React.Dispatch<React.SetStateAction<boolean>>
-
-  }
 
 
 function NavBar(props: NavBarProps) {
@@ -46,33 +24,31 @@ function NavBar(props: NavBarProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const pathToName: Record<string, { id: number; name: string }> = {
-    "pr-status-check": { id: 0, name: "PR Status Check" },
-  };
+  // const pathToName: Record<string, { id: number; name: string }> = {
+  //   "pr-status-check": { id: 0, name: "PR Status Check" },
+  // };
 
   useEffect(() => {
     const path = location.pathname?.split("/")[1];
-    props.setName(pathToName[path]?.name);
-    setId(pathToName[path]?.id);
-    openNav(pathToName[path]?.id);
+    props.setName(path);
+    setId(0);
+    openNav(0);
+    // setId(pathToName[path]?.id);
+    // openNav(pathToName[path]?.id);
   }, []);
 
   let closeNav = (i: number | undefined) => {
     setIndex([]);
   };
 
-  let openNav = (i: number | undefined) => {
+  let openNav = (i: number | undefined) => {    
     setIndex(i !== undefined ? [i] : []);
   };
 
   const handleLogout = () => {
     Cookies.remove('authToken');
     navigate("/")
-
   };
-
-
-
 
   let navContent : NavContent[] = [
     {
@@ -124,6 +100,7 @@ function NavBar(props: NavBarProps) {
 
   let onNameClick = (id: number | undefined, name: string) => {
     props.setName(name);
+    console.log("id>>>",id)
     setId(id);
     index.includes(id as number) ? closeNav(id) : openNav(id);
   };
@@ -231,7 +208,7 @@ function NavBar(props: NavBarProps) {
       </div>
       <div style={{ marginTop: "auto" }}>
         <div className="navbar-logout" onClick={handleLogout}>
-          <img src={logout} style={{ width: "13px" }} alt="logout-icon"></img>
+          <img src={logout} style={{ width: "13px"  }} alt="logout-icon"></img>
         </div>
       </div>
     </NavWrapper>

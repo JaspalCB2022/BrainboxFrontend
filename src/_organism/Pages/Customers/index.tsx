@@ -7,78 +7,8 @@ import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { ITEMS_PER_PAGE } from "../../../Constants";
 import { useCreateCustomerMutation, useDeleteCustomerMutation, useGetCustomerMutation, useUpdateCustomerMutation } from "../../../api/CustomersApi";
-
-
-
-
-interface ICustomer{
-  limit:number,
-  skip: number,
-  order: string, 
-  field: string, 
-  search: string
-}
-
- interface DataResponse {
-  id?: string
-  first_name?: string
-  last_name?: string
-  email?: string
-  tenantId?: string
-  orginationName?: string
-  slug?: string
-  createdAt?: string
-  updatedAt?: string
-  updatedBy?: any 
-}
-
-interface RES {
-customers:DataResponse[];
-count:number | undefined;
-}
-
-export interface APIResponse {
-  data?: RES ;
-  success?: boolean;
-  error?: { message: string }; 
-  
-}
-
-export interface API {
-  data?: APIResponse;
-  error?: { message: string }; 
-}
-
-interface PRES {
-  tenantId?: string
-  orginationName?: string
-}
-
-interface PResponse{
-  data?: PRES ;
-  success?: boolean;
-  error?: { message: string }; 
-}
-
-interface PAPI {
-  data?: PResponse ;
-  error?: { message: string }; 
-}
-
-interface DRES {
-  message?: string
-}
-
-interface DResponse{
-  data?: DRES ;
-  success?: boolean;
-  error?: { message: string }; 
-}
-
-interface DAPI {
-  data?: DResponse ;
-  error?: { message: string }; 
-}
+import { API, Customer, CustomerData, DAPI, DataResponse, PAPI } from "./types";
+import { FormikHelpers } from "formik";
 
 function Customers() {
   const [edit, setEdit] = useState(false)
@@ -89,39 +19,25 @@ function Customers() {
   
   const [data, setData] = useState<DataResponse[]>([])
   const [totalRecords, setTotalRecords] = useState<number | undefined >(0);
-  const [currData, setCurrData] = useState<any>({});
+  const [currData, setCurrData] = useState<CustomerData>();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [del, setDelete] = useState(false)
   const [close, setClose] = useState(false)
-  // const [countryOptions, setCountryOptions] = useState<any[]>([])
-  // const [companyOptions, setCompanyOptions] = useState<any[]>([])
-  // const [supplierOptions, setSupplierOptions] = useState<any[]>([])
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
 
   const [getCustomerData] = useGetCustomerMutation();
   const [saveCustomerData] = useCreateCustomerMutation();
   const [editCustomerData] = useUpdateCustomerMutation();
   const [deleteCustomerData] = useDeleteCustomerMutation();
 
-
-//   const [getCompanyData] = useGetCompanyDataMutation()
-//   const [getCountryData] = useGetCountryDataMutation();
-//   const [getSupplierData] = useGetSupplierDataMutation();
-
   useEffect(() => {
-      // Get the token from the cookie
       const token = Cookies.get('authToken');
       if(!token){
         navigate('/')
       }
-      // Use the token in your API requests or for authentication
-      console.log('Token:', token);
-
     getData(1)
-    // getCompanyCode()
-    // getCountry()
-    // getSupplier()
+ 
   }, [])
 
   // let getCountry = () => {
@@ -196,7 +112,7 @@ function Customers() {
       });
   };
 
-  let saveData = (values: any, { setSubmitting,resetForm }: any) => {
+  let saveData = (values: Customer, { setSubmitting,resetForm }:FormikHelpers<Customer>) => {
     console.log("Data Save>>> values>>>",values)
     const {tenantId, orginationName} =  values
     let promise = saveCustomerData({tenantId,orginationName})
@@ -221,7 +137,7 @@ function Customers() {
 
   }
 
-  let editData = (values: any, { setSubmitting ,resetForm}: any) => {
+  let editData = (values: Customer, { setSubmitting ,resetForm}: FormikHelpers<Customer>) => {
     console.log("Edit Save>>> values>>>",values)
 
     let promise = editCustomerData(values)
@@ -311,7 +227,7 @@ function Customers() {
     // },
   ];
 
-  let onEdit = (data: any) => {
+  let onEdit = (data: CustomerData) => {
     console.log("called edit");
     console.log("editData>>>>>>",data)
     setInitialValues({
@@ -324,19 +240,15 @@ function Customers() {
     setCurrData(data)
   }
 
-  let onDelete = (data: any) => {
+  let onDelete = (data: CustomerData) => {
     setDelete(true)
     setCurrData(data)
   }
 
-  const onPortalView =(data:any)=> {
-    console.log("PORTAL DATA>>>",data);
-    console.log("hitting");
-    const authenticationToken = Cookies.get('authToken');
-      // const url = `http://${data?.slug}.localhost:3002/cdashboard?token=${authenticationToken}`;
+  const onPortalView =(data:CustomerData)=> {
+    console.log("protal",data)
       const url = `http://${data?.slug}.localhost:3001/login`
       window.open(url);
-    
   }
 
   let packedData = {

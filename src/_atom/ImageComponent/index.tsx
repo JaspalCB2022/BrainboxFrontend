@@ -1,9 +1,8 @@
 import React from 'react';
 import { Img } from "./styled";
+import { ImageComponentProps } from './types';
 
-interface ImageComponentProps {
-  src: string;
-}
+
 
 const ImageComponent: React.FC<ImageComponentProps> = ({ src }) => {
   return (

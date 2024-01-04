@@ -11,26 +11,8 @@ import { FilledButton } from '../../_atom/Buttons';
 import close from '../../Icons/close 1.svg';
 import excel from '../../Icons/excel.svg';
 import './index.css';
+import { MassUploadProps,FileUploadResponse } from './types';
 
-interface MassUploadProps {
-    url: string | undefined;
-    getData: (arg: number) => void;
-    type: string | undefined;
-    sampleFields: string[];
-    onHide: () => void;
-    errorFields: string[];
-}
-
-interface FileUploadResponse {
-    status: number;
-    message: string;
-    data?: {
-        conflictingRecords?: any[]; // Adjust the type accordingly
-        invalidData?: any[]; // Adjust the type accordingly
-        invalidRows?: any[]; // Adjust the type accordingly
-        filePath?: string;
-    };
-}
 
 function MassUpload({
     url,

@@ -10,37 +10,8 @@ import { Dialog } from 'primereact/dialog';
 import axios_api from '../../api/axios_api';
 import SortIcon from '../../Icons/sort.svg';
 import { FilledButton } from '../../_atom/Buttons';
-import Cookies from 'js-cookie';
+import { DataTableComponentProps } from './types';
 
-interface DataTableComponentProps {
-  // packedData: {
-  //   Data: any[];
-  //   getData: (
-  //     page: number,
-  //     setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  //     order: string | undefined,
-  //     sortField: string | undefined,
-  //     search: string
-  //   ) => void;
-  //   onEdit: (data: any) => void;
-  //   onDelete: (data: any) => void;
-  //   count: number;
-  // };
-  packedData:any;
-  tableDefinition: {
-    field: string;
-    header: string;
-    notSortable?: boolean;
-    showModal?: boolean;
-  }[];
-  onEdit: (data: any) => void;
-  onPageChange: (page: number) => void;
-  search: string;
-  modalFields: { [key: string]: { data: any[]; url: string } };
-  startSearch: boolean;
-  globalFilters?:any
-  title?:string
-}
 
 const DataTableComponent: React.FC<DataTableComponentProps> = ({
   packedData,
@@ -52,9 +23,6 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   title
 }) => {
   const { Data, getData, onEdit, onDelete, count,onPortalView } = packedData;
-
-
-
 
   const [totalRecords, setTotalRecords] = useState(count);
   const [first, setFirst] = useState<number | undefined>(0);
@@ -77,9 +45,6 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   }, [startSearch]);
 
   const PageChange = (event: { first?: number; page?: number }) => {
-    console.log("page>>", event.page)
-    console.log("first>>",event.first)
-
     setFirst(event.first);
     const newPage = event.page! + 1;
     onPageChange(newPage);
@@ -127,28 +92,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
         {title=== "Customers" &&  
              <FilledButton
                 style={buttonStyle}
-                onClick={()=>onPortalView(data)}
-
-                // onClick={() => {
-                //   const authenticationToken = Cookies.get('authToken');
-                //   const url = `http://addidas-shoes.localhost:3002/cdashboard?token=${authenticationToken}`;
-                //   window.open(url);
-                // }}
-
-                // onClick={() => {
-                //   const authenticationToken = Cookies.get('authToken');
-                //   window.postMessage(
-                //     {
-                //       type: 'authToken',
-                //       token: authenticationToken
-                //     },
-                //     'http://addidas-shoes.localhost:3002/cdashboard'
-                //   );
-                //   const url = `http://addidas-shoes.localhost:3002/cdashboard`;
-                //   window.open(url);
-                // }}
-              
-                
+                onClick={()=>onPortalView(data)}    
                 content="Portal Login"
               />
     }

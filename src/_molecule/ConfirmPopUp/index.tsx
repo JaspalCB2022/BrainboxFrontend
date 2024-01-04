@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import './index.css';
+import { ConfirmPopUpProps } from "./types";
 
-interface ConfirmPopUpProps {
-  onYes: () => void;
-  onClose: () => void;
-  isDeletePopUp:boolean;
-  alertMessage: string;
-  deleteButtonText?: string;
-  alertDescription?: string;
-}
+
 
 const ConfirmPopUp: React.FC<ConfirmPopUpProps> = ({
   onYes,

@@ -3,14 +3,9 @@ import { useField, FieldAttributes } from 'formik';
 import { FormLabel } from '../../_atom/FormLabel';
 import { FormInput } from '../../_atom/FormInput';
 import { ErrorMessage } from '../../_atom/ErrorMessage';
+import { FormFieldProps } from './types';
 
-interface FormFieldProps {
-  name: string;
-  fieldName: string;
-  placeholder?: string;
-  required?: boolean;
-  removeBorder?: boolean;
-}
+
 
 const FormField: React.FC<FormFieldProps & FieldAttributes<any>> = ({
   name,
@@ -25,9 +20,9 @@ const FormField: React.FC<FormFieldProps & FieldAttributes<any>> = ({
   const isTouched = meta.touched;
 
   return (
-    <div>
+    <div style={{flex:"1"}}>
       <FormLabel title={fieldName} errorMessage={isTouched && errorMessage} required={required} />
-      <div>
+      <div >
         {props.removeBorder ? (
           <div>{field.value}</div>
         ) : (

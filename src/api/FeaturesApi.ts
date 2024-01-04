@@ -3,11 +3,23 @@ import { BACKEND_URL, FEATURE_DELETE, FEATURE_GET, FEATURE_POST, FEATURE_UPDATE 
 
 
 
-interface PFeature {
-  name:string,
-  children?:{
-    [key: string]: string;
-}[]
+// interface PFeature {
+//   name:string,
+//   children?:{
+//     [key: string]: string;
+// }[]
+// }
+
+
+export interface PFeature {
+  id?: string
+  name: string
+  linkedFeature?: string
+  children?:FeatureName[]
+}
+
+export interface FeatureName {
+  name: string
 }
 
 interface GFeature{

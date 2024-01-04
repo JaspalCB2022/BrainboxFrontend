@@ -1,11 +1,6 @@
 import React from 'react';
 import { TextInput } from "./styled";
-import { FieldProps } from "formik";
-
-interface FormInputProps extends FieldProps {
-  tooltip?: string;
-  errorMessage?: string;
-}
+import { FormInputProps } from './types';
 
 export const FormInput: React.FC<FormInputProps> = ({
   field,

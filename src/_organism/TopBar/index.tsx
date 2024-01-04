@@ -4,14 +4,7 @@ import menu from '../../Icons/menu.svg';
 import menuarrow from '../../Icons/menuarrow.svg';
 import notification from "../../Icons/notifications.svg"
 import profile from "../../Icons/profle.svg"
-
-interface TopBarProps {
-  visible: boolean;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  name: string;
-  setOpenDrawer:React.Dispatch<React.SetStateAction<boolean>>;
-  openDrawer:boolean;
-}
+import { TopBarProps } from "./types";
 
 const TopBar: React.FC<TopBarProps> = (props) => {
   const [width, setWidth] = useState(window.innerWidth);

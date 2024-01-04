@@ -1,10 +1,8 @@
 import React from 'react';
 import './index.css';
+import { NoDataProps } from './types';
 
-interface NoDataProps {
-    colSpan: number;
-    text: string;
-}
+
 
 const NoData: React.FC<NoDataProps> = ({ colSpan, text }) => {
     return (

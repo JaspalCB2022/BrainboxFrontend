@@ -3,12 +3,9 @@ import Circle from '../../_atom/Circle';
 import Line from '../../_atom/Line';
 import { WalkContainer } from './styled';
 import './index.css';
+import { WalkThroughProps } from './types';
 
-interface WalkThroughProps {
-    currentIndex: number;
-    numbers: number;
-    content: React.ReactNode; // Adjust the type of content accordingly
-}
+
 
 const WalkThrough: React.FC<WalkThroughProps> = ({
     currentIndex,
