@@ -11,8 +11,10 @@ import chatlogo from "../../Icons/chatlogo.svg"
 import rectangle from "../../Icons/rectangle 4.svg";
 import logout from "../../Icons/logout.svg";
 import navArrow from "../../Icons/open_nav.svg";
+import feature from '../../Icons/feature_icon.svg'
 import Cookies from "js-cookie";
 import { NavBarProps,NavContent } from "./types";
+import { useGetlogoutMutation } from "../../api/logoutApi";
   
 
 
@@ -24,18 +26,27 @@ function NavBar(props: NavBarProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [saveLogout] = useGetlogoutMutation();
+
   // const pathToName: Record<string, { id: number; name: string }> = {
   //   "pr-status-check": { id: 0, name: "PR Status Check" },
   // };
 
+  const pathToName = {
+    "customers": { id: 0, name: "Customers" },
+    "features": { id: 1, name: "Features" },
+
+  };
+
   useEffect(() => {
     const path = location.pathname?.split("/")[1];
-    props.setName(path);
-    setId(0);
-    openNav(0);
-    // setId(pathToName[path]?.id);
-    // openNav(pathToName[path]?.id);
+    props.setName(pathToName[path as keyof typeof pathToName ]?.name || " ");
+    setId(pathToName[path  as keyof typeof pathToName]?.id || 0);
+    openNav(pathToName[path as keyof typeof pathToName]?.id || 0);
   }, []);
+
+
+  
 
   let closeNav = (i: number | undefined) => {
     setIndex([]);
@@ -46,6 +57,7 @@ function NavBar(props: NavBarProps) {
   };
 
   const handleLogout = () => {
+    saveLogout({})
     Cookies.remove('authToken');
     navigate("/")
   };
@@ -59,8 +71,8 @@ function NavBar(props: NavBarProps) {
     },
     {
       name: "Features",
-      icon: dashboard,
-      activeIcon: dashboard,
+      icon: feature,
+      activeIcon: feature,
       url: '/features',
     },
     // {
@@ -99,6 +111,7 @@ function NavBar(props: NavBarProps) {
   ];
 
   let onNameClick = (id: number | undefined, name: string) => {
+    localStorage.setItem('selectedId', id!.toString());
     props.setName(name);
     console.log("id>>>",id)
     setId(id);
@@ -110,7 +123,14 @@ function NavBar(props: NavBarProps) {
       <div style={{ padding: "20px" }}>
         <div className="navwrapper-logo-box">
           <div className="navbar-logo">
-            <img src={chatlogo} className="navbar-logo-img" alt="logo"></img> BrainBox
+            <img src={chatlogo} className={props.visible ? "navbar-logo-img":"navbar-logo-img-nav" }   alt="logo"></img>
+            {
+              props.visible 
+              ?
+              <span>BrainBox</span>
+              :
+              null
+            }
           </div>
         </div>
       </div>

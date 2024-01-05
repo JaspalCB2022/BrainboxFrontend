@@ -25,6 +25,9 @@ export const FEATURE_POST = `${FEATURE}/create`
 export const FEATURE_UPDATE = `${FEATURE}/update`
 export const FEATURE_DELETE = `${FEATURE}/delete`
 
+//logout
+export const LOGOUT = '/api/admin'  
+export const LOGOUT_POST = `${LOGOUT}/logout`
 
 export const userName = localStorage.getItem('userName')
 export const tenantId = localStorage.getItem('tenantId')

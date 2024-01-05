@@ -103,10 +103,16 @@
     justify-content: center;
 }
 
+.navbar-logo-img-nav{
+    margin-right: 0px;
+    width: 20px;
+}
+
 .navbar-logo-img{
     margin-right: 18px;
     width: 20px;
 }
+
 
 .navwrapper-mid-section{
     padding: 20px;

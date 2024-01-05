@@ -34,16 +34,15 @@ export const MainSectionWrapper = styled.div<MainSectionWrapperProps>`
     flex-direction: column;
     padding-left: ${({ $margin }) => $margin};
     width: 100%;
+    transition: 0.5s;
     
-    .main-page-with-nav{
-        margin-left:200px;
-        transition: "margin-left 1s ease-in-out",
-    }
-    .main-page{
-        margin-left:0px;
-        transition: "margin-left 1s ease-in-out",
+    // .main-page-with-nav{
+    //     padding-left: 250px;
+    // }
+    // .main-page{
+    //     padding-left: 250px;
 
-    }
+    // }
 `;
 
 export const Center = styled.div`

@@ -66,7 +66,6 @@ const LoginPage = ()=> {
     //   setSubmitting(false);
     //   return Error(err?.response);
     // }
-    console.log("Values>>>>>>>>>>>", values);
 
     const promise = saveLoginData({ ...values });
 
@@ -74,24 +73,17 @@ const LoginPage = ()=> {
       loading: "Loading",
       success: (data: API) => {
         setSubmitting(false);
-        console.log("Data>>>>>>>>>>>", data);
-        console.log("TOKEN>>>>>>>>>>>", data.data.data.token);
         const token = data.data.data.token;
-        // const  token  = data
-        // console.log("TOKEN>>",token)
-        Cookies.set("authToken", token, { expires: 1 / 24 });
+        Cookies.set("authToken", token, { expires: 10 / 24 });
         if ("error" in data && data.error) {
           throw data.error;
         }
-        //  getData(currentPage)
         navigate("/customers");
         return "login successfully";
       },
       error: (err:any):any => {
         setSubmitting(false);
         return Error(err);
-        // return "Login Fail ";
-        // return err;
       },
     });
     resetForm();

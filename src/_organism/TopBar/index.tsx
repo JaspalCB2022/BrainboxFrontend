@@ -18,38 +18,58 @@ const TopBar: React.FC<TopBarProps> = (props) => {
   }, []);
 
   return (
-    <>
-      <div className={`${props.visible ? 'topbar-box-with-nav' : 'topbar-box'}`}>
-        {width > 800 ? (
-          <div style={{ display: 'flex', alignItems: 'center',width:"100%" }}>
-            <div className="topbar-content">
-              <div className="topbar-inside">
-              {props.visible === true ? (
-                <img
-                  className="menu"
-                  src={menu}
-                  alt="img"
-                  onClick={() => props.setVisible(false)}
-                />
-              ) : (
-                <img
-                  className="menu"
-                  src={menuarrow}
-                  alt="img"
-                  onClick={() => props.setVisible(true)}
-                />
-              )}
-              <div className="topbar-title">{props.name}</div>
-              </div>
-              <div className="topbar-profile">
-                <img className="topbar-img" src={notification} alt="notification" />
-                <img className="topbar-img" src={profile} alt="profile" />
-              </div>
-            </div>
-          </div>
-        ) : null}
-      </div>
-    </>
+    // <>
+    //   <div className={`${props.visible ? 'topbar-box-with-nav' : 'topbar-box'}`}>
+    //     {width > 800 ? (
+    //       <div style={{ display: 'flex', alignItems: 'center',width:"100%" }}>
+    //         <div className="topbar-content">
+    //           <div className="topbar-inside">
+    //           {props.visible === true ? (
+    //             <img
+    //               className="menu"
+    //               src={menu}
+    //               alt="img"
+    //               onClick={() => props.setVisible(false)}
+    //             />
+    //           ) : (
+    //             <img
+    //               className="menu"
+    //               src={menuarrow}
+    //               alt="img"
+    //               onClick={() => props.setVisible(true)}
+    //             />
+    //           )}
+    //           </div>
+    //           <div className="topbar-profile">
+    //             <img className="topbar-img" src={notification} alt="notification" />
+    //             <img className="topbar-img" src={profile} alt="profile" />
+    //           </div>
+    //         </div>
+    //       </div>
+    //     ) : null}
+
+    //   </div>
+    //     <div className="topbar-title">{props.name}</div>
+    // </>
+    <div>
+    <div className={ `${props.visible ===true ? 'topbar-box-with-nav': 'topbar-box' } `}>
+        {
+            width > 800
+                ?
+                <>
+                    <div style={{ display: 'flex',alignItems:'center' }}>
+                        <div className='topbar-content' >
+                           {props.visible === true ? <img className='menu' src={menu} alt='img '  onClick={()=> props.setVisible(false)}   / > : <img className='menu' src={menuarrow} alt='img'    onClick={()=> props.setVisible(true)}  / > }
+                        </div>
+                    </div>
+                    <img src={profile} alt='img' />
+                </>
+                :
+                null
+        }
+    </div>
+    <div className={ `${props.visible ===true ? 'topbar-title-with-nav': 'topbar-title' } `}>{props.name}</div>
+</div>
   );
 };
 

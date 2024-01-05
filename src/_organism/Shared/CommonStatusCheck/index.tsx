@@ -12,7 +12,7 @@ import { FilledButton } from "../../../_atom/Buttons/index";
 import { Container } from "../../WalkThroughPage/styled";
 import minus from "../../../Icons/plus1.svg";
 import plus from "../../../Icons/minus1.svg";
-import { CommonStatusCheckProps } from "./types";
+import { CommonStatusCheckProps, FeatureName } from "./types";
 
 const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
   console.log("props>>>>>>>>>>>>",props)
@@ -129,8 +129,8 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
           setValues,
           // onChange
         }) => (
-          //  console.log("values",values)
           <Form style={{ height: "100vh", overflow: "auto" }}>
+            
             {props.title === "Feature" && (
               <div>
                 <FormField
@@ -158,7 +158,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                 {values?.children?.length >= 0 && (
                   <FieldArray name="children">
                     {() =>
-                      values?.children?.map((item: any, i: number) => {
+                      values?.children?.map((item: FeatureName, i: number) => {
                         return (
                           <div key={i} className="child-feat">
                             <FormField
@@ -452,19 +452,15 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                 content="+ Add"
               />
 
-              <FilledButton
+              {/* <FilledButton
                 style={buttonStyle}
                 onClick={() => {
                   setDisplay("0");
                   props.setEdit(false);
                   setType("upload");
-                  // if (props.activeRole) {
-                  //   props.setActiveTabIndex(1);
-                  //   props.setViewMode('Mass Upload');
-                  // }
                 }}
                 content="+ Import"
-              />
+              /> */}
             </div>
           </div>
           <DataTableComponent

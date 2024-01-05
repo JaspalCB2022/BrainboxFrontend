@@ -125,10 +125,12 @@ function Customers() {
           throw data?.error
         }
         getData(currentPage)
+        setClose(!close);
         return "Customer created successfully";
       },
       error: (err:any):any => {
         setSubmitting(false)
+        setClose(!close);
         return Error(err)
         // return "Customer creation fail"
       },

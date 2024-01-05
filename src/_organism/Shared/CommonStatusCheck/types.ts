@@ -93,3 +93,16 @@ export interface PackedData {
 }
 
 
+export interface FormFeatureData {
+  id: string
+  name: string
+  linkedFeature: string
+  children?: FeatureName[]
+}
+
+export interface FeatureName {
+  name: string
+  id?:string
+}
+
+

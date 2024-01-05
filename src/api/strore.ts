@@ -12,6 +12,7 @@ import loginApi from "./loginApi"
 import customerApi from './CustomersApi';
 import organizationApi from './OrganizationApi';
 import featureApi from './FeaturesApi';
+import logoutApi from "./logoutApi"
 
 
 
@@ -29,7 +30,8 @@ export const store = configureStore({
     [loginApi.reducerPath]: loginApi.reducer,
     [customerApi.reducerPath]: customerApi.reducer,
     [organizationApi.reducerPath]: organizationApi.reducer,
-    [featureApi.reducerPath]: featureApi.reducer
+    [featureApi.reducerPath]: featureApi.reducer,
+    [logoutApi.reducerPath]:logoutApi.reducer
     
 
   },
@@ -38,7 +40,8 @@ export const store = configureStore({
     loginApi.middleware,
     customerApi.middleware,
     organizationApi.middleware,
-    featureApi.middleware
+    featureApi.middleware,
+    logoutApi.middleware
     ),
 });
 
