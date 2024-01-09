@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Flyout from "../../../_molecule/Flyout";
 import { Formik, Form, Field, FieldArray } from "formik";
-// import { TabView, TabPanel } from 'primereact/tabview';
 import FormFieldSelect from "../../../_molecule/FormFieldSelect";
 import "./index.css";
 import MassUpload from "../../../_molecule/MassUpload/index";
@@ -15,7 +14,6 @@ import plus from "../../../Icons/minus1.svg";
 import { CommonStatusCheckProps, FeatureName } from "./types";
 
 const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
-  console.log("props>>>>>>>>>>>>",props)
   const [display, setDisplay] = useState("-450px");
   const [search, setSearch] = useState("");
   const [startSearch, setStartSearch] = useState(false);
@@ -192,23 +190,6 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
               </div>
             )}
 
-            {/* {props.featureData?.featureChild.map((field:Input, id:number) => {
-            console.log("input>>>",field)
-            return (
-            <div key={id} className="child-feat">
-              <FormField
-                name={field.name}
-                fieldName={field.fieldName}
-                type={field.type}
-                required={field.required}
-                //value={values?.children[id][field.name]}
-              />
-                 <button type="button" className="btn-feat" onClick={()=>props.featureData.onRemove(id)}>
-                 <img src={minus}  alt="icon" />
-
-            </button>
-            </div>
-          )})} */}
             {props.title !== "Feature" &&
               props.fieledTypes!.map((field, id) => {
                 return (
@@ -362,19 +343,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
 
           if (props.title !== "Feature") {
             props.setInitialValues({});
-            //props.setInitialValues(props.initialValues)
           }
-          
-          // else if (props.title === "Feature")
-          //   {
-          //     props.setInitialValues({
-          //       id: "",
-          //       name: "",
-          //       linkedFeature: "",
-          //       children: [{name:''}],
-          //     });
-          //   }
-          
         }}
         title={props.flyoutTitle}
       >
@@ -424,15 +393,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
               marginBottom: "20px",
             }}
           >
-            {/* {props.activeRole && props.setActiveRole ? (
-              <RoleToggle
-                activeRole={props.activeRole}
-                onRoleChange={props.setActiveRole}
-              />
-            ) : ( */}
             <div className="container-title">{props.title}</div>
-            {/* )} */}
-
             <div>
               <FilledButton
                 style={buttonStyle}

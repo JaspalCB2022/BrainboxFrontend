@@ -3,21 +3,18 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { NavWrapper } from "./styled";
 import dashboard from "../../Icons/dahboard.svg";
-import configurationWhite  from "../../Icons/configuration-white.svg";
-import controlWhite  from "../../Icons/control-white.svg";
-import management  from "../../Icons/management.svg";
+import configurationWhite from "../../Icons/configuration-white.svg";
+import controlWhite from "../../Icons/control-white.svg";
+import management from "../../Icons/management.svg";
 import pointer from "../../Icons/pointer.svg";
-import chatlogo from "../../Icons/chatlogo.svg"
+import chatlogo from "../../Icons/chatlogo.svg";
 import rectangle from "../../Icons/rectangle 4.svg";
 import logout from "../../Icons/logout.svg";
 import navArrow from "../../Icons/open_nav.svg";
-import feature from '../../Icons/feature_icon.svg'
+import feature from "../../Icons/feature_icon.svg";
 import Cookies from "js-cookie";
-import { NavBarProps,NavContent } from "./types";
+import { NavBarProps, NavContent } from "./types";
 import { useGetlogoutMutation } from "../../api/logoutApi";
-  
-
-
 
 function NavBar(props: NavBarProps) {
   const [index, setIndex] = useState<number[]>([]);
@@ -33,47 +30,43 @@ function NavBar(props: NavBarProps) {
   // };
 
   const pathToName = {
-    "customers": { id: 0, name: "Customers" },
-    "features": { id: 1, name: "Features" },
-
+    customers: { id: 0, name: "Customers" },
+    features: { id: 1, name: "Features" },
   };
 
   useEffect(() => {
     const path = location.pathname?.split("/")[1];
-    props.setName(pathToName[path as keyof typeof pathToName ]?.name || " ");
-    setId(pathToName[path  as keyof typeof pathToName]?.id || 0);
+    props.setName(pathToName[path as keyof typeof pathToName]?.name || " ");
+    setId(pathToName[path as keyof typeof pathToName]?.id || 0);
     openNav(pathToName[path as keyof typeof pathToName]?.id || 0);
   }, []);
-
-
-  
 
   let closeNav = (i: number | undefined) => {
     setIndex([]);
   };
 
-  let openNav = (i: number | undefined) => {    
+  let openNav = (i: number | undefined) => {
     setIndex(i !== undefined ? [i] : []);
   };
 
   const handleLogout = () => {
-    saveLogout({})
-    Cookies.remove('authToken');
-    navigate("/")
+    saveLogout({});
+    Cookies.remove("authToken");
+    navigate("/");
   };
 
-  let navContent : NavContent[] = [
+  let navContent: NavContent[] = [
     {
       name: "Customer",
       icon: dashboard,
       activeIcon: dashboard,
-      url: '/customers',
+      url: "/customers",
     },
     {
       name: "Features",
       icon: feature,
       activeIcon: feature,
-      url: '/features',
+      url: "/features",
     },
     // {
     //   name: "Dashboard",
@@ -111,26 +104,26 @@ function NavBar(props: NavBarProps) {
   ];
 
   let onNameClick = (id: number | undefined, name: string) => {
-    localStorage.setItem('selectedId', id!.toString());
+    localStorage.setItem("selectedId", id!.toString());
     props.setName(name);
-    console.log("id>>>",id)
+    console.log("id>>>", id);
     setId(id);
     index.includes(id as number) ? closeNav(id) : openNav(id);
   };
 
   return (
-    <NavWrapper width={props.visible === true ? '250px' : '60px'}>
+    <NavWrapper width={props.visible === true ? "250px" : "60px"}>
       <div style={{ padding: "20px" }}>
         <div className="navwrapper-logo-box">
           <div className="navbar-logo">
-            <img src={chatlogo} className={props.visible ? "navbar-logo-img":"navbar-logo-img-nav" }   alt="logo"></img>
-            {
-              props.visible 
-              ?
-              <span>BrainBox</span>
-              :
-              null
-            }
+            <img
+              src={chatlogo}
+              className={
+                props.visible ? "navbar-logo-img" : "navbar-logo-img-nav"
+              }
+              alt="logo"
+            ></img>
+            {props.visible ? <span>BrainBox</span> : null}
           </div>
         </div>
       </div>
@@ -197,7 +190,9 @@ function NavBar(props: NavBarProps) {
                   ) : null}
                 </div>
                 {id === i && nav.open && index.includes(i) ? (
-                  <div className={props.visible === true ? 'subnav-box' : "subnav"}>
+                  <div
+                    className={props.visible === true ? "subnav-box" : "subnav"}
+                  >
                     {nav.subNav &&
                       nav.subNav.map((sub, id) => {
                         return (
@@ -228,7 +223,7 @@ function NavBar(props: NavBarProps) {
       </div>
       <div style={{ marginTop: "auto" }}>
         <div className="navbar-logout" onClick={handleLogout}>
-          <img src={logout} style={{ width: "13px"  }} alt="logout-icon"></img>
+          <img src={logout} style={{ width: "13px" }} alt="logout-icon"></img>
         </div>
       </div>
     </NavWrapper>

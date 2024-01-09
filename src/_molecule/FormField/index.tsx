@@ -6,7 +6,6 @@ import { ErrorMessage } from '../../_atom/ErrorMessage';
 import { FormFieldProps } from './types';
 
 
-
 const FormField: React.FC<FormFieldProps & FieldAttributes<any>> = ({
   name,
   fieldName,
@@ -21,7 +20,7 @@ const FormField: React.FC<FormFieldProps & FieldAttributes<any>> = ({
 
   return (
     <div style={{flex:"1"}}>
-      <FormLabel title={fieldName} errorMessage={isTouched && errorMessage} required={required} />
+      <FormLabel title={fieldName}  required={required} />
       <div >
         {props.removeBorder ? (
           <div>{field.value}</div>

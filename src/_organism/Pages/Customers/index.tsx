@@ -1,28 +1,35 @@
 import React, { useEffect, useState } from "react";
 import CommonStatusCheck from "../../Shared/CommonStatusCheck/index";
-import * as Yup from 'yup';
-import { toast } from 'react-hot-toast'
+import * as Yup from "yup";
+import { toast } from "react-hot-toast";
 import { Error } from "../../../api/Error";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { ITEMS_PER_PAGE } from "../../../Constants";
-import { useCreateCustomerMutation, useDeleteCustomerMutation, useGetCustomerMutation, useUpdateCustomerMutation } from "../../../api/CustomersApi";
+import {
+  useCreateCustomerMutation,
+  useDeleteCustomerMutation,
+  useGetCustomerMutation,
+  useUpdateCustomerMutation,
+} from "../../../api/CustomersApi";
 import { API, Customer, CustomerData, DAPI, DataResponse, PAPI } from "./types";
 import { FormikHelpers } from "formik";
 
 function Customers() {
-  const [edit, setEdit] = useState(false)
-  const [refresh, setRefresh] = useState(false)
+  const [edit, setEdit] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [initialValues, setInitialValues] = useState({
-    id:"",tenantId:"",orginationName:""
-  })
-  
-  const [data, setData] = useState<DataResponse[]>([])
-  const [totalRecords, setTotalRecords] = useState<number | undefined >(0);
+    id: "",
+    tenantId: "",
+    orginationName: "",
+  });
+
+  const [data, setData] = useState<DataResponse[]>([]);
+  const [totalRecords, setTotalRecords] = useState<number | undefined>(0);
   const [currData, setCurrData] = useState<CustomerData>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [del, setDelete] = useState(false)
-  const [close, setClose] = useState(false)
+  const [del, setDelete] = useState(false);
+  const [close, setClose] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,13 +39,12 @@ function Customers() {
   const [deleteCustomerData] = useDeleteCustomerMutation();
 
   useEffect(() => {
-      const token = Cookies.get('authToken');
-      if(!token){
-        navigate('/')
-      }
-    getData(1)
- 
-  }, [])
+    const token = Cookies.get("authToken");
+    if (!token) {
+      navigate("/");
+    }
+    getData(1);
+  }, []);
 
   // let getCountry = () => {
   //   let body = {
@@ -79,112 +85,124 @@ function Customers() {
   //     .catch(err => console.log(err))
   // };
 
-  let getData = (currPage: number, setLoading?: (loading: boolean) => void, order?: string, field?: string, search?: string) => {
+  let getData = (
+    currPage: number,
+    setLoading?: (loading: boolean) => void,
+    order?: string,
+    field?: string,
+    search?: string
+  ) => {
     let body = {
       limit: ITEMS_PER_PAGE,
       skip: (currPage - 1) * ITEMS_PER_PAGE,
-      sortBy: "",
-      sortType: "",
-      search: ""
-    }
+      sortBy: field,
+      sortType:order,
+      search: search,
+    };
 
-    console.log("body>>>>>",body)
-    setLoading && setLoading(true)
+    console.log("body>>>>>", body);
+    setLoading && setLoading(true);
     getCustomerData(body)
-     // @ts-ignore 
+      // @ts-ignore
       .then((data: API) => {
-        console.log("data>>>>>>>>>>>>>>>",data?.data?.data)
-        setLoading && setLoading(false)
+        console.log("data>>>>>>>>>>>>>>>", data?.data?.data);
+        setLoading && setLoading(false);
         if (data.error) {
           // throw data.error.message
           throw Error(data?.error?.message || "Unknown error occurred");
         }
-        if (data?.data?.data){
-          const tempObj = data?.data?.data?.customers?.map((item, index) => {return {...item, srno: index +1 }})
+        if (data?.data?.data) {
+          const tempObj = data?.data?.data?.customers?.map((item, index) => {
+            return { ...item, srno: index + 1 };
+          });
           setData(tempObj);
           // setData(data?.data?.data.customers)
         }
         setTotalRecords(data?.data?.data?.count);
       })
       .catch((err) => {
-        console.log("error>>>>>",err)
-        return Error(err)
+        console.log("error>>>>>", err);
+        return Error(err);
       });
   };
 
-  let saveData = (values: Customer, { setSubmitting,resetForm }:FormikHelpers<Customer>) => {
-    console.log("Data Save>>> values>>>",values)
-    const {tenantId, orginationName} =  values
-    let promise = saveCustomerData({tenantId,orginationName})
+  let saveData = (
+    values: Customer,
+    { setSubmitting, resetForm }: FormikHelpers<Customer>
+  ) => {
+    console.log("Data Save>>> values>>>", values);
+    const { tenantId, orginationName } = values;
+    let promise = saveCustomerData({ tenantId, orginationName });
     toast.promise<PAPI>(promise as Promise<PAPI>, {
       loading: "Loading",
-      success: (data:PAPI) => {
-        console.log("Data>>>>>>",data)
-        setSubmitting(false)
+      success: (data: PAPI) => {
+        console.log("Data>>>>>>", data);
+        setSubmitting(false);
         if (data?.error) {
-          throw data?.error
+          throw data?.error;
         }
-        getData(currentPage)
+        getData(currentPage);
         setClose(!close);
         return "Customer created successfully";
       },
-      error: (err:any):any => {
-        setSubmitting(false)
+      error: (err: any): any => {
+        setSubmitting(false);
         setClose(!close);
-        return Error(err)
+        return Error(err);
         // return "Customer creation fail"
       },
     });
     resetForm();
+  };
 
-  }
+  let editData = (
+    values: Customer,
+    { setSubmitting, resetForm }: FormikHelpers<Customer>
+  ) => {
+    console.log("Edit Save>>> values>>>", values);
 
-  let editData = (values: Customer, { setSubmitting ,resetForm}: FormikHelpers<Customer>) => {
-    console.log("Edit Save>>> values>>>",values)
-
-    let promise = editCustomerData(values)
+    let promise = editCustomerData(values);
     toast.promise<PAPI>(promise as Promise<PAPI>, {
       loading: "Loading",
-      success: (data:PAPI) => {
-        setSubmitting(false)
+      success: (data: PAPI) => {
+        setSubmitting(false);
         if (data.error) {
-          throw data.error
+          throw data.error;
         }
-        setInitialValues({ id:"", tenantId: "", orginationName:""})
-        setClose(!close)
-        getData(currentPage)
+        setInitialValues({ id: "", tenantId: "", orginationName: "" });
+        setClose(!close);
+        getData(currentPage);
         return "Customer edited successfully";
       },
-      error: (err:any):any => {
-        setSubmitting(false)
-        setClose(!close)
+      error: (err: any): any => {
+        setSubmitting(false);
+        setClose(!close);
         // setInitialValues({})
-        return Error(err)
+        return Error(err);
         // return "Edit Update Fail"
       },
     });
     resetForm();
-
-  }
+  };
 
   let deleteData = () => {
-    let promise = deleteCustomerData(currData?.id)
-    setDelete(false)
+    let promise = deleteCustomerData(currData?.id);
+    setDelete(false);
     toast.promise<DAPI>(promise as Promise<DAPI>, {
       loading: "Loading",
       success: (data) => {
         if (data?.error) {
-          throw data?.error
+          throw data?.error;
         }
-        getData(currentPage)
+        getData(currentPage);
         return "Customer deleted successfully";
       },
-      error: (err:any):any => {
+      error: (err: any): any => {
         // return "SomeThing Went Wrong"
-        return Error(err)
+        return Error(err);
       },
     });
-  }
+  };
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -192,34 +210,33 @@ function Customers() {
 
   const validationSchema = Yup.object().shape({
     // id: Yup.string().required('Please enter ID'),
-    tenantId: Yup.string().required('Please enter Tenent Id'),
-    orginationName: Yup.string().required('Please enter organization Name'),
-
+    tenantId: Yup.string().required("Please enter Tenent Id"),
+    orginationName: Yup.string().required("Please enter organization Name"),
   });
 
   const fieldTypes = [
     {
-      fieldName: 'Sr No',
-      name: 'srno',
+      fieldName: "Sr No",
+      name: "srno",
       // type: 'input',
       required: true,
       notEditable: true,
     },
     {
-      fieldName: 'Tenent ID',
-      name: 'tenantId',
-      type: 'input',
+      fieldName: "Tenent ID",
+      name: "tenantId",
+      type: "input",
       required: true,
       notEditable: false,
     },
     {
-      fieldName: 'Organization Name',
-      name: 'orginationName',
-      type: 'input',
+      fieldName: "Organization Name",
+      name: "orginationName",
+      type: "input",
       required: true,
       notEditable: false,
-    }
-       // {
+    },
+    // {
     //   fieldName: 'Country',
     //   name: 'Country',
     //   type: 'select',
@@ -231,27 +248,27 @@ function Customers() {
 
   let onEdit = (data: CustomerData) => {
     console.log("called edit");
-    console.log("editData>>>>>>",data)
+    console.log("editData>>>>>>", data);
     setInitialValues({
-    id:data?.id,
-    tenantId:data?.tenantId,
-    orginationName:data?.orginationName,
-    })
-    setRefresh(!refresh)
-    setEdit(true)
-    setCurrData(data)
-  }
+      id: data?.id,
+      tenantId: data?.tenantId,
+      orginationName: data?.orginationName,
+    });
+    setRefresh(!refresh);
+    setEdit(true);
+    setCurrData(data);
+  };
 
   let onDelete = (data: CustomerData) => {
-    setDelete(true)
-    setCurrData(data)
-  }
+    setDelete(true);
+    setCurrData(data);
+  };
 
-  const onPortalView =(data:CustomerData)=> {
-    console.log("protal",data)
-      const url = `http://${data?.slug}.localhost:3001/login`
-      window.open(url);
-  }
+  const onPortalView = (data: CustomerData) => {
+    console.log("protal", data);
+    const url = `http://${data?.slug}.localhost:3001/login`;
+    window.open(url);
+  };
 
   let packedData = {
     Data: data,
@@ -259,8 +276,8 @@ function Customers() {
     onEdit: onEdit,
     onDelete: onDelete,
     count: totalRecords,
-    onPortalView: onPortalView
-  }
+    onPortalView: onPortalView,
+  };
 
   let tableDefinition = fieldTypes.map((field) => ({
     header: field.fieldName,
@@ -289,11 +306,10 @@ function Customers() {
         setInitialValues={setInitialValues}
         bulkUrl={"url"}
         close={close}
-        sampleFields={['Sr No', 'Tenent ID',"Organization Name"]}
+        sampleFields={["Sr No", "Tenent ID", "Organization Name"]}
       />
-    
     </div>
-  )
+  );
 }
 
 export default Customers;

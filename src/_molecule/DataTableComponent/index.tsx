@@ -40,7 +40,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   }, [count]);
 
   useEffect(() => {
-    let order = sortOrder === 1 ? 'ASC' : 'DESC';
+    let order = sortOrder === 1 ? 'asc' : 'desc';
     getData(1, setLoading, order, sortField, search);
   }, [startSearch]);
 
@@ -52,7 +52,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
   };
 
   const onSort = (event: DataTableProps<any>) => {
-      let order = event.sortOrder === 1 ? 'ASC' : 'DESC';
+      let order = event.sortOrder === 1 ? 'asc' : 'desc';
       getData(1, setLoading, order, event.sortField, search);
       setSortField(event.sortField);
       setSortOrder(event.sortOrder );

@@ -72,7 +72,7 @@ export interface FieledType {
   options?:any
   isMulti?:any
   isRadio?:any
-  placeholder?:String
+  placeholder?:string
 }
 export interface TableDefinition {
   header: string

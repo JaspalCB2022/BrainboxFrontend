@@ -16,5 +16,5 @@ export  interface NormalSelectProps {
     value: Option |string |boolean |null;
     placeholder?: string;
     onChange: (selectedValues: string[], allOptions: { label: string; value: string }[]) => void;
-    errorMessage ?: string | undefined
+    errorMessage ?: String | boolean |undefined
   }

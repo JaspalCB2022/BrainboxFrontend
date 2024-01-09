@@ -5,7 +5,6 @@ import cloud from "../../Icons/cloud.svg";
 import {DropzoneProps} from "./types"
 
 
-
 const Dropzone: React.FC<DropzoneProps> = ({ onFilesUploaded, preview = true, disabled = false, height, width = "100%" }) => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
@@ -16,7 +15,6 @@ const Dropzone: React.FC<DropzoneProps> = ({ onFilesUploaded, preview = true, di
           preview: URL.createObjectURL(file),
         })
       );
-
       setUploadedFiles(files);
       onFilesUploaded(files);
     },
@@ -25,7 +23,7 @@ const Dropzone: React.FC<DropzoneProps> = ({ onFilesUploaded, preview = true, di
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    // accept: "image/*",
+    // accept: "image/*" ,
     disabled: disabled,
   });
 

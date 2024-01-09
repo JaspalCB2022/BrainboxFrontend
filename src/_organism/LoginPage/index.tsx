@@ -30,9 +30,7 @@ import { useGetloginMutation } from "../../api/loginApi";
 import Cookies from "js-cookie";
 import { API, FormValues } from "./types";
 
-
-
-const LoginPage = ()=> {
+const LoginPage = () => {
   const navigate = useNavigate();
   const [saveLoginData] = useGetloginMutation();
   const [initialValues, setInitialValues] = useState<FormValues>({
@@ -81,7 +79,7 @@ const LoginPage = ()=> {
         navigate("/customers");
         return "login successfully";
       },
-      error: (err:any):any => {
+      error: (err: any): any => {
         setSubmitting(false);
         return Error(err);
       },
@@ -143,6 +141,6 @@ const LoginPage = ()=> {
       </LoginWrapper>
     </LoginPageDiv>
   );
-}
+};
 
 export default LoginPage;
