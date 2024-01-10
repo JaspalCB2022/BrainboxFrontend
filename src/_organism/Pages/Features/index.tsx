@@ -26,7 +26,7 @@ const Features = () => {
   const [edit, setEdit] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [initialValues, setInitialValues] = useState({
-    id: "",
+    _id: "",
     name: "",
     linkedFeature: "",
     children: [{ name: "" }],
@@ -151,12 +151,12 @@ const Features = () => {
         setClose(!close);
         getData(currentPage);
         setInitialValues({
-          id: "",
+          _id: "",
           name: "",
           linkedFeature: "",
           children: [{ name: "" }],
         });
-        return "Customer created successfully";
+        return "Feature created successfully";
       },
       error: (err: any): any => {
         setSubmitting(false);
@@ -184,7 +184,7 @@ const Features = () => {
         }
         setClose(!close);
         getData(currentPage);
-        return "Customer edited successfully";
+        return "Feature edited successfully";
       },
       error: (err: any): any => {
         setSubmitting(false);
@@ -194,7 +194,7 @@ const Features = () => {
     });
     resetForm();
     setInitialValues({
-      id: "",
+      _id: "",
       name: "",
       linkedFeature: "",
       children: [{ name: "" }],
@@ -202,7 +202,7 @@ const Features = () => {
   };
 
   let deleteData = () => {
-    let promise = deleteFeatureData(currData?.id);
+    let promise = deleteFeatureData(currData?._id);
     setDelete(false);
     toast.promise<DAPI>(promise as Promise<DAPI>, {
       loading: "Loading",
@@ -267,11 +267,13 @@ const Features = () => {
     console.log("editData>>>>>>", data);
     const transformedChildren = data?.children.map(
       (child: Feature, index: number) => {
-        return { name: child.name, id: child.id };
+        return { name: child.name, _id: child._id, isEnabled:child.isEnabled };
       }
     );
+    console.log("transformedChildren>>>>",transformedChildren);
+    
     setInitialValues({
-      id: data?.id,
+      _id: data?._id,
       name: data?.name,
       linkedFeature: data?.linkedFeature,
       children: transformedChildren,

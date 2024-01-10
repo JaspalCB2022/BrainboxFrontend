@@ -35,14 +35,16 @@ export const MainSectionWrapper = styled.div<MainSectionWrapperProps>`
     padding-left: ${({ $margin }) => $margin};
     width: 100%;
     transition: 0.5s;
-    
-    // .main-page-with-nav{
-    //     padding-left: 250px;
-    // }
-    // .main-page{
-    //     padding-left: 250px;
 
-    // }
+    
+  
+    .main-page{
+    display: flex;
+    // align-items: center;
+    justify-content: center;
+    // background: #F3F3F9;
+    height: 100%;
+    }
 `;
 
 export const Center = styled.div`

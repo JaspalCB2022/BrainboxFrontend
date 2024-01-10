@@ -50,7 +50,7 @@ export interface Values {
 
 
 export interface Feature {
-  id: string
+  _id: string
   isEnabled: boolean
   name: string
   parentId: string | null
@@ -61,7 +61,7 @@ export interface Feature {
 
 
 export interface FeatureData {
-  id: string
+  _id: string
   isEnabled: boolean
   name: string
   parentId: string | null

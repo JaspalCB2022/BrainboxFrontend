@@ -157,7 +157,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
       <DataTable
         value={Data}
         paginator
-        dataKey="id"
+        dataKey="1"
         rows={ITEMS_PER_PAGE}
         emptyMessage={emptyMessage}
         first={first}
@@ -185,7 +185,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
             />
           );
         })}
-        <Column header="Action" filterField="" showFilterMenu={false} body={ActionComponent} className="hello" />
+        <Column  header="Action" filterField="" showFilterMenu={false} body={ActionComponent} className="hello" />
       </DataTable>
       <Dialog
         header={header}

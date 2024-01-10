@@ -21,7 +21,7 @@ function Customers() {
   const [initialValues, setInitialValues] = useState({
     id: "",
     tenantId: "",
-    orginationName: "",
+    organizationName: "",
   });
 
   const [data, setData] = useState<DataResponse[]>([]);
@@ -100,12 +100,10 @@ function Customers() {
       search: search,
     };
 
-    console.log("body>>>>>", body);
     setLoading && setLoading(true);
     getCustomerData(body)
       // @ts-ignore
       .then((data: API) => {
-        console.log("data>>>>>>>>>>>>>>>", data?.data?.data);
         setLoading && setLoading(false);
         if (data.error) {
           // throw data.error.message
@@ -131,8 +129,8 @@ function Customers() {
     { setSubmitting, resetForm }: FormikHelpers<Customer>
   ) => {
     console.log("Data Save>>> values>>>", values);
-    const { tenantId, orginationName } = values;
-    let promise = saveCustomerData({ tenantId, orginationName });
+    const { tenantId, organizationName } = values;
+    let promise = saveCustomerData({ tenantId, organizationName });
     toast.promise<PAPI>(promise as Promise<PAPI>, {
       loading: "Loading",
       success: (data: PAPI) => {
@@ -169,7 +167,7 @@ function Customers() {
         if (data.error) {
           throw data.error;
         }
-        setInitialValues({ id: "", tenantId: "", orginationName: "" });
+        setInitialValues({ id: "", tenantId: "", organizationName: "" });
         setClose(!close);
         getData(currentPage);
         return "Customer edited successfully";
@@ -211,7 +209,7 @@ function Customers() {
   const validationSchema = Yup.object().shape({
     // id: Yup.string().required('Please enter ID'),
     tenantId: Yup.string().required("Please enter Tenent Id"),
-    orginationName: Yup.string().required("Please enter organization Name"),
+    organizationName: Yup.string().required("Please enter organization Name"),
   });
 
   const fieldTypes = [
@@ -231,7 +229,7 @@ function Customers() {
     },
     {
       fieldName: "Organization Name",
-      name: "orginationName",
+      name: "organizationName",
       type: "input",
       required: true,
       notEditable: false,
@@ -252,7 +250,7 @@ function Customers() {
     setInitialValues({
       id: data?.id,
       tenantId: data?.tenantId,
-      orginationName: data?.orginationName,
+      organizationName: data?.organizationName,
     });
     setRefresh(!refresh);
     setEdit(true);
@@ -265,7 +263,6 @@ function Customers() {
   };
 
   const onPortalView = (data: CustomerData) => {
-    console.log("protal", data);
     const url = `http://${data?.slug}.localhost:3001/login`;
     window.open(url);
   };

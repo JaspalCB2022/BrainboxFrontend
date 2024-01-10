@@ -60,7 +60,7 @@ const featureApi = createApi({
 
       updateFeature: builder.mutation({
         query: (values) => ({
-          url: `${FEATURE_UPDATE}/${values.id}`,
+          url: `${FEATURE_UPDATE}/${values._id}`,
           method: 'PUT',
           body: values,
           credentials: "include",

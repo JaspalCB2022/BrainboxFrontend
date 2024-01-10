@@ -7,17 +7,7 @@ import MultiSelectDropdown from './MultiSelectDropdown';
 import { RadioButton } from 'primereact/radiobutton';
 import { FormLabel } from '../_atom/FormLabel';
 
-
-
-interface Option {
-    value: string;
-    label: string;
-  }
   
-interface Option {
-    value: string;
-    label: string;
-  }
 interface FormFieldSelectProps {
     name: string;
     fieldName: string;

@@ -16,7 +16,6 @@ function useQuery() {
 }
 
 function App() {
-let updatedRoute
   let toastStyle = {
     minWidth: 'max-content',
   }

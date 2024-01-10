@@ -12,19 +12,23 @@ const WithSidebarLayout: React.FC = () => {
 
     return (
         <>
+           <div style = {{display: 'flex', height: '100vh' ,width:"100%"}} >
             <NavBar visible={visible} setVisible={setVisible} openDrawer={openDrawer} setName={setName} name={name} setOpenDrawer={setOpenDrawer} />
             <MainSectionWrapper $margin={visible ? "250px" :'60px'}>
                 <TopBar visible={visible} setVisible={setVisible} setOpenDrawer={setOpenDrawer} openDrawer={openDrawer} name={name} />
                 <div 
-                className={` ${visible ? 'main-page-with-nav' : 'main-page'}`}
-         
+                className='main-page'
                  >
                     <Suspense fallback={'Loading'}>
+                    <div style={{ width: '95%' }}>
                         <Outlet />
+                        </div>
                     </Suspense>
                 </div>
             </MainSectionWrapper>
-        </>
+            </div>
+            </>
+        
     );
 };
 

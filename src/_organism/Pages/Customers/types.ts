@@ -63,7 +63,7 @@ export   interface DAPI {
   export interface CustomerData {
     id: string
     tenantId: string
-    orginationName: string
+    organizationName: string
     slug: string
     createdAt: string
     updatedAt: string
@@ -74,5 +74,5 @@ export   interface DAPI {
   export interface Customer {
     id: string
     tenantId: string
-    orginationName: string
+    organizationName: string
   }

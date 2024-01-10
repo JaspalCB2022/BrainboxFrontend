@@ -143,7 +143,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                     fieldName="Linked Feature"
                     value={values?.children?.length > 0 ? "Yes" : "No"}
                     required={true}
-                    notEditable={true}
+                    noteditable={"true"}
                   />
                   <button
                     type="button"

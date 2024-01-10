@@ -18,6 +18,7 @@ const FormField: React.FC<FormFieldProps & FieldAttributes<any>> = ({
   const errorMessage = meta.error;
   const isTouched = meta.touched;
 
+
   return (
     <div style={{flex:"1"}}>
       <FormLabel title={fieldName}  required={required} />
@@ -25,7 +26,7 @@ const FormField: React.FC<FormFieldProps & FieldAttributes<any>> = ({
         {props.removeBorder ? (
           <div>{field.value}</div>
         ) : (
-          <FormInput placeholder={placeholder} {...field} {...props} errorMessage={isTouched && errorMessage} />
+          <FormInput placeholder={placeholder} {...field} {...props} errorMessage={isTouched ? errorMessage : ''} />
         )}
       </div>
       {isTouched && errorMessage && <ErrorMessage message={errorMessage} />}

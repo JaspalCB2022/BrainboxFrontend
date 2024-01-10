@@ -106,7 +106,6 @@ function NavBar(props: NavBarProps) {
   let onNameClick = (id: number | undefined, name: string) => {
     localStorage.setItem("selectedId", id!.toString());
     props.setName(name);
-    console.log("id>>>", id);
     setId(id);
     index.includes(id as number) ? closeNav(id) : openNav(id);
   };
@@ -223,7 +222,7 @@ function NavBar(props: NavBarProps) {
       </div>
       <div style={{ marginTop: "auto" }}>
         <div className="navbar-logout" onClick={handleLogout}>
-          <img src={logout} style={{ width: "13px" }} alt="logout-icon"></img>
+          <img src={logout} style={{ width: "13px" }} alt="logout-icon" />
         </div>
       </div>
     </NavWrapper>
