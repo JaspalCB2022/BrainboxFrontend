@@ -102,19 +102,19 @@ function MassUpload({
             filePath: filePath,
             tenantId: tenantId,
         };
-        // let promise = axios_api.post(`${url}/skipAndSave`, data);
-        // toast.promise(promise, {
-        //     loading: 'Loading',
-        //     success: (data) => {
-        //         setShow(false);
-        //         setShowInvalid(false);
-        //         setDocuments([]);
-        //         return data?.data?.data?.message;
-        //     },
-        //     error: (err) => {
-        //         return Error(err);
-        //     },
-        // });
+        let promise = axios_api.post(`${url}/skipAndSave`, data);
+        toast.promise(promise, {
+            loading: 'Loading',
+            success: (data) => {
+                setShow(false);
+                setShowInvalid(false);
+                setDocuments([]);
+                return data?.data?.data?.message;
+            },
+            error: (err:any):any => {
+                return Error(err);
+            },
+        });
     };
 
     const createSampleFile = () => {

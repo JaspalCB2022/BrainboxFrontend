@@ -213,7 +213,6 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
                       )
                     ) : field.type === "select" ? (
                       <FormFieldSelect
-                        //@ts-ignore
                         name={field.name}
                         fieldName={field.fieldName}
                         options={field.options}
@@ -434,6 +433,7 @@ const CommonStatusCheck: React.FC<CommonStatusCheckProps> = (props) => {
             modalFields={props.modalFields}
             startSearch={startSearch}
             title={props.title}
+     
           />
         </div>
       </Container>

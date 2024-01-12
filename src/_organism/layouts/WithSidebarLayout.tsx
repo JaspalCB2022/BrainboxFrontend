@@ -8,7 +8,6 @@ const WithSidebarLayout: React.FC = () => {
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);
     const [name, setName] = useState<string>(" ");
     const [visible, setVisible] = useState<boolean>(false);
-    // const margin = 
 
     return (
         <>

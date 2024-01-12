@@ -6,8 +6,10 @@ import { NoDataProps } from './types';
 
 const NoData: React.FC<NoDataProps> = ({ colSpan, text }) => {
     return (
-        // @ts-ignore
-        <div colSpan={colSpan} className="nodata-td">
+
+        <div 
+        // colSpan={colSpan} 
+        className="nodata-td">
             <div className='nodata-wrapper'>
                 <h2 style={{ color: '#878A99' }}>{text}</h2>
             </div>

@@ -1,6 +1,6 @@
 import "./index.css";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import  React,{ useState, useEffect } from "react";
 import { NavWrapper } from "./styled";
 import dashboard from "../../Icons/dahboard.svg";
 import configurationWhite from "../../Icons/configuration-white.svg";
@@ -127,10 +127,10 @@ function NavBar(props: NavBarProps) {
         </div>
       </div>
       <div className="navwrapper-mid-section">
-        <div>
+        <div >
           {navContent.map((nav, i) => {
             return (
-              <>
+              <React.Fragment key={i}>
                 <div
                   key={i}
                   className="navwrapper-mid-section-nav"
@@ -215,7 +215,7 @@ function NavBar(props: NavBarProps) {
                       })}
                   </div>
                 ) : null}
-              </>
+              </React.Fragment>
             );
           })}
         </div>
