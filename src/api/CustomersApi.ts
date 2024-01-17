@@ -3,8 +3,9 @@ import { BACKEND_URL, CUSTOMER_DELETE, CUSTOMER_GET, CUSTOMER_POST, CUSTOMER_UPD
 
 interface PostCustomer {
   // id:string,
-  organizationName: string,
-  tenantId:string 
+  organizationName: string;
+  email:string;
+  tenantId:string;
 }
 interface GetCustomer{
     limit:number,

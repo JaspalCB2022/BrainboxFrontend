@@ -61,18 +61,20 @@ export   interface DAPI {
   }
 
   export interface CustomerData {
-    id: string
-    tenantId: string
-    organizationName: string
-    slug: string
-    createdAt: string
-    updatedAt: string
-    isActive: boolean
-    srno: number
+    _id: string;
+    tenantId: string;
+    organizationName: string;
+    email:string;
+    slug: string;
+    createdAt: string;
+    updatedAt: string;
+    isActive: boolean;
+    srno: number;
   }
 
   export interface Customer {
-    id: string
-    tenantId: string
-    organizationName: string
+    id: string;
+    tenantId: string;
+    email:string;
+    organizationName: string;
   }

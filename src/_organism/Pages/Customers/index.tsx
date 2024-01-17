@@ -21,6 +21,7 @@ function Customers() {
   const [initialValues, setInitialValues] = useState({
     id: "",
     tenantId: "",
+    email:"",
     organizationName: "",
   });
 
@@ -129,8 +130,8 @@ function Customers() {
     { setSubmitting, resetForm }: FormikHelpers<Customer>
   ) => {
     console.log("Data Save>>> values>>>", values);
-    const { tenantId, organizationName } = values;
-    let promise = saveCustomerData({ tenantId, organizationName });
+    const { tenantId, email ,organizationName } = values;
+    let promise = saveCustomerData({ tenantId, email ,organizationName });
     toast.promise<PAPI>(promise as Promise<PAPI>, {
       loading: "Loading",
       success: (data: PAPI) => {
@@ -167,7 +168,7 @@ function Customers() {
         if (data.error) {
           throw data.error;
         }
-        setInitialValues({ id: "", tenantId: "", organizationName: "" });
+        setInitialValues({ id: "", tenantId: "", email: "", organizationName: "" });
         setClose(!close);
         getData(currentPage);
         return "Customer edited successfully";
@@ -184,7 +185,7 @@ function Customers() {
   };
 
   let deleteData = () => {
-    let promise = deleteCustomerData(currData?.id);
+    let promise = deleteCustomerData(currData?._id);
     setDelete(false);
     toast.promise<DAPI>(promise as Promise<DAPI>, {
       loading: "Loading",
@@ -209,7 +210,8 @@ function Customers() {
   const validationSchema = Yup.object().shape({
     // id: Yup.string().required('Please enter ID'),
     tenantId: Yup.string().required("Please enter Tenent Id"),
-    organizationName: Yup.string().required("Please enter organization Name"),
+    email: Yup.string().email('Please enter valid email').required('Please enter email'),
+    organizationName:  Yup.string().matches(/^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/ as RegExp, 'Enter alphanumeric characters').min(3).max(50).required('Please enter organization name'),
   });
 
   const fieldTypes = [
@@ -223,6 +225,13 @@ function Customers() {
     {
       fieldName: "Tenent ID",
       name: "tenantId",
+      type: "input",
+      required: true,
+      notEditable: false,
+    },
+    {
+      fieldName: "Email",
+      name: "email",
       type: "input",
       required: true,
       notEditable: false,
@@ -248,8 +257,9 @@ function Customers() {
     console.log("called edit");
     console.log("editData>>>>>>", data);
     setInitialValues({
-      id: data?.id,
+      id: data?._id,
       tenantId: data?.tenantId,
+      email:data?.email,
       organizationName: data?.organizationName,
     });
     setRefresh(!refresh);
@@ -303,7 +313,7 @@ function Customers() {
         setInitialValues={setInitialValues}
         bulkUrl={"url"}
         close={close}
-        sampleFields={["Sr No", "Tenent ID", "Organization Name"]}
+        sampleFields={["Sr No", "Tenent ID", "Email" ,"Organization Name"]}
       />
     </div>
   );
