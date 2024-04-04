@@ -175,7 +175,7 @@ const DataTableComponent: React.FC<DataTableComponentProps> = ({
               key={id}
               field={def.field}
               header={def.header}
-              sortable={!def?.notSortable}
+              sortable={false}
               // rowId={Data}
               body={
                 def?.showModal
