@@ -273,7 +273,7 @@ function Customers() {
   };
 
   const onPortalView = (data: CustomerData) => {
-    const url = `http://${data?.slug}.localhost:3001/login`;
+    const url = `http://${data?.slug}.azurestaticapps.net/login`;
     window.open(url);
   };
 

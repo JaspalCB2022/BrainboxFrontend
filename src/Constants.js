@@ -1,7 +1,8 @@
 
 export const ITEMS_PER_PAGE = 8
 // export const BACKEND_URL = 'http://192.168.1.11:8000/'
-export const BACKEND_URL = 'http://localhost:8000/'
+export const BACKEND_URL = 'https://appsvc-webapp-admin-brainboxai-skylar-dev.azurewebsites.net/'
+// export const BACKEND_URL = 'http://localhost:8000/'
 
 // Login 
 export const LOGIN = '/api/admin'
